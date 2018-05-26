@@ -1,0 +1,15 @@
+/* 
+    Created on : 27-oct-2017, 18:54:54
+    Author     : DC
+*/
+
+/*ERROR VALIDATE*/
+label.error{
+    color: #990000 !important;
+}
+input.error{
+    border: 1px solid #990000 !important;
+}
+select.error{
+    border: 1px solid #990000 !important;
+}
