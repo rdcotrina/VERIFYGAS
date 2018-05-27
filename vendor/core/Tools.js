@@ -395,7 +395,7 @@ class Tools_ {
         var data = obj.data,
                 optionSelec = (obj.optionSelec === undefined) ? true : obj.optionSelec, /*para mostrar texto seleccionar*/
                 content = obj.content, /*id deelemento donde se cargara <select>*/
-                required = (obj.required === undefined) ? false : true,
+                required = (obj.required === undefined) ? false : obj.required,
                 deffault = (obj.default !== undefined) ? obj.default : '', /*para seleccionar un registro por defecto*/
                 fnCallback = (obj.fnCallback !== undefined) ? obj.fnCallback : '', /*funcion anonima*/
                 dataView = obj.dataView, /*la data a setear en <select>*/
@@ -414,7 +414,7 @@ class Tools_ {
                 attr += i + '="' + obj.attr[i] + '" ';
             }
         }
-        var cb = '<select ' + attr + ' >';
+        var cb = '<select ' + attr + '>';
         if (optionSelec) {
             cb += '<option value="">' + APP_ETIQUET.seleccionar + '</option>';
         }
@@ -507,6 +507,10 @@ class Tools_ {
         if (chosen) {
             $('#' + iidd).chosen();
             $('#' + iidd + '_chosen').css({width: '100%'});
+            if (required) {
+                $('#' + iidd + '_chosen').find('a.chosen-default').addClass('lv-requided');
+                $('#' + iidd + '_chosen').find('a.chosen-default').find('> div').css({'margin-right': '10px'});
+            }
         }
         if (fnCallback !== '') {
             fnCallback();

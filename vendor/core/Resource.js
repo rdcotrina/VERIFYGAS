@@ -426,6 +426,10 @@ class Resource {
                 if (obj.final !== undefined && $.isFunction(obj.final)) {//si existe callback final
                     obj.final({data: ddat, context: contextt});
                 }
+                
+                if (obj.finally !== undefined && $.isFunction(obj.finally)) {//si existe callback final
+                    obj.finally(ddat);
+                }
 
                 if (modal) {
                     if (typeData == 'html' || typeData == 'text') {

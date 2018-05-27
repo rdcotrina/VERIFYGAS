@@ -125,4 +125,15 @@ class InitController extends \System\Init\Models\InitModel {
         Obj()->Vendor->View->render('error404', false);
     }
     
+    public function getLista() {
+        $respuesta = [];
+        $flags = explode(',', $this->_form->flags);
+      
+        foreach ($flags as $rs) {
+
+            array_push($respuesta, [$rs => $this->spListas($rs)]);
+        }
+        echo json_encode($respuesta);
+    }
+    
 }

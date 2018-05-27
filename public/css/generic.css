@@ -118,6 +118,9 @@ input.error{
 select.error{
     border: 1px solid #990000 !important;
 }
+textarea.error{
+    border: 1px solid #990000 !important;
+}
 .mr5{
     margin-left: 5px;
 }

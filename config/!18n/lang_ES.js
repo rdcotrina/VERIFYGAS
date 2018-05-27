@@ -106,7 +106,18 @@ var lang_ES = {
         apellido_materno: 'Apellido Materno',
         primer_nombre: 'Primer Nombre',
         segundo_nombre: 'Segundo Nombre',
-        datos_vehiculo: 'Datos del Vehículo'
+        datos_vehiculo: 'Datos del Vehículo',
+        pais: 'País',
+        estado_civil: 'Estado Civil',
+        telefono_casa: 'Telefono Casa',
+        telefono_trabajo: 'Telefono Trabajo',
+        celular: 'Celular',
+        direccion_domicilio: 'Dirección de Domicilio',
+        direccion_trabajo: 'Dirección de Trabajo',
+        tipo_doc:'Tipo Doc.',
+        nro_documento_identidad: 'Nro. de Doc. de Identidad',
+        img_doc_identidad: 'Doc. de Identidad (imagen)',
+        img_licencia_conducir: 'Licencia de Conducir (imagen)'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',

@@ -26,12 +26,12 @@
                     flags = flags.filter((v, i, a) => a.indexOf(v) === i);
                     flags = flags.join();
 
-                    var a = new Ajax_();
+                    var a = new Resource();
 
                     $.ajax({
                         type: "POST",
-                        data: {flags: flags},
-                        url: 'system/App/getLista',
+                        data: {flags: flags,_qn:Tools.en(_tk_)},
+                        url: 'system/init/getLista',
                         dataType: 'json',
                         cache: false,
                         success: function (data) {
@@ -49,6 +49,7 @@
                             attr,
                             _default,
                             _rs,
+                            _required,
                             fnCaptureKey = (item.fnCaptureKey == undefined) ? '' : item.fnCaptureKey,
                             parent,
                             type = (item.type == undefined) ? 'list' : item.type;
@@ -61,11 +62,11 @@
                                 _default = item.default;
                                 _rs = v;
                                 parent = item.parent;
-
+                                _required = (item.required != undefined)?item.required:false;
                             }
                         });
                     });
-
+ 
                     if (type == 'list') {
                         Tools.listBox({
                             data: _rs,
@@ -74,8 +75,9 @@
                             default: _default,
                             chosen: true,
                             attr: attr,
+                            required: _required,
                             dataView: {
-                                etiqueta: 'value',
+                                etiquet: 'value',
                                 value: 'key'
                             }
                         });

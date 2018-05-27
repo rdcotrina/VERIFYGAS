@@ -46,7 +46,7 @@ $$.' . $modulo . '.' . $file . 'Ax = class ' . $file . 'Ax extends $$.' . $modul
                 response: (data) => {
                     $(this._dmain).append(data);
                 },
-                final: (obj) => {
+                finally: (data) => {
                     //escriba aqui, se ejecutara una vez haya cargado el HTML
                     Tools.addTourMain.call(this);
                 }

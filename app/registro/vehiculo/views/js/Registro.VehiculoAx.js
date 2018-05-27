@@ -16,6 +16,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._alias = Exe.getAlias();
         this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
         this._tour = Obj.Registro.VehiculoTour;
+        this._idFormVehiculo = `#${this._alias}formVehiculo`;
 
         this._formIndex = (tk) => {
             this.send({
@@ -46,8 +47,43 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 response: (data) => {
                     $(`#${this._alias}-NWV${APP_CONTAINER_TABS}`).html(data);
                 },
-                final: (obj) => {
-                    
+                finally: (data) => {
+                    $(this._idFormVehiculo).appList({
+                        items: [
+                            {
+                                data: 'pais',
+                                container: `#${this._alias}d_pais`,
+                                required: true,
+                                attr: {
+                                    id: `${this._alias}lst_pais`,
+                                    name: `${this._alias}lst_pais`,
+                                    class: 'form-control'
+                                },
+                                default: null
+                            },
+                            {
+                                data: 'estadocivil',
+                                container: `#${this._alias}d_estadocivil`,
+                                attr: {
+                                    id: `${this._alias}lst_estadocivil`,
+                                    name: `${this._alias}lst_estadocivil`,
+                                    class: 'form-control'
+                                },
+                                default: null
+                            },
+                            {
+                                data: 'tipodocumentoidentidad',
+                                container: `#${this._alias}d_tipodocumentoidentidad`,
+                                required: true,
+                                attr: {
+                                    id: `${this._alias}lst_tipodocumentoidentidad`,
+                                    name: `${this._alias}lst_tipodocumentoidentidad`,
+                                    class: 'form-control'
+                                },
+                                default: null
+                            }
+                        ]
+                    });
                 }
             });
         };

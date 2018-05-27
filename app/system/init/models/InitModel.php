@@ -226,5 +226,20 @@ class InitModel extends \Vendor\DataBase {
         return $this->execute($query, $parms); 
     }
     
+    protected function spListas($flag='') {
+
+        if(!empty($flag)){
+            $this->_form->_flag = $flag;
+        }
+        
+        $query = "CALL sp_system_init_listas(:flag,:criterio) ; ";
+        $parms = [
+            ':flag' => $this->_form->_flag,
+            ':criterio' => @$this->_form->_criterio
+        ];
+      
+        return $this->getRows($query, $parms);   
+    }
+    
 }
 

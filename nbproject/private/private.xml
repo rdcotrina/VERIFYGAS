@@ -5,9 +5,11 @@
         <group>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/config/!18n/lang_ES.js</file>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/app/registro/vehiculo/views/js/Registro.VehiculoAx.js</file>
+            <file>file:/D:/xampp/htdocs/VERIFYGAS/app/system/init/controllers/InitController.php</file>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/app/system/menu/views/js/System.MenuAx.js</file>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/app/system/menu/views/js/System.MenuRsc.js</file>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/app/registro/vehiculo/views/formVehiculo.js</file>
+            <file>file:/D:/xampp/htdocs/VERIFYGAS/app/system/init/models/InitModel.php</file>
             <file>file:/D:/xampp/htdocs/VERIFYGAS/app/registro/vehiculo/views/js/Registro.VehiculoRsc.js</file>
         </group>
     </open-files>
