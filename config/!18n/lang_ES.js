@@ -100,7 +100,13 @@ var lang_ES = {
         error_ulpoad: 'Error al subir el archivo',
         ingrese_valor_caracteristia: 'Ingrese el valor de la característica.',
         seleccione_caracteristica: 'Seleccione una característica.',
-        registrar_vehiculo: 'Registrar Vehículo'
+        registrar_vehiculo: 'Registrar Vehículo',
+        duenio_vehiculo: 'Dueño del Vehiculo',
+        apellido_paterno: 'Apellido Paterno',
+        apellido_materno: 'Apellido Materno',
+        primer_nombre: 'Primer Nombre',
+        segundo_nombre: 'Segundo Nombre',
+        datos_vehiculo: 'Datos del Vehículo'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',
