@@ -48,6 +48,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     $(`#${this._alias}-NWV${APP_CONTAINER_TABS}`).html(data);
                 },
                 finally: (data) => {
+                    this.addBtnSave();
                     $(this._idFormVehiculo).appList({
                         items: [
                             {
@@ -111,8 +112,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 this._formVehiculo(tk);
             }
         });
-
-
     }
 
+    closeNewVehiculo(btn, tk){
+        Tools.closeTab(`${this._alias}-NWV`);
+    }
+    
 };

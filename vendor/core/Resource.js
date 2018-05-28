@@ -392,14 +392,14 @@ class Resource {
                                 .replace('<js>', `<js id="js_${methodSV}">`)
                                 .replace('$.', `$('#${methodSV}').`);
                     }
-                    if(obj.success != undefined){
+                    if (obj.success != undefined) {
                         obj.success({data: data, context: contextt});
                     }
-                   
-                    if(obj.response != undefined){
+
+                    if (obj.response != undefined) {
                         obj.response(data);
                     }
-                    
+
                 }
 
                 /*se optiene parametro DUPLICADO*/
@@ -426,7 +426,7 @@ class Resource {
                 if (obj.final !== undefined && $.isFunction(obj.final)) {//si existe callback final
                     obj.final({data: ddat, context: contextt});
                 }
-                
+
                 if (obj.finally !== undefined && $.isFunction(obj.finally)) {//si existe callback final
                     obj.finally(ddat);
                 }
@@ -445,19 +445,24 @@ class Resource {
                 /*
                  * se activa los tooltip que esten dentro de elemento con css:  .init-tooltip
                  */
-                if ($('.init-tooltip').length) {
-                    $('.init-tooltip').tooltip({
+                if ($(`#${dataAlias}${methodSV}`).find('.init-tooltip').length) {
+                    $(`#${dataAlias}${methodSV}`).find('.init-tooltip').tooltip({
                         selector: "[data-toggle=tooltip]",
                         container: "body"
                     });
                 }
 
-                if ($('.chosen').length) {
-                    $('.chosen').chosen();
+                if ($(`#${dataAlias}${methodSV}`).find('.chosen').length) {
+                    $(`#${dataAlias}${methodSV}`).find('.chosen').chosen();
                 }
 
                 if ($('.tabs').length) {
                     $(".tabs").tabs();
+                }
+
+                if ($(`#${dataAlias}${methodSV}`).find('.date').length) {
+                    $(`#${dataAlias}${methodSV}`).find('.date').datepicker();
+                    $(`#${dataAlias}${methodSV}`).find('.date').mask('99-99-9999');
                 }
             }
         });

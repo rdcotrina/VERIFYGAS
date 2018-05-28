@@ -52,6 +52,11 @@ class Tools_ {
             t._tabs.tabs("refresh");
         });
     }
+    
+    closeTab(e){
+        $(`#li-${e}`).find('.delete-tab').click();
+        $('html,body').animate({scrollTop:0}, '100');
+    }
 
     /*
      * mensajes
