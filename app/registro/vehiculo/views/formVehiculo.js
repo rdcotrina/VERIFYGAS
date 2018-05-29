@@ -482,13 +482,45 @@
                     },
                     file_hojacalidda:{
                         required: true
+                    },
+                    file_recibo:{
+                        required: true
+                    },
+                    txt_nrorevisiontecnica:{
+                        required: true
+                    },
+                    txt_fechainspeccion:{
+                        required: true,
+                        date: true
+                    },
+                    file_inscripcionmovil:{
+                        required: true
+                    },
+                    file_revisiontecnica:{
+                        required: true
+                    },
+                    txt_recibo:{
+                        required: true
+                    },
+                    txt_fechavigenciasoat:{
+                        required: true,
+                        date: true
+                    },
+                    file_soat:{
+                        required: true
+                    },
+                    file_formatosolicitud:{
+                        required: true
+                    },
+                    file_hojacalidda:{
+                        required: true
                     }
                 },
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());
                 },
                 submitHandler: function () {
-                    Obj.System.MenuAx.postNewMenu(__PK__);
+                    Obj.Registro.VehiculoAx.postNew(__PK__);
                 }
             });
         </js>

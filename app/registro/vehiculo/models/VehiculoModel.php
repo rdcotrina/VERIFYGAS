@@ -13,6 +13,7 @@ namespace Registro\Vehiculo\Models;
 class VehiculoModel extends \Vendor\DataBase {
     
     protected $_form;
+    protected $_file;
     private $_usuario;
     private $_navegador;
     private $_ipPublica;
@@ -23,6 +24,7 @@ class VehiculoModel extends \Vendor\DataBase {
     protected function __construct() {
         parent::__construct();
         $this->_form = Obj()->Vendor->Request->allForm()->post();
+        $this->_file = Obj()->Vendor->Request->allForm()->file();
         $this->_usuario = Obj()->Vendor->Session->get('app_idUsuario');
         $this->_navegador = Obj()->Vendor->Session->get('app_navegador');
         $this->_ipPublica = Obj()->Vendor->Session->get('app_ipPublica');

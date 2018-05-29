@@ -17,6 +17,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
         this._tour = Obj.Registro.VehiculoTour;
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
+        this._imgLoads = [];
 
         this._formIndex = (tk) => {
             this.send({
@@ -37,6 +38,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         };
 
         this._formVehiculo = (tk) => {
+            this._imgLoads = [];
             this.send({
                 token: tk,
                 context: this,
@@ -49,42 +51,8 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnSave();
-                    $(this._idFormVehiculo).appList({
-                        items: [
-                            {
-                                data: 'pais',
-                                container: `#${this._alias}d_pais`,
-                                required: true,
-                                attr: {
-                                    id: `${this._alias}lst_pais`,
-                                    name: `${this._alias}lst_pais`,
-                                    class: 'form-control'
-                                },
-                                default: null
-                            },
-                            {
-                                data: 'estadocivil',
-                                container: `#${this._alias}d_estadocivil`,
-                                attr: {
-                                    id: `${this._alias}lst_estadocivil`,
-                                    name: `${this._alias}lst_estadocivil`,
-                                    class: 'form-control'
-                                },
-                                default: null
-                            },
-                            {
-                                data: 'tipodocumentoidentidad',
-                                container: `#${this._alias}d_tipodocumentoidentidad`,
-                                required: true,
-                                attr: {
-                                    id: `${this._alias}lst_tipodocumentoidentidad`,
-                                    name: `${this._alias}lst_tipodocumentoidentidad`,
-                                    class: 'form-control'
-                                },
-                                default: null
-                            }
-                        ]
-                    });
+                    this.getListBoxs();
+                    this.setEventsUploads(tk);
                 }
             });
         };
@@ -114,8 +82,51 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    closeNewVehiculo(btn, tk){
+    postNew(tk) {
+        this.send({
+            flag: 1,
+            token: tk,
+            element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+            context: this,
+            form: this._idFormVehiculo,
+            serverParams: (sData, obj) => {
+                sData.push({name: '_imgLoads', value: JSON.stringify(this._imgLoads)});
+            },
+            response: (data) => {
+                Tools.execMessage(data);
+                if (data.ok_error != 'error') {
+                    this.closeNewVehiculo(null, null);
+                    //this._getMenu(tk);
+                }
+            }
+        });
+    }
+
+    postUpload(tk,load) {
+        this.send({
+            token: tk,
+            gifProccess: true,
+            context: this,
+            form: this._idFormVehiculo,
+            formData: true,
+            serverParams: (sData, obj) => {
+                sData.push({name: '_load', value: load});
+            },
+            complete: (data) => {
+                if (data.result == 1) {
+                    this._imgLoads[data.element] = data.archivo;
+                    console.log( this._imgLoads);
+                } else {
+                    Tools.notify().error({
+                        content: data.result
+                    });
+                }
+            }
+        });
+    }
+
+    closeNewVehiculo(btn, tk) {
         Tools.closeTab(`${this._alias}-NWV`);
     }
-    
+
 };
