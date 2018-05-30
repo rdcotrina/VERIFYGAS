@@ -89,10 +89,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
             context: this,
             form: this._idFormVehiculo,
+            formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_imgLoads', value: JSON.stringify(this._imgLoads)});
             },
-            response: (data) => {
+            complete: (data) => { 
                 Tools.execMessage(data);
                 if (data.ok_error != 'error') {
                     this.closeNewVehiculo(null, null);

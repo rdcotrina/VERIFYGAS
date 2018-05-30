@@ -33,4 +33,24 @@ class VehiculoModel extends \Vendor\DataBase {
         $this->_idTienda = Obj()->Vendor->Session->get('app_idTienda');
     }
     
+    protected function spMantenimiento() {
+        $query = "CALL sp_registro_vehiculo_mantenimiento (:flag,:key,:nboton,:alias,:icono,:css,:activo,:usuario,:ipPublica,:ipLocal,:navegador,:hostname); ";
+        $parms = [
+            ':flag' => $this->_form->_flag,
+            ':key' => @$this->_form->_keyBoton,
+            ':nboton' => @$this->_form->txt_descripcion,
+            ':alias' => @$this->_form->txt_alias,
+            ':icono' =>  @$this->_form->txt_icono,
+            ':css' => @$this->_form->txt_css,
+            ':activo' => @($this->_form->chk_activo)?$this->_form->chk_activo:0,
+            ':usuario' => $this->_usuario,
+            ':ipPublica' => $this->_ipPublica,  
+            ':ipLocal' => $this->_ipLocal,
+            ':navegador' => $this->_navegador,
+            ':hostname' => $this->_hostName
+        ];
+        
+        return $this->getRow($query, $parms);
+    }
+    
 }

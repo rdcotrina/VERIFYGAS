@@ -111,4 +111,13 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         echo json_encode($data);
     }
 
+    public function postNew() {
+        if ($this->isValidate()) {
+            $data = $this->spMantenimiento();
+        } else {
+            $data = $this->valida()->messages();
+        }
+        echo json_encode($data);
+    }
+    
 }

@@ -347,15 +347,13 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-4 has-feedback">
                                             <label class="control-label tr-language" data-tr="soat"></label>
-                                            <input type="text" class="form-control" name="txt_recibo" id="txt_recibo">
+                                            <input type="text" class="form-control" name="txt_soat" id="txt_soat">
                                         </div>
                                         
                                         <div class="col-sm-12 col-md-4 has-feedback">
                                             <label class="control-label tr-language" data-tr="fecha_soat"></label>
                                             <input type="text" class="form-control date" name="txt_fechavigenciasoat" id="txt_fechavigenciasoat">
-                                        </div>
-
-                                        
+                                        </div>                                        
                                         
                                     </div>
                                 </div>
@@ -447,13 +445,7 @@
                     file_tarjetapropiedadimg: {
                         required: true
                     },
-                    txt_fechainspeccion: {
-                        date: true
-                    },
                     txt_cilindrada: {
-                        required: true
-                    },
-                    txt_aniofabricacion: {
                         required: true
                     },
                     txt_serie: {
@@ -499,7 +491,7 @@
                     file_revisiontecnica:{
                         required: true
                     },
-                    txt_recibo:{
+                    txt_soat:{
                         required: true
                     },
                     txt_fechavigenciasoat:{
