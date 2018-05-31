@@ -17,7 +17,16 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
         this._tour = Obj.Registro.VehiculoTour;
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
-        this._imgLoads = [];
+        this._imgConsentimiento = null;
+        this._imgDocIdentidad = null;
+        this._imgFormatoSolicitud = null;
+        this._imgHojaCalidda = null;
+        this._imgInscripcionMovil = null;
+        this._imgLicenciaConducir = null;
+        this._imgRecibo = null;
+        this._imgRevisionTecnica = null;
+        this._imgSoat = null;
+        this._imgTarjetaPropiedad = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -91,9 +100,18 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             form: this._idFormVehiculo,
             formData: true,
             serverParams: (sData, obj) => {
-                sData.push({name: '_imgLoads', value: JSON.stringify(this._imgLoads)});
+                sData.push({name: '_imgConsentimiento', value: this._imgConsentimiento});
+                sData.push({name: '_imgDocIdentidad', value: this._imgDocIdentidad});
+                sData.push({name: '_imgFormatoSolixcitud', value: this._imgFormatoSolixcitud});
+                sData.push({name: '_imgHojaCalidda', value: this._imgHojaCalidda});
+                sData.push({name: '_imgInscripcionMovil', value: this._imgInscripcionMovil});
+                sData.push({name: '_imgLicenciaConducir', value: this._imgLicenciaConducir});
+                sData.push({name: '_imgRecibo', value: this._imgRecibo});
+                sData.push({name: '_imgRevisionTecnica', value: this._imgRevisionTecnica});
+                sData.push({name: '_imgSoat', value: this._imgSoat});
+                sData.push({name: '_imgTarjetaPropiedad', value: this._imgTarjetaPropiedad});
             },
-            complete: (data) => { 
+            complete: (data) => {
                 Tools.execMessage(data);
                 if (data.ok_error != 'error') {
                     this.closeNewVehiculo(null, null);
@@ -103,7 +121,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    postUpload(tk,load) {
+    postUpload(tk, load) {
         this.send({
             token: tk,
             gifProccess: true,
@@ -115,8 +133,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             },
             complete: (data) => {
                 if (data.result == 1) {
-                    this._imgLoads[data.element] = data.archivo;
-                    console.log( this._imgLoads);
+                    eval(`this.${data.element} = '${data.archivo}';`);
                 } else {
                     Tools.notify().error({
                         content: data.result
