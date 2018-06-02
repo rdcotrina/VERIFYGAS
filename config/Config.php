@@ -13,15 +13,15 @@ define('APP_TMP_TK', 'cnhdte4258udjft~~{[]__...zswfr214');                      
 /*==================BASE DE DATOS==============================*/
 define('DB_ENTORNO', 'D');                                                   #D=DESARROLLO, P=PRODUCCION
 define('DB_MOTOR', 'mysql');
-//define('DB_HOST', 'dvdcarranzam.com');
-//define('DB_PASS', '20csidbuser18');
-//define('DB_USER', 'dcadv_csidbuser');
-//define('DB_NAME', 'dcadv_csidb');
+//define('DB_HOST', 'verifygasdelpacifico.com');
+//define('DB_PASS', 'R1^0,bz*Wgj-?E_{');
+//define('DB_USER', 'verifyga_useradm');
+//define('DB_NAME', 'verifyga_admin');
 
 define('DB_HOST', 'localhost');
 define('DB_PASS', '');
 define('DB_USER', 'root');
-define('DB_NAME', 'verify_gas');
+define('DB_NAME', 'verify_gas2');
 
 define('DB_PORT', '3306');
 define('DB_CHARSET', 'UTF8');

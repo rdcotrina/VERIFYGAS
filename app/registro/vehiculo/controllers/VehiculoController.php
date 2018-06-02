@@ -33,52 +33,79 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         
     }
 
+    public function getVehiculos() {
+        echo json_encode($this->qGetVehiculos());
+    }
+
     public function postUpload() {
         $data = [];
+
         if ($this->_file) {
 
             switch ($this->_form->_load) {
                 case 1: //documento de identidad
                     $inputFile = $this->_file->file_docidentidad;
                     $nameElement = '_imgDocIdentidad';
+                    $this->_tableDB = 'conv_propietario';
+                    $this->_columnDB = 'imagen_documento_identidad';
                     break;
                 case 2: //licencia de conducir
                     $inputFile = $this->_file->file_licenciaconducir;
                     $nameElement = '_imgLicenciaConducir';
+                    $this->_tableDB = 'conv_propietario';
+                    $this->_columnDB = 'imagen_licencia_conducir';
                     break;
                 case 3: //tarjeta de propiedad
                     $inputFile = $this->_file->file_tarjetapropiedadimg;
                     $nameElement = '_imgTarjetaPropiedad';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_tarjeta_propiedad';
                     break;
                 case 4: //documento de consentimiento
                     $inputFile = $this->_file->file_consentimiento;
                     $nameElement = '_imgConsentimiento';
+                    $this->_tableDB = 'conv_propietario';
+                    $this->_columnDB = 'imagen_consentimiento';
                     break;
                 case 5: //recibo de agua/luz...
                     $inputFile = $this->_file->file_recibo;
                     $nameElement = '_imgRecibo';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_servicio_publico';
                     break;
                 case 6: //documento de inscripcion movil
                     $inputFile = $this->_file->file_inscripcionmovil;
                     $nameElement = '_imgInscripcionMovil';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_movil';
                     break;
                 case 7: //documento de revision tecnica
                     $inputFile = $this->_file->file_revisiontecnica;
                     $nameElement = '_imgRevisionTecnica';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_revision_tecnica';
                     break;
                 case 8: //soat
                     $inputFile = $this->_file->file_soat;
                     $nameElement = '_imgSoat';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_poliza';
                     break;
                 case 9: //documento de formato de solicitud
                     $inputFile = $this->_file->file_formatosolicitud;
                     $nameElement = '_imgFormatoSolicitud';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_solicitud_cobranza';
                     break;
                 case 10: //documento de hojs de calidda
                     $inputFile = $this->_file->file_hojacalidda;
                     $nameElement = '_imgHojaCalidda';
+                    $this->_tableDB = 'conv_vehiculo';
+                    $this->_columnDB = 'imagen_formulario_calidda';
                     break;
             }
+
+
 
             $root = ROOT . 'files' . DS . 'docs_registro' . DS; //ruta donde se va alojar el archivo
 
@@ -99,6 +126,11 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                 if (Obj()->Libs->Upload->processed) {
 
                     Obj()->Libs->Upload->Clean();
+                    
+                    //funciona desde el formulario editar
+                    if ($this->_form->_keyPropietario) {
+                        $this->qUpdateImg($nvoNom);
+                    }
 
                     $data = ['result' => 1, 'archivo' => $nvoNom, 'element' => $nameElement];
                 } else {
@@ -120,4 +152,21 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         echo json_encode($data);
     }
     
+    public function postEdit() {
+        if ($this->isValidate()) {
+            $data = $this->spMantenimiento();
+        } else {
+            $data = $this->valida()->messages();
+        }
+        echo json_encode($data);
+    }
+
+    public function postDelete() {
+        echo json_encode($this->spMantenimiento());
+    }
+
+    public function find() {
+        echo json_encode($this->qFind());
+    }
+
 }

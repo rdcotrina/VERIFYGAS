@@ -101,7 +101,7 @@ var lang_ES = {
         ingrese_valor_caracteristia: 'Ingrese el valor de la característica.',
         seleccione_caracteristica: 'Seleccione una característica.',
         registrar_vehiculo: 'Registrar Vehículo',
-        duenio_vehiculo: 'Dueño del Vehiculo',
+        duenio_vehiculo: 'Propietario del Vehiculo',
         apellido_paterno: 'Apellido Paterno',
         apellido_materno: 'Apellido Materno',
         primer_nombre: 'Primer Nombre',
@@ -123,7 +123,7 @@ var lang_ES = {
         marca: 'Marca',
         modelo: 'Modelo',
         nro_motor: 'Nro. de Motor',
-        nro_serie: 'Nro. Serie/Chasis',
+        nro_serie: 'Nro. Serie',
         anio_fabricacion: 'Año de Fabricación',
         cilindrada: 'Cilindrada',
         img_tarjeta_propiedad: 'Tarjeta de Propiedad (imagen)',
@@ -139,7 +139,9 @@ var lang_ES = {
         otros_datos: 'Otros Datos',
         aqui: '(aqui)',
         formato_solicitud_cobranza: 'Formato de Solicitud de Cobranza',
-        hoja_unica_datos: 'Hoja Única de Datos - Calidda'
+        hoja_unica_datos: 'Hoja Única de Datos - Calidda',
+        documentos: 'Documentos',
+        img_consentimiento: 'Consentimiento (imagen)'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',
@@ -147,8 +149,8 @@ var lang_ES = {
         msn_sys: 'Aviso del sistema:',
         msn_logout: '¿Desea salir: ',
         msn_seguridad_logout: 'Para mayor segurdad cierre el navegador.',
-        save_ok: 'Datos se grabaron correctamente.',
-        edit_ok: 'Datos se editaron correctamente.',
+        save_ok: 'Los datos se grabaron correctamente.',
+        edit_ok: 'Los datos se actualizaron correctamente.',
         delete_ok: 'Registro(s) se eliminó correctamente.',
         you_sure_delete: '¿Está seguro de eliminar el registro?',
         menu_exist: 'Descripción de menú ya existe.',
@@ -158,6 +160,7 @@ var lang_ES = {
         rol_exist: 'Rol ya existe.',
         copy_ok: 'Registro se duplico correctamente.',
         validate: 'Revise los campos marcados',
-        categoria_exist: 'Categoría ya existe.'
+        propietario_exist: 'Propietario ya existe.',
+        upload_ok: 'Archivo se cargo correctamente.'
     }
 };

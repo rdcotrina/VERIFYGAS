@@ -17,6 +17,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
         this._tour = Obj.Registro.VehiculoTour;
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
+        this._idFormVehiculoEdit = `#${this._alias}formEditVehiculo`;
         this._imgConsentimiento = null;
         this._imgDocIdentidad = null;
         this._imgFormatoSolicitud = null;
@@ -27,6 +28,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._imgRevisionTecnica = null;
         this._imgSoat = null;
         this._imgTarjetaPropiedad = null;
+        this._keyPropietario = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -42,6 +44,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     //Tools.addTourMain.call(this);
                     this.addBtnNew();
                     $(`#${this._alias}d_vehiculo`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
+                    this._getVehiculos(tk);
                 }
             });
         };
@@ -52,16 +55,74 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 token: tk,
                 context: this,
                 dataType: 'text',
-//                serverParams: (sData, obj) => {
-//                    sData.push({name: '_keyVehiculo', value: this._keyMenu});
-//                },
                 response: (data) => {
                     $(`#${this._alias}-NWV${APP_CONTAINER_TABS}`).html(data);
                 },
                 finally: (data) => {
                     this.addBtnSave();
-                    this.getListBoxs();
+                    this.getListBoxs(this._idFormVehiculo);
                     this.setEventsUploads(tk);
+                }
+            });
+        };
+
+        this._formEditVehiculo = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-NWV${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnUpdate();
+                    this.getListBoxs(this._idFormVehiculoEdit);
+                    this.setEventsUploads(tk);
+                    this._find(tk);
+                }
+            });
+        };
+
+        this._find = (tk) => {
+            this.send({
+                token: tk,
+                gifProccess: true,
+                context: this,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    this.setVehiculo(data);
+                }
+            });
+        };
+
+        this._getVehiculos = (tk) => {
+            this.send({
+                token: tk,
+                gifProccess: true,
+                context: this,
+                response: (data) => {
+                    this.setVehiculos(data);
+                }
+            });
+        };
+
+        this._postDelete = (btn, tk) => {
+            this.send({
+                flag: 3,
+                token: tk,
+                context: this,
+                element: btn,
+                gifProcess: true,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: $(btn).parent('div').data('propietario')});
+                },
+                response: (data) => {
+                    if (data.ok_error != 'error') {
+                        Tools.execMessage(data);
+                        this._getVehiculos(tk);
+                    }
                 }
             });
         };
@@ -81,12 +142,27 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     formNewVehiculo(btn, tk) {
+        this.closeNewVehiculo(null, null);
         Tools.addTab({
             context: this,
             id: `${this._alias}-NWV`,
             label: APP_ETIQUET.registrar_vehiculo,
             fnCallback: () => {
                 this._formVehiculo(tk);
+            }
+        });
+    }
+
+    formEditVehiculo(btn, tk) {
+        this.closeNewVehiculo(null, null);
+        this._keyPropietario = $(btn).parent('div').data('propietario');
+
+        Tools.addTab({
+            context: this,
+            id: `${this._alias}-NWV`,
+            label: APP_ETIQUET.registrar_vehiculo,
+            fnCallback: () => {
+                this._formEditVehiculo(tk);
             }
         });
     }
@@ -115,25 +191,63 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 Tools.execMessage(data);
                 if (data.ok_error != 'error') {
                     this.closeNewVehiculo(null, null);
-                    //this._getMenu(tk);
+                    this._getVehiculos(tk);
                 }
             }
         });
     }
 
+    postEdit(tk){
+        this.send({
+            flag: 2,
+            token: tk,
+            element: `#${PREBTNCTXT}${this._alias}${APP_BTN.UPD}`,
+            context: this,
+            form: this._idFormVehiculoEdit,
+            formData: true,
+            serverParams: (sData, obj) => {
+                sData.push({name: '_keyPropietario', value: this._keyPropietario});
+            },
+            complete: (data) => {
+                Tools.execMessage(data);
+                if (data.ok_error != 'error') {
+                    this._keyPropietario = null;
+                    this.closeNewVehiculo(null, null);
+                    this._getVehiculos(tk);
+                }
+            }
+        });
+    }
+    
+    postDelete(btn, tk) {
+        Tools.notify().confirm({
+            content: APP_MSN.you_sure_delete,
+            yes: () => {
+                this._postDelete(btn, tk);
+            }
+        });
+    }
+
     postUpload(tk, load) {
+        let form = ($.isEmptyObject(this._keyPropietario)) ? this._idFormVehiculo : this._idFormVehiculoEdit;
         this.send({
             token: tk,
             gifProccess: true,
             context: this,
-            form: this._idFormVehiculo,
+            form: form,
             formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_load', value: load});
+                sData.push({name: '_keyPropietario', value: this._keyPropietario});
             },
             complete: (data) => {
                 if (data.result == 1) {
                     eval(`this.${data.element} = '${data.archivo}';`);
+                    if (!$.isEmptyObject(this._keyPropietario)) {
+                        Tools.notify().ok({
+                            content: APP_MSN.upload_ok
+                        });
+                    }
                 } else {
                     Tools.notify().error({
                         content: data.result

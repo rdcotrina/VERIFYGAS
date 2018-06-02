@@ -1,27 +1,30 @@
 <?php
-/* 
-* ---------------------------------------
-* --------- CREATED BY LV ----------
-* Autor:        Super 
-* Fecha:        26-05-2018 04:05:26 
-* Descripcion : VehiculoModel.php
-* ---------------------------------------
-*/ 
+
+/*
+ * ---------------------------------------
+ * --------- CREATED BY LV ----------
+ * Autor:        Super 
+ * Fecha:        26-05-2018 04:05:26 
+ * Descripcion : VehiculoModel.php
+ * ---------------------------------------
+ */
 
 namespace Registro\Vehiculo\Models;
-  
+
 class VehiculoModel extends \Vendor\DataBase {
-    
+
     protected $_form;
     protected $_file;
+    protected $_tableDB;
+    protected $_columnDB;
     private $_usuario;
     private $_navegador;
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
     private $_idTienda;
-    
-    protected function __construct() {
+
+    public function __construct() {
         parent::__construct();
         $this->_form = Obj()->Vendor->Request->allForm()->post();
         $this->_file = Obj()->Vendor->Request->allForm()->file();
@@ -32,46 +35,8 @@ class VehiculoModel extends \Vendor\DataBase {
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
         $this->_idTienda = Obj()->Vendor->Session->get('app_idTienda');
     }
-    
-    protected function spMantenimiento() {        print_r($this->_form);
-    
-//     [txt_primernombre] => qqqqqq
-//    [txt_segundonombre] => qqqqqqqqqqqqqqqqq
-//    [txt_apellidopaterno] => qqqqq
-//    [txt_apellidomaterno] => qqqq
-//    [lst_pais] => 3
-//    [lst_estadocivil] => 3
-//    [lst_tipodocumentoidentidad] => 4
-//    [txt_nrodocidentidad] => 2222222
-//    [txt_telefonocasa] => 11111
-//    [txt_telefonotrabajo] => 1111
-//    [txt_celular] => 111
-//    [txt_direcciondomicilio] => 11111111111
-//    [txt_direcciontrabajo] => 11111111111111
-//    [txt_tarjetapropiedad] => qq
-//    [txt_placa] => qqq
-//    [txt_marca] => qqq
-//    [txt_modelo] => qqq
-//    [txt_nromotor] => qqq
-//    [txt_serie] => qqq
-//    [txt_aniofabricacion] => 2222
-//    [txt_cilindrada] => qqqqqq
-//    [txt_nrorevisiontecnica] => 111111111
-//    [txt_fechainspeccion] => 17-05-2018
-//    [txt_soat] => 11111111111
-//    [txt_fechavigenciasoat] => 24-05-2018
-//    [_imgConsentimiento] => Acces.png
-//    [_imgDocIdentidad] => 2RecycleBinEmpty.png
-//    [_imgFormatoSolixcitud] => undefined
-//    [_imgHojaCalidda] => Ou.png
-//    [_imgInscripcionMovil] => Agents.png
-//    [_imgLicenciaConducir] => 2RecycleBinFull.png
-//    [_imgRecibo] => Administrator.png
-//    [_imgRevisionTecnica] => Chrysanthemum.jpg
-//    [_imgSoat] => Desert.jpg
-//    [_imgTarjetaPropiedad] => 3dsmaxblack.png
-             
-             
+
+    protected function spMantenimiento() {
         $query = "CALL sp_registro_vehiculo_mantenimiento ("
                 . ":flag,"
                 . ":key,"
@@ -141,12 +106,12 @@ class VehiculoModel extends \Vendor\DataBase {
             ':aniofabricacion' => @$this->_form->txt_aniofabricacion,
             ':cilindrada' => @$this->_form->txt_cilindrada,
             ':nrorevisiontecnica' => @$this->_form->txt_nrorevisiontecnica,
-            ':fechainspeccion' => @$this->_form->txt_fechainspeccion,
+            ':fechainspeccion' => @Obj()->Vendor->Tools->dateFormatServer($this->_form->txt_fechainspeccion),
             ':soat' => @$this->_form->txt_soat,
-            ':fechavigenciasoat' => @$this->_form->txt_fechavigenciasoat,
+            ':fechavigenciasoat' => @Obj()->Vendor->Tools->dateFormatServer($this->_form->txt_fechavigenciasoat),
             ':imgConsentimiento' => @$this->_form->_imgConsentimiento,
             ':imgDocIdentidad' => @$this->_form->_imgDocIdentidad,
-            ':imgFormatoSolixcitud' =>  @$this->_form->_imgFormatoSolixcitud,
+            ':imgFormatoSolixcitud' => @$this->_form->_imgFormatoSolixcitud,
             ':imgHojaCalidda' => @$this->_form->_imgHojaCalidda,
             ':imgInscripcionMovil' => @$this->_form->_imgInscripcionMovil,
             ':imgLicenciaConducir' => @$this->_form->_imgLicenciaConducir,
@@ -155,13 +120,108 @@ class VehiculoModel extends \Vendor\DataBase {
             ':imgSoat' => @$this->_form->_imgSoat,
             ':imgTarjetaPropiedad' => @$this->_form->_imgTarjetaPropiedad,
             ':usuario' => $this->_usuario,
-            ':ipPublica' => $this->_ipPublica,  
+            ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
             ':navegador' => $this->_navegador,
             ':hostname' => $this->_hostName
         ];
-        
+
+        return $this->getRow($query, $parms);
+    }
+
+    //vehiculoas en estado P=PENDIENTE
+    protected function qGetVehiculos() {
+        $query = "
+        SELECT 
+            pr.id_persona,
+            p.id_propietario,
+            v.id_vehiculo,
+            pr.nombre_completo,
+            t.tipo_documento_identidad,
+            p.documento_identidad,
+            p.celular,
+            p.imagen_consentimiento,
+            p.imagen_documento_identidad,
+            p.imagen_licencia_conducir,
+            v.placa,
+            v.marca,
+            v.modelo,
+            v.serie,
+            v.imagen_formulario_calidda,
+            v.imagen_movil,
+            v.imagen_poliza,
+            v.imagen_revision_tecnica,
+            v.imagen_servicio_publico,
+            v.imagen_solicitud_cobranza,
+            v.imagen_tarjeta_propiedad
+        FROM conv_propietario p
+        INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
+        INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
+        INNER JOIN app_persona pr ON pr.id_persona = p.id_persona
+        WHERE p.estado = :estado
+        AND p.eliminado = :eliminado
+        AND v.eliminado = :eliminado;
+        ";
+        $parms = [
+            ':estado' => 'P',
+            ':eliminado' => '0'
+        ];
+
+        return $this->getRows($query, $parms);
+    }
+    
+    protected function qFind() {
+        $query = "
+        SELECT
+            e.apellido_paterno,
+            e.apellido_materno,
+            e.primer_nombre,
+            e.segundo_nombre,
+            p.id_pais,
+            p.id_estado_civil,
+            p.id_tipo_documento_identidad,
+            p.documento_identidad,
+            p.telefono_casa,
+            p.telefono_trabajo,
+            p.celular,
+            p.direccion_domicilio,
+            p.direccion_trabajo,
+            v.tarjeta,
+            v.placa,
+            v.marca,
+            v.modelo,
+            v.numero_motor,
+            v.serie,
+            v.anio_fabricacion,
+            v.cilindrada,
+            v.revision_tecnica,
+            DATE_FORMAT(v.fecha_inspeccion,'%d-%m-%Y') fecha_inspeccion,
+            v.numero_poliza,
+            DATE_FORMAT(v.fecha_poliza_vigencia,'%d-%m-%Y') fecha_poliza_vigencia	
+        FROM conv_propietario p
+        INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
+        INNER JOIN app_persona e ON e.id_persona = p.id_persona
+        WHERE p.id_propietario = :id;    
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
         return $this->getRow($query, $parms);
     }
     
+    protected function qUpdateImg($file) {
+        $query = "
+        UPDATE ".$this->_tableDB." SET
+            ".$this->_columnDB." = :file
+        WHERE id_propietario = :id ; 
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario,
+            ':file' => $file
+        ];
+
+        $this->execute($query, $parms);
+    }
+
 }
