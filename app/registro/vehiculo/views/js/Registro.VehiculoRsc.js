@@ -160,8 +160,8 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                     btns: [
                         {keybtn: APP_BTN.EDT, evts: [{click: 'Obj.Registro.VehiculoAx.formEditVehiculo'}]},
                         {keybtn: APP_BTN.DEL, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]},
-                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]},
-                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]}
+                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
+                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});

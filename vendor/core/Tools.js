@@ -529,7 +529,7 @@ class Tools_ {
     breadCrumb(data) {
         let d = data.split('/');
         let b = `
-        <ul class="lv-breadcrumb">
+        <ul class="lv-breadcrumb hidden-xs">
             <li><a href="javascript:;"><i class="fa fa-home"></i></a></li>`;
         $.each(d, function (i, v) {
             b += `<li><a href="javascript:;">${v}</a></li>`;
