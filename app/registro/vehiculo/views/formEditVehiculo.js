@@ -207,7 +207,7 @@
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="placa"></label>
-                                            <input type="text" class="form-control" name="txt_placa" id="txt_placa">
+                                            <input type="text" class="form-control" name="txt_plaka" id="txt_plaka">
                                         </div>
                                     </div>
                                 </div>
@@ -218,12 +218,12 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="marca"></label>
-                                            <input type="text" class="form-control" name="txt_marca" id="txt_marca">
+                                            <input type="text" class="form-control" name="txt_marka" id="txt_marka">
                                         </div>
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="modelo"></label>
-                                            <input type="text" class="form-control" name="txt_modelo" id="txt_modelo">
+                                            <input type="text" class="form-control" name="txt_model" id="txt_model">
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +239,7 @@
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="nro_serie"></label>
-                                            <input type="text" class="form-control" name="txt_serie" id="txt_serie">
+                                            <input type="text" class="form-control" name="txt_serye" id="txt_serye">
                                         </div>
                                     </div>
                                 </div>
@@ -372,7 +372,7 @@
                                             <input type="file" class="form-control" name="file_formatosolicitud" id="file_formatosolicitud">
                                         </div>   
                                         <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><span class="tr-language" data-tr="hoja_unica_datos"></span> <a href="files/formato_calidda.docx" class="tr-language" data-tr="aqui"></a></label>
+                                            <label class="control-label"><span class="tr-language" data-tr="hoja_unica_datos"></span> <a href="files/formato_calidda.xlsx" class="tr-language" data-tr="aqui"></a></label>
                                             <input type="file" class="form-control" name="file_hojacalidda" id="file_hojacalidda">
                                         </div> 
                                         
@@ -439,19 +439,19 @@
                     txt_cilindrada: {
                         required: true
                     },
-                    txt_serie: {
+                    txt_serye: {
                         required: true
                     },
                     txt_nromotor: {
                         required: true
                     },
-                    txt_modelo: {
+                    txt_model: {
                         required: true
                     },
-                    txt_marca: {
+                    txt_marka: {
                         required: true
                     },
-                    txt_placa: {
+                    txt_plaka: {
                         required: true
                     },
                     txt_tarjetapropiedad: {

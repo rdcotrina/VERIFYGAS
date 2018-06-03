@@ -45,6 +45,16 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             ]
         });
     }
+    
+    addBtnSearch() {
+        $.fn.appButton.get({
+            container: `#${this._alias}btn_search`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.BUS, evts: [{click: 'Obj.Registro.VehiculoAx.postSearch'}]}
+            ]
+        });
+    }
 
     getListBoxs(form) {
         $(form).appList({
@@ -120,6 +130,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
 
     setVehiculos(data) {
         let h = '', txtEval = '';
+        
         $.each(data, (i, e) => {
             h += `
             <div class="bigBox" style="background-color:#e2e2e2;height:auto;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
@@ -167,6 +178,10 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
             `;
         });
+        
+        if(data.length == 0){
+            h = `<div class="alert alert-info text-center"><i class="fa fa-info"></i> ${APP_ETIQUET.no_registros}</div>`;
+        }
         $(`#${this._alias}d_vehiculo`).html(h);
         eval(txtEval);
         $(`#${this._alias}d_vehiculo`).find('._tools').find('.btn').css({

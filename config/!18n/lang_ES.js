@@ -1,5 +1,6 @@
 var lang_ES = {
     etiquet: {
+        no_registros: 'No se encontraron registros.',
         option_ap: 'Opciones de Apariencia',
         cerrar_session: 'Cerrar sesión',
         pantalla_full: 'Maximizar pantalla',
@@ -161,6 +162,9 @@ var lang_ES = {
         copy_ok: 'Registro se duplico correctamente.',
         validate: 'Revise los campos marcados',
         propietario_exist: 'Propietario ya existe.',
-        upload_ok: 'Archivo se cargo correctamente.'
+        upload_ok: 'Archivo se cargo correctamente.',
+        preaprobar: '¿Está seguro de aprobar para Pre Conversión?',
+        rechazar: '¿Está seguro de rechazar el registro?',
+        operacion_ok: 'La operación se realizó correctamente.'
     }
 };

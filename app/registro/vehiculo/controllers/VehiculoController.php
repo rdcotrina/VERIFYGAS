@@ -126,7 +126,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                 if (Obj()->Libs->Upload->processed) {
 
                     Obj()->Libs->Upload->Clean();
-                    
+
                     //funciona desde el formulario editar
                     if ($this->_form->_keyPropietario) {
                         $this->qUpdateImg($nvoNom);
@@ -143,15 +143,43 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         echo json_encode($data);
     }
 
+    private function _sendMailNewVehiculo($data) {        
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailNewVehiculo.phtml');
+        
+        /* reemplazando titulos */
+        $body = str_replace("{NOMBRES}", $data['propietario'], $body);
+        $body = str_replace("{PLACA}", $data['placa'], $body);
+        $body = str_replace("{MARCA}", $data['marca'], $body);
+        $body = str_replace("{MODELO}", $data['modelo'], $body);
+        $body = str_replace("{SERIE}", $data['serie'], $body);
+        
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->Subject = 'Nuevo Registro';
+        Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
+        //contenido del correo
+        Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
+        Obj()->Libs->PHPMailer->AltBody = 'Se realizó un nuevo registro de vehículo';
+
+        /* realizando el envio a los correos del postulante */
+        //correos y nombres de destinatario
+        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'VERIFYGAS Mail');
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'VERIFYGAS Mail');
+        //enviando
+        Obj()->Libs->PHPMailer->send();
+    }
+
     public function postNew() {
         if ($this->isValidate()) {
             $data = $this->spMantenimiento();
+            if ($data['result'] == 1) {
+                $this->_sendMailNewVehiculo($data);
+            }
         } else {
             $data = $this->valida()->messages();
         }
         echo json_encode($data);
     }
-    
+
     public function postEdit() {
         if ($this->isValidate()) {
             $data = $this->spMantenimiento();
@@ -163,6 +191,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
 
     public function postDelete() {
         echo json_encode($this->spMantenimiento());
+    }
+    
+    public function postAtender() {
+        echo json_encode($this->spAtender());
     }
 
     public function find() {

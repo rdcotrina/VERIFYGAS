@@ -78,5 +78,6 @@ Registry::addClass('AesCtr', '\\Libs\\AesCtr');
 Registry::addClass('View', '\\Vendor\\View');
 Registry::addClass('Tools', '\\Vendor\\Tools');
 Registry::addClass('Upload', '\\Libs\\Upload');
+Registry::addClass('PHPMailer', '\\Libs\\PHPMailer');
 
 

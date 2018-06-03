@@ -98,11 +98,11 @@ class VehiculoModel extends \Vendor\DataBase {
             ':direcciondomicilio' => @$this->_form->txt_direcciondomicilio,
             ':direcciontrabajo' => @$this->_form->txt_direcciontrabajo,
             ':tarjetapropiedad' => @$this->_form->txt_tarjetapropiedad,
-            ':placa' => @$this->_form->txt_placa,
-            ':marca' => @$this->_form->txt_marca,
-            ':modelo' => @$this->_form->txt_modelo,
+            ':placa' => @$this->_form->txt_plaka,
+            ':marca' => @$this->_form->txt_marka,
+            ':modelo' => @$this->_form->txt_model,
             ':nromotor' => @$this->_form->txt_nromotor,
-            ':serie' => @$this->_form->txt_serie,
+            ':serie' => @$this->_form->txt_serye,
             ':aniofabricacion' => @$this->_form->txt_aniofabricacion,
             ':cilindrada' => @$this->_form->txt_cilindrada,
             ':nrorevisiontecnica' => @$this->_form->txt_nrorevisiontecnica,
@@ -128,9 +128,57 @@ class VehiculoModel extends \Vendor\DataBase {
 
         return $this->getRow($query, $parms);
     }
+    
+    protected function spAtender() {
+        $query = "CALL sp_registro_vehiculo_atender ("
+                . ":flag,"
+                . ":key,"
+                . ":usuario,"
+                . ":ipPublica,"
+                . ":ipLocal,"
+                . ":navegador,"
+                . ":hostname); "
+                . "";
+        $parms = [
+            ':flag' => $this->_form->_flag,
+            ':key' => $this->_form->_keyPropietario,
+            ':usuario' => $this->_usuario,
+            ':ipPublica' => $this->_ipPublica,
+            ':ipLocal' => $this->_ipLocal,
+            ':navegador' => $this->_navegador,
+            ':hostname' => $this->_hostName
+        ];
+
+        return $this->getRow($query, $parms);
+    }
 
     //vehiculoas en estado P=PENDIENTE
     protected function qGetVehiculos() {
+        $sqlAll = '';
+        
+        if($this->_form->txt_propietario){
+            $sqlAll .= "REPLACE(pr.nombre_completo,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_propietario."',' ',''),'%') OR ";
+        }
+        if($this->_form->txt_placa){
+            $sqlAll .= "REPLACE(v.placa,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_placa."',' ',''),'%') OR ";
+        }
+        if($this->_form->txt_marca){
+            $sqlAll .= "REPLACE(v.marca,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_marca."',' ',''),'%') OR ";
+        }
+        if($this->_form->txt_modelo){
+            $sqlAll .= "REPLACE(v.modelo,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_modelo."',' ',''),'%') OR ";
+        }
+        if($this->_form->txt_serie){
+            $sqlAll .= "REPLACE(v.serie,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_serie."',' ',''),'%') OR ";
+        }
+        $sqlAll = substr($sqlAll, 0, strlen($sqlAll) - 4);
+        
+        if(empty($sqlAll)){
+            $sqlAll = '';
+        }else{
+            $sqlAll = "AND (${sqlAll})";
+        }
+        
         $query = "
         SELECT 
             pr.id_persona,
@@ -158,9 +206,11 @@ class VehiculoModel extends \Vendor\DataBase {
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
         INNER JOIN app_persona pr ON pr.id_persona = p.id_persona
-        WHERE p.estado = :estado
-        AND p.eliminado = :eliminado
-        AND v.eliminado = :eliminado;
+        WHERE (
+            p.estado = :estado
+            AND p.eliminado = :eliminado
+            AND v.eliminado = :eliminado
+        ) ${sqlAll};
         ";
         $parms = [
             ':estado' => 'P',

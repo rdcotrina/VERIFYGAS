@@ -16,6 +16,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._alias = Exe.getAlias();
         this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
         this._tour = Obj.Registro.VehiculoTour;
+        this._idFormIndex = `#${this._alias}formIndex`;
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
         this._idFormVehiculoEdit = `#${this._alias}formEditVehiculo`;
         this._imgConsentimiento = null;
@@ -43,6 +44,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     //escriba aqui, se ejecutara una vez haya cargado el HTML
                     //Tools.addTourMain.call(this);
                     this.addBtnNew();
+                    this.addBtnSearch();
                     $(`#${this._alias}d_vehiculo`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
                     this._getVehiculos(tk);
                 }
@@ -86,7 +88,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._find = (tk) => {
             this.send({
                 token: tk,
-                gifProccess: true,
+                gifProcess: true,
                 context: this,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
@@ -100,7 +102,8 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._getVehiculos = (tk) => {
             this.send({
                 token: tk,
-                gifProccess: true,
+                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.BUS}`,
+                form: this._idFormIndex,
                 context: this,
                 response: (data) => {
                     this.setVehiculos(data);
@@ -114,7 +117,24 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 token: tk,
                 context: this,
                 element: btn,
-                gifProcess: true,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: $(btn).parent('div').data('propietario')});
+                },
+                response: (data) => {
+                    if (data.ok_error != 'error') {
+                        Tools.execMessage(data);
+                        this._getVehiculos(tk);
+                    }
+                }
+            });
+        };
+
+        this._postAtender = (btn, tk, f) => {
+            this.send({
+                flag: f,
+                token: tk,
+                context: this,
+                element: btn,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_keyPropietario', value: $(btn).parent('div').data('propietario')});
                 },
@@ -197,7 +217,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    postEdit(tk){
+    postEdit(tk) {
         this.send({
             flag: 2,
             token: tk,
@@ -218,7 +238,25 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             }
         });
     }
-    
+
+    postAprobar(btn, tk) {
+        Tools.notify().confirm({
+            content: APP_MSN.preaprobar,
+            yes: () => {
+                this._postAtender(btn, tk, 1);
+            }
+        });
+    }
+
+    postRechazar(btn, tk) {
+        Tools.notify().confirm({
+            content: APP_MSN.rechazar,
+            yes: () => {
+                this._postAtender(btn, tk, 2);
+            }
+        });
+    }
+
     postDelete(btn, tk) {
         Tools.notify().confirm({
             content: APP_MSN.you_sure_delete,
@@ -232,7 +270,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         let form = ($.isEmptyObject(this._keyPropietario)) ? this._idFormVehiculo : this._idFormVehiculoEdit;
         this.send({
             token: tk,
-            gifProccess: true,
+            gifProcess: true,
             context: this,
             form: form,
             formData: true,
@@ -255,6 +293,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 }
             }
         });
+    }
+
+    postSearch(btn, tk) {
+        this._getVehiculos(tk);
     }
 
     closeNewVehiculo(btn, tk) {

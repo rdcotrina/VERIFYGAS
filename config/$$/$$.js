@@ -6,3 +6,5 @@ var $$ = {};
 
 $$.System = {};
 $$.Registro = {};
+$$.Proceso = {};
+$$.Reporte = {};

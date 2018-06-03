@@ -136,4 +136,8 @@ class InitController extends \System\Init\Models\InitModel {
         echo json_encode($respuesta);
     }
     
+    public function mailNewVehicullo() {
+        Obj()->Vendor->View->render();
+    }
+    
 }

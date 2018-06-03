@@ -60,8 +60,8 @@ class RolModel extends \Vendor\DataBase {
                 b.nboton,
                 (SELECT COUNT(*) FROM app_boton_rol_menu c WHERE c.id_boton = b.id_boton AND c.id_rolmenu = :key ) assigned
         FROM app_boton b
-        WHERE b.activo = :activo;
-        ";
+        WHERE b.activo = :activo
+        ORDER BY 2;";
         $parms = [
             ':key' => $this->_form->_idRolOpcion,
             ':activo' => 1
