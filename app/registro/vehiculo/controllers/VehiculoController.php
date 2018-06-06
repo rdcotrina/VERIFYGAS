@@ -171,9 +171,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     public function postNew() {
         if ($this->isValidate()) {
             $data = $this->spMantenimiento();
-            if ($data['result'] == 1) {
-                $this->_sendMailNewVehiculo($data);
-            }
+//            if ($data['result'] == 1) {
+//                $this->_sendMailNewVehiculo($data);
+//            }
         } else {
             $data = $this->valida()->messages();
         }

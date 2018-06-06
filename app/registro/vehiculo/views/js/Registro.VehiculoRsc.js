@@ -139,6 +139,9 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 </span>
                 <div class="smart-form">
                     <div class="row">
+                        <section class="col col-12">
+                            <div>${APP_ETIQUET.nro_exp}: ${e.nro_expediente}</div>
+                        </section>
                         <section class="col col-6">
                             <div>${APP_ETIQUET.placa}: ${e.placa}</div>
                             <div>${APP_ETIQUET.modelo}: ${e.modelo}</div>
@@ -166,11 +169,12 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                     aliasBtn: '${i}',
                     container: '#${this._alias}${i}_tools',
                     keymnu: '${this._alias}',
-                    ///notext: true,
+                    notext: true,
                     //forceBtnXs: true,
                     btns: [
                         {keybtn: APP_BTN.EDT, evts: [{click: 'Obj.Registro.VehiculoAx.formEditVehiculo'}]},
                         {keybtn: APP_BTN.DEL, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]},
+                        {keybtn: APP_BTN.PRE, evts: [{click: 'Obj.Registro.VehiculoAx.formPreConversion'}]},
                         {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
                         {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}
                     ]

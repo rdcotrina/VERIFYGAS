@@ -4,9 +4,9 @@
     <form class="form-inline">
         <div class="row" style="margin-bottom: 10px">
             <div class="form-group col-md-4">
-                <label class="col-md-4 control-label tr-language" data-tr="duenio_vehiculo"></label>
+                <label class="col-md-4 control-label tr-language" data-tr="nro_exp"></label>
                 <div class="col-md-7">
-                    <input class="form-control" type="text" id="txt_propietario" name="txt_propietario">
+                    <input class="form-control" type="text" id="txt_nroexp" name="txt_nroexp">
                 </div>
             </div>
 

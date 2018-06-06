@@ -41,6 +41,7 @@ class InitController extends \System\Init\Models\InitModel {
              * Sessiones para el sistema
              */
             Obj()->Vendor->Session->set('app_isLogin', 1);
+            Obj()->Vendor->Session->set('app_idTaller', $data['id_taller']);
             Obj()->Vendor->Session->set('app_nameUser', $data['nombre_completo']);
             Obj()->Vendor->Session->set('app_idUsuario', $data['id_usuario']);
             Obj()->Vendor->Session->set('app_idPersona', $data['id_persona']);

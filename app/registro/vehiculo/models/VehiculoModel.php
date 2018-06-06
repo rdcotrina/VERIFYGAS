@@ -22,7 +22,7 @@ class VehiculoModel extends \Vendor\DataBase {
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
-    private $_idTienda;
+    private $_idTaller;
 
     public function __construct() {
         parent::__construct();
@@ -33,7 +33,7 @@ class VehiculoModel extends \Vendor\DataBase {
         $this->_ipPublica = Obj()->Vendor->Session->get('app_ipPublica');
         $this->_ipLocal = Obj()->Vendor->Session->get('app_ipLocal');
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
-        $this->_idTienda = Obj()->Vendor->Session->get('app_idTienda');
+        $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
     }
 
     protected function spMantenimiento() {
@@ -75,6 +75,7 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":imgRevisionTecnica,"
                 . ":imgSoat,"
                 . ":imgTarjetaPropiedad,"
+                . ":idTaller,"
                 . ":usuario,"
                 . ":ipPublica,"
                 . ":ipLocal,"
@@ -119,6 +120,7 @@ class VehiculoModel extends \Vendor\DataBase {
             ':imgRevisionTecnica' => @$this->_form->_imgRevisionTecnica,
             ':imgSoat' => @$this->_form->_imgSoat,
             ':imgTarjetaPropiedad' => @$this->_form->_imgTarjetaPropiedad,
+            ':idTaller' => $this->_idTaller,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
@@ -156,8 +158,8 @@ class VehiculoModel extends \Vendor\DataBase {
     protected function qGetVehiculos() {
         $sqlAll = '';
         
-        if($this->_form->txt_propietario){
-            $sqlAll .= "REPLACE(pr.nombre_completo,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_propietario."',' ',''),'%') OR ";
+        if($this->_form->txt_nroexp){
+            $sqlAll .= "p.nro_expediente = '".$this->_form->txt_nroexp."' OR ";
         }
         if($this->_form->txt_placa){
             $sqlAll .= "REPLACE(v.placa,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_placa."',' ',''),'%') OR ";
@@ -181,6 +183,7 @@ class VehiculoModel extends \Vendor\DataBase {
         
         $query = "
         SELECT 
+            p.nro_expediente,
             pr.id_persona,
             p.id_propietario,
             v.id_vehiculo,
@@ -207,14 +210,16 @@ class VehiculoModel extends \Vendor\DataBase {
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
         INNER JOIN app_persona pr ON pr.id_persona = p.id_persona
         WHERE (
-            p.estado = :estado
+            p.estado_taller = :estado
             AND p.eliminado = :eliminado
             AND v.eliminado = :eliminado
+            AND p.id_taller = :taller
         ) ${sqlAll};
         ";
         $parms = [
             ':estado' => 'P',
-            ':eliminado' => '0'
+            ':eliminado' => '0',
+            ':taller' => $this->_idTaller
         ];
 
         return $this->getRows($query, $parms);

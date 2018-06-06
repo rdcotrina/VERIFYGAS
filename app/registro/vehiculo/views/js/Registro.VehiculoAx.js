@@ -85,6 +85,23 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
+        this._formPreConversion = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-TPC${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+//                    this.addBtnUpdate();
+//                    this.getListBoxs(this._idFormVehiculoEdit);
+//                    this.setEventsUploads(tk);
+//                    this._find(tk);
+                }
+            });
+        };
+
         this._find = (tk) => {
             this.send({
                 token: tk,
@@ -169,6 +186,18 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             label: APP_ETIQUET.registrar_vehiculo,
             fnCallback: () => {
                 this._formVehiculo(tk);
+            }
+        });
+    }
+
+    formPreConversion(btn, tk) {
+        this._keyPropietario = $(btn).parent('div').data('propietario');
+        Tools.addTab({
+            context: this,
+            id: `${this._alias}-TPC`,
+            label: APP_ETIQUET.pre_conversion,
+            fnCallback: () => {
+                this._formPreConversion(tk);
             }
         });
     }
