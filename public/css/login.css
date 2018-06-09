@@ -105,7 +105,7 @@ p {
     border-radius: 50px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border: 6px solid rgba(221, 218, 215, 0.23);
+    border: 6px solid rgba(221, 218, 215, 0.7);
     margin-bottom: 10px;
     background: url(../../public/img/logo_login.fw.png)
 }

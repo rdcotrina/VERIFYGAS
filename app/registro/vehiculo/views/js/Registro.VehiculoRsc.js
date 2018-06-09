@@ -35,6 +35,19 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
     }
 
+    addBtnSaveObs() {
+        $.fn.appButton.get({
+            container: `#${this._alias}foot_btns`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.GRB, type: 'submit'},
+                {keybtn: APP_BTN.CLS}
+            ]
+        }, (oSettings) => {
+            $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss','modal');
+        });
+    }
+
     addBtnUpdate() {
         $.fn.appButton.get({
             container: `#${this._alias}actions`,
@@ -45,7 +58,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             ]
         });
     }
-    
+
     addBtnSearch() {
         $.fn.appButton.get({
             container: `#${this._alias}btn_search`,
@@ -95,6 +108,24 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
     }
 
+    getListBoxPreConversion(form) {
+        $(form).appList({
+            items: [
+                {
+                    data: 'tiposistemaencendido',
+                    container: `#${this._alias}d_tisisencendido`,
+                    required: true,
+                    attr: {
+                        id: `${this._alias}lst_tiposistemaencendido`,
+                        name: `${this._alias}lst_tiposistemaencendido`,
+                        class: 'form-control'
+                    },
+                    default: null
+                }
+            ]
+        });
+    }
+
     setEventsUploads(tk) {
         $(`#${this._alias}file_docidentidad`).change(() => {
             this.postUpload(tk, 1);
@@ -130,7 +161,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
 
     setVehiculos(data) {
         let h = '', txtEval = '';
-        
+
         $.each(data, (i, e) => {
             h += `
             <div class="bigBox" style="background-color:#e2e2e2;height:auto;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
@@ -157,6 +188,12 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                         <div><a href="files/docs_registro/${e.imagen_licencia_conducir}" target="_blank" style="color:#fff">${APP_ETIQUET.img_licencia_conducir}</a></div>
                         <div><a href="files/docs_registro/${e.imagen_tarjeta_propiedad}" target="_blank" style="color:#fff">${APP_ETIQUET.img_tarjeta_propiedad}</a></div>
                         <div><a href="files/docs_registro/${e.imagen_consentimiento}" target="_blank" style="color:#fff">${APP_ETIQUET.img_consentimiento}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_formulario_calidda}" target="_blank" style="color:#fff">${APP_ETIQUET.hoja_unica_datos}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_movil}" target="_blank" style="color:#fff">${APP_ETIQUET.inscripcion_app_movil}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_poliza}" target="_blank" style="color:#fff">${APP_ETIQUET.img_soat}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_revision_tecnica}" target="_blank" style="color:#fff">${APP_ETIQUET.img_revision_tecnica}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_servicio_publico}" target="_blank" style="color:#fff">${APP_ETIQUET.recibo_agua_luz_gas}</a></div>
+                        <div><a href="files/docs_registro/${e.imagen_solicitud_cobranza}" target="_blank" style="color:#fff">${APP_ETIQUET.formato_solicitud_cobranza}</a></div>
                     </div>
                     <br>
                     <div id="${this._alias}${i}_tools" class="_tools"></div>
@@ -182,8 +219,8 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
             `;
         });
-        
-        if(data.length == 0){
+
+        if (data.length == 0) {
             h = `<div class="alert alert-info text-center"><i class="fa fa-info"></i> ${APP_ETIQUET.no_registros}</div>`;
         }
         $(`#${this._alias}d_vehiculo`).html(h);
@@ -211,11 +248,11 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: 'txt_direcciondomicilio', value: data.direccion_domicilio},
                 {item: 'txt_direcciontrabajo', value: data.direccion_trabajo},
                 {item: 'txt_tarjetapropiedad', value: data.tarjeta},
-                {item: 'txt_placa', value: data.placa},
-                {item: 'txt_marca', value: data.marca},
-                {item: 'txt_modelo', value: data.modelo},
+                {item: 'txt_plaka', value: data.placa},
+                {item: 'txt_marka', value: data.marca},
+                {item: 'txt_model', value: data.modelo},
                 {item: 'txt_nromotor', value: data.numero_motor},
-                {item: 'txt_serie', value: data.serie},
+                {item: 'txt_serye', value: data.serie},
                 {item: 'txt_aniofabricacion', value: data.anio_fabricacion},
                 {item: 'txt_cilindrada', value: data.cilindrada},
                 {item: 'txt_nrorevisiontecnica', value: data.revision_tecnica},
@@ -225,4 +262,160 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             ]
         });
     }
+
+    setPreConversion(data) {
+        Tools.setDataForm(this._idFormPreConversion, {
+            alias: this._alias,
+            elements: [
+                {item: '_nombres', value: `${data.primer_nombre} ${data.segundo_nombre}`, type: 'html'},
+                {item: '_apellidos', value: `${data.apellido_paterno} ${data.apellido_materno}`, type: 'html'},
+                {item: '_celular', value: data.celurar, type: 'html'},
+                {item: '_direccion', value: data.direccion, type: 'html'},
+                {item: '_tipodoc', value: data.tipo_doc, type: 'html'},
+                {item: '_num_doc', value: data.documento_identidad, type: 'html'},
+                {item: '_placa', value: data.placa, type: 'html'},
+                {item: '_marca', value: data.marca, type: 'html'},
+                {item: '_modelo', value: data.modelo, type: 'html'},
+                {item: '_serie', value: data.serie, type: 'html'},
+                {item: '_cilindrada', value: data.cilindrada, type: 'html'}
+            ]
+        });
+        //cargando parametro para min y max de voltios
+        let apagado = data.param_apagado.split('-');
+        let encendido = data.param_encendido.split('-');
+        let arranque = data.param_arranque.split('-');
+        let rpm = data.param_rpm.split('-');
+
+        this._minVoltiosApagado = apagado[0];
+        this._maxVoltiosApagado = apagado[1];
+        this._minVoltiosArranque = arranque[0];
+        this._maxVoltiosArranque = arranque[1];
+        this._minVoltiosEncendido = encendido[0];
+        this._maxVoltiosEncendido = encendido[1];
+        this._minVoltios2500RPM = rpm[0];
+        this._maxVoltios2500RPM = rpm[1];
+    }
+
+    setEvents(tk) {
+
+        $(`#${this._alias}txt_apagado`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minVoltiosApagado && number <= this._maxVoltiosApagado) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadVoltiosApagado = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadVoltiosApagado = 0;
+                }
+            }
+        });
+
+        $(`#${this._alias}txt_arranque`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minVoltiosArranque && number <= this._maxVoltiosArranque) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadArranque = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadArranque = 0;
+                }
+            }
+        });
+
+        $(`#${this._alias}txt_encendido`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minVoltiosEncendido && number <= this._maxVoltiosEncendido) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadEncendido = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadEncendido = 0;
+                }
+            }
+        });
+
+        $(`#${this._alias}txt_2500rpm`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minVoltios2500RPM && number <= this._maxVoltios2500RPM) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidad2500RPM = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidad2500RPM = 0;
+                }
+            }
+        });
+
+        setTimeout(() => {
+            let tt = APP_ETIQUET.help_apagado_btvl.replace('{APAGADO_MIN}', this._minVoltiosApagado).replace('{APAGADO_MAX}', this._maxVoltiosApagado);
+            $(`#help_apagado_btvl`).attr('title', tt).tooltip({
+                container: "body"
+            });
+
+            tt = APP_ETIQUET.help_arranque_btvl.replace('{APAGADO_MIN}', this._minVoltiosArranque).replace('{APAGADO_MAX}', this._maxVoltiosArranque);
+            $(`#help_arranque_btvl`).attr('title', tt).tooltip({
+                container: "body"
+            });
+
+            tt = APP_ETIQUET.help_encendido_btvl.replace('{APAGADO_MIN}', this._minVoltiosEncendido).replace('{APAGADO_MAX}', this._maxVoltiosEncendido);
+            $(`#help_encendido_btvl`).attr('title', tt).tooltip({
+                container: "body"
+            });
+
+            tt = APP_ETIQUET.help_2500rpm_btvl.replace('{APAGADO_MIN}', this._minVoltios2500RPM).replace('{APAGADO_MAX}', this._maxVoltios2500RPM);
+            $(`#help_2500rpm_btvl`).attr('title', tt).tooltip({
+                container: "body"
+            });
+
+        }, 3000);
+    }
+
 };

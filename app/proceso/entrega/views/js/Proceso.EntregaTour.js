@@ -2,13 +2,13 @@
 * ---------------------------------------
 * --------- CREATED BY LV ----------
 * Autor:        Super 
-* Fecha:        03-06-2018 01:06:45 
-* Descripcion : PreConversionTour.js
+* Fecha:        08-06-2018 07:06:19 
+* Descripcion : EntregaTour.js
 * ---------------------------------------
 */ 
 "use strict";
 
-$$.Proceso.PreConversionTour = class PreConversionTour {
+$$.Proceso.EntregaTour = class EntregaTour {
 
     main() {
         var tour = new Tour({

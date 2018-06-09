@@ -100,7 +100,11 @@ class InitController extends \System\Init\Models\InitModel {
     public function appTheme() {
         echo json_encode($this->spTheme());
     }
-
+    
+    public function resultadosTaller() {
+        echo json_encode($this->qResultadosTaller());
+    }
+    
     public function logOut() {
         Obj()->Vendor->Session->destroy();
         echo json_encode(['result' => 1]);

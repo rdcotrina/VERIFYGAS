@@ -200,5 +200,13 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     public function find() {
         echo json_encode($this->qFind());
     }
+    
+    public function findPropietario() {
+        echo json_encode($this->qFindPropietario());
+    }
+    
+    public function getTipoSistemaEncendido() {
+        echo json_encode($this->qTipoSistemaEncendido());
+    }
 
 }

@@ -75,23 +75,25 @@ $$.System.InitTour = class InitTour {
                     backdropPadding: 5,
                     placement: "right",
                     reflex: true
-                }, {
-                    element: "#show-shortcut",
-                    title: APP_TOUR.app.t_access,
-                    content: APP_TOUR.app.c_access,
-                    backdrop: true,
-                    backdropPadding: 5,
-                    placement: "right",
-                    reflex: true
-                }, {
-                    element: "#shortcut",
-                    title: APP_TOUR.app.t_access,
-                    content: APP_TOUR.app.c_access_direct,
-                    backdrop: true,
-                    backdropPadding: 5,
-                    placement: "bottom",
-                    reflex: true
                 }
+//                , {
+//                    element: "#show-shortcut",
+//                    title: APP_TOUR.app.t_access,
+//                    content: APP_TOUR.app.c_access,
+//                    backdrop: true,
+//                    backdropPadding: 5,
+//                    placement: "right",
+//                    reflex: true
+//                }
+//                , {
+//                    element: "#shortcut",
+//                    title: APP_TOUR.app.t_access,
+//                    content: APP_TOUR.app.c_access_direct,
+//                    backdrop: true,
+//                    backdropPadding: 5,
+//                    placement: "bottom",
+//                    reflex: true
+//                }
             ],
             onNext: function (tour) {
                 if (tour._current == 9) {

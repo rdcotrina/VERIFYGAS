@@ -583,7 +583,11 @@ class Tools_ {
     closeModal(obj) {
         var search = obj.toString().indexOf('#'), id = '';
         if (search === -1) {/*cuando se cierra modal desde botones*/
-            id = '#' + $(obj).parent().parent().parent().parent().attr('id');
+            id = $(obj).parent().parent().parent().parent().attr('id');
+            if(id == undefined){
+                id = $(obj).parent().parent().parent().parent().parent().attr('id');
+            }
+            id = `#${id}`;
         } else {/*cuando se cierra modal desde closeModal*/
             id = obj;
         }
@@ -644,6 +648,9 @@ class Tools_ {
             if (type == 'radio' || type == 'checkbox') {
                 chkrd = (value == '1') ? true : false;
                 $(form).find(`#${alias}${item}`).prop('checked', chkrd);
+            }
+            if (['html'].includes(type)) {
+                $(form).find(`#${alias}${item}`).html(value);
             }
 
             if (callback) {

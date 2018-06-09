@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="Roger David Cotrina Cabanillas">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
         <link rel="apple-touch-icon" sizes="57x57" href="<?php echo BASE_URL; ?>public/img/favicon/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="<?php echo BASE_URL; ?>public/img/favicon/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="<?php echo BASE_URL; ?>public/img/favicon/apple-icon-72x72.png">
@@ -217,7 +217,7 @@
 
                     <!-- Note: The activity badge color changes when clicked and resets the number to 0
                         Suggestion: You may want to set a flag when this happens to tick off all checked messages / notifications -->
-                    <span id="activity" class="activity-dropdown" style="position: absolute;"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
+                    <span id="activity" class="activity-dropdown hide" style="position: absolute;"> <i class="fa fa-user"></i> <b class="badge"> 21 </b> </span>
 
                     <!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
                     <div class="ajax-dropdown">
@@ -342,7 +342,7 @@
                         <span> <a id="btnTour" href="javascript:void(0);" class="tr-language-title" data-trtitle="tour"><i class="fa fa-question-circle"></i></a> </span>
                     </div>
                     <!-- end tour button -->
-                    
+
                     <!-- fullscreen button -->
                     <div id="fullscreen" class="btn-header transparent pull-right">
                         <span> <a id="lkFullScreen" href="javascript:void(0);" class="tr-language-title" data-trtitle="pantalla_full" data-action="launchFullscreen"><i class="fa fa-arrows-alt"></i></a> </span>
@@ -389,7 +389,7 @@
                 Note: These tiles are completely responsive,
                 you can add as many as you like
             -->
-            <div id="shortcut">
+            <div id="shortcut" class="hide">
                 <ul>
                     <li>
                         <a href="#ajax/inbox.php" class="jarvismetro-tile big-cubes bg-color-blue"> <span class="iconbox"> <i class="fa fa-envelope fa-4x"></i> <span>Mail <span class="label pull-right bg-color-darken">14</span></span> </span> </a>
@@ -578,4 +578,3 @@
 
         <?php endif; ?>
 
- 

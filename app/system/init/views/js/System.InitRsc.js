@@ -107,8 +107,15 @@ $$.System.InitRsc = class InitRsc extends Resource {
         });
     }
 
-    demo() {
-        alert('demo')
+    setResultadosTaller(data) {
+        Tools.setDataForm(this._idFormDashBoardTaller, {
+            alias: this._alias,
+            elements: [
+                {item: 'sp_aprobados', value: data.aprobados, type: 'html'},
+                {item: 'sp_rechazados', value: data.rechazados, type: 'html'},
+                {item: 'sp_pendientes', value: data.pendientes, type: 'html'}
+            ]
+        });
     }
 
 };  

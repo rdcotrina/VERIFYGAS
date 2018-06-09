@@ -38,7 +38,7 @@ class ' . $file . 'Model extends \\Vendor\\DataBase {
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
-    private $_idTienda;
+    private $_idTaller;
     
     protected function __construct() {
         parent::__construct();
@@ -48,7 +48,7 @@ class ' . $file . 'Model extends \\Vendor\\DataBase {
         $this->_ipPublica = Obj()->Vendor->Session->get(\'app_ipPublica\');
         $this->_ipLocal = Obj()->Vendor->Session->get(\'app_ipLocal\');
         $this->_hostName = Obj()->Vendor->Session->get(\'app_hostName\');
-        $this->_idTienda = Obj()->Vendor->Session->get(\'app_idTienda\');
+        $this->_idTaller = Obj()->Vendor->Session->get(\'app_idTaller\');
     }
     
 }';

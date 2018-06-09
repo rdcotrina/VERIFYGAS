@@ -1,6 +1,6 @@
 <div>
     <form>
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -18,27 +18,40 @@
                     <!-- widget content -->
                     <div class="widget-body">
 
-                        <div class="bv-form smart-form">
+                        <div class="bv-form">
 
-                            <div class="row" style="margin-bottom: 10px">
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="nombres"></span><span class="_nombres"></span>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="nombres"></label>
+                                            <div id="_nombres" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="apellidos"></label>
+                                            <div id="_apellidos" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label" id="_tipodoc"></label>
+                                            <div id="_num_doc" class="well padding-5"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col col-4">
-                                    <span class="_tipodoc"></span><span class="_num_doc"></span>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="direccion"></label>
+                                            <div id="_direccion" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="celular"></label>
+                                            <div id="_celular" class="well padding-5"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="celular"></span><span class="_celular"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="apellidos"></span><span class="_apellidos"></span>
-                                </div>
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="direccion"></span><span class="_direccion"></span>
-                                </div>
-                            </div>
+                            </fieldset>
 
                         </div>
                     </div>
@@ -46,7 +59,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -64,27 +77,40 @@
                     <!-- widget content -->
                     <div class="widget-body">
 
-                        <div class="bv-form smart-form">
+                        <div class="bv-form">
 
-                            <div class="row" style="margin-bottom: 10px">
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="placa"></span><span class="_placa"></span>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="placa"></label>
+                                            <div id="_placa" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="modelo"></label>
+                                            <div id="_modelo" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="marca"></label>
+                                            <div id="_marca" class="well padding-5"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="modelo"></span><span class="_modelo"></span>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="nro_serie"></label>
+                                            <div id="_serie" class="well padding-5"></div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="cilindrada"></label>
+                                            <div id="_cilindrada" class="well padding-5"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="marca"></span><span class="_marca"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="nro_serie"></span><span class="_serie"></span>
-                                </div>
-                                <div class="col col-4">
-                                    <span class="tr-language" data-tr="cilindrada"></span><span class="_cilindrada"></span>
-                                </div>
-                            </div>
+                            </fieldset>
 
                         </div>
                     </div>
@@ -193,7 +219,7 @@
                     <!-- widget content -->
                     <div class="widget-body">
 
-                        <div class="bv-form init-tooltip">
+                        <div class="bv-form">
 
                             <fieldset class="col-md-6 form-horizontal">
 
@@ -204,10 +230,10 @@
                                         <input class="form-control tr-language-ph" type="text" id="txt_apagado" name="txt_apagado" data-trph="voltios" maxlength="6">
                                     </div>
                                     <div class="col-md-1">
-                                        <i class="fa fa-question-circle tr-language-title" data-trtitle="help_apagado_btvl" data-toggle="tooltip"></i>
+                                        <i id="help_apagado_btvl" class="fa fa-question-circle" ></i>
                                     </div>
                                     <div class="col-md-5">
-                                        <label class="label label-info">No Conforme</label>
+                                        <label class="label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -216,10 +242,10 @@
                                         <input class="form-control tr-language-ph" type="text" id="txt_arranque" name="txt_arranque" data-trph="voltios" maxlength="6">
                                     </div>
                                     <div class="col-md-1">
-                                        <i class="fa fa-question-circle tr-language-title" data-trtitle="help_arranque_btvl" data-toggle="tooltip"></i>
+                                        <i id="help_arranque_btvl" class="fa fa-question-circle"></i>
                                     </div>
                                     <div class="col-md-5">
-                                        <label class="label label-info">...</label>
+                                        <label class="label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -228,10 +254,10 @@
                                         <input class="form-control tr-language-ph" type="text" id="txt_encendido" name="txt_encendido" data-trph="voltios" maxlength="6">
                                     </div>
                                     <div class="col-md-1">
-                                        <i class="fa fa-question-circle tr-language-title" data-trtitle="help_encendido_btvl" data-toggle="tooltip"></i>
+                                        <i id="help_encendido_btvl" class="fa fa-question-circle"></i>
                                     </div>
                                     <div class="col-md-5">
-                                        <label class="label label-info">...</label>
+                                        <label class="label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -240,10 +266,10 @@
                                         <input class="form-control tr-language-ph" type="text" id="txt_2500rpm" name="txt_2500rpm" data-trph="voltios" maxlength="6">
                                     </div>
                                     <div class="col-md-1">
-                                        <i class="fa fa-question-circle tr-language-title" data-trtitle="help_2500rpm_btvl" data-toggle="tooltip"></i>
+                                        <i id="help_2500rpm_btvl" class="fa fa-question-circle"></i>
                                     </div>
                                     <div class="col-md-5">
-                                        <label class="label label-info">...</label>
+                                        <label class="label"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -352,6 +378,14 @@
                                 </div>
 
                             </fieldset>
+                            <fieldset class="col-md-12 smart-form">
+                                <section>
+                                    <label class="label tr-language" data-tr="observaciones"></label>
+                                    <label class="textarea">
+                                        <textarea id="txt_observaciones_estadocarga" name="txt_observaciones_estadocarga"></textarea>
+                                    </label>
+                                </section>
+                            </fieldset>
 
                         </div>
 
@@ -359,13 +393,13 @@
                 </div>
             </div>
         </div>
-
+<!--PENDIENTE-->
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-power-off txt-color-blueLight"></i> </span>		
-                    <h2 class="tr-language" data-tr="verificar_sistema_encendido"> </h2>
+                    <h2 class="tr-language" data-tr="verificacion_sistema_encendido"> </h2>
                 </header>
                 <!-- widget div-->
                 <div role="content">
@@ -379,13 +413,106 @@
                     <div class="widget-body">
 
                         <div class="bv-form">
-                            xxx
+
+                            <fieldset class="col-md-12 form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label tr-language" data-tr="tipo_sistema_encendido"></label>
+                                    <div class="col-md-2" id="d_tisisencendido">
+                                        <select class="chosen" name="lst_tiposistemaencendido" id="lst_tiposistemaencendido">
+                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label tr-language" data-tr="estado_conexiones_bobina"></label>
+                                    <div class="col-md-2" id="d_tisisencendido">
+                                        <select class="chosen" name="lst_estadobobina" id="lst_estadobobina">
+                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                            <option value="1" class="tr-language" data-tr="conforme"></option>
+                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<!--PENDIENTE-->
 
+        <div class="col-sm-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark">
+                <header role="heading">
+                    <span class="widget-icon"> <i class="fa fa-soundcloud txt-color-blueLight"></i> </span>		
+                    <h2 class="tr-language" data-tr="verificacion_admision_aire"> </h2>
+                </header>
+                <!-- widget div-->
+                <div role="content">
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                        <input class="form-control" type="text">
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        <div class="bv-form">
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="estado_carcasa"></label>
+                                            <select class="chosen" name="lst_estadocarcasa" id="lst_estadocarcasa">
+                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="manguera_conexion_aceleracion"></label>
+                                            <select class="chosen" name="lst_estadomanguera" id="lst_estadomanguera">
+                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label tr-language" data-tr="estado_filtro"></label>
+                                            <select class="chosen" name="lst_estadofiltro" id="lst_estadofiltro">
+                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="col-md-12 smart-form">
+                                <section>
+                                    <label class="label tr-language" data-tr="observaciones"></label>
+                                    <label class="textarea">
+                                        <textarea id="txt_observaciones_admisionaire" name="txt_observaciones_admisionaire"></textarea>
+                                    </label>
+                                </section>
+                            </fieldset>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
         <div class="clearfix"></div>
     </form>
 </div>

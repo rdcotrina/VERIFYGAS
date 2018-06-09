@@ -23,6 +23,7 @@ class VehiculoModel extends \Vendor\DataBase {
     private $_ipLocal;
     private $_hostName;
     private $_idTaller;
+    private $_idRol;
 
     public function __construct() {
         parent::__construct();
@@ -34,6 +35,7 @@ class VehiculoModel extends \Vendor\DataBase {
         $this->_ipLocal = Obj()->Vendor->Session->get('app_ipLocal');
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
         $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
+        $this->_idRol = Obj()->Vendor->Session->get('app_defaultIdRol');
     }
 
     protected function spMantenimiento() {
@@ -112,7 +114,7 @@ class VehiculoModel extends \Vendor\DataBase {
             ':fechavigenciasoat' => @Obj()->Vendor->Tools->dateFormatServer($this->_form->txt_fechavigenciasoat),
             ':imgConsentimiento' => @$this->_form->_imgConsentimiento,
             ':imgDocIdentidad' => @$this->_form->_imgDocIdentidad,
-            ':imgFormatoSolixcitud' => @$this->_form->_imgFormatoSolixcitud,
+            ':imgFormatoSolixcitud' => @$this->_form->_imgFormatoSolicitud,
             ':imgHojaCalidda' => @$this->_form->_imgHojaCalidda,
             ':imgInscripcionMovil' => @$this->_form->_imgInscripcionMovil,
             ':imgLicenciaConducir' => @$this->_form->_imgLicenciaConducir,
@@ -139,7 +141,9 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":ipPublica,"
                 . ":ipLocal,"
                 . ":navegador,"
-                . ":hostname); "
+                . ":hostname,"
+                . ":rol,"
+                . ":observacion); "
                 . "";
         $parms = [
             ':flag' => $this->_form->_flag,
@@ -148,7 +152,9 @@ class VehiculoModel extends \Vendor\DataBase {
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
             ':navegador' => $this->_navegador,
-            ':hostname' => $this->_hostName
+            ':hostname' => $this->_hostName,
+            ':rol' => $this->_idRol,
+            ':observacion' => $this->_form->_observacion
         ];
 
         return $this->getRow($query, $parms);
@@ -181,6 +187,24 @@ class VehiculoModel extends \Vendor\DataBase {
             $sqlAll = "AND (${sqlAll})";
         }
         
+        switch ($this->_idRol) {
+            case 3: //taller
+                $w = "AND p.id_taller = '".$this->_idTaller."' AND p.estado_taller = 'P' ";
+                break;
+            case 5: //verifygas
+                $w = "AND p.estado_verifygas = 'P' AND p.estado_taller = 'A'";
+                break;
+            case 6: //asesor comercial
+                $w = "AND p.id_taller = '".$this->_idTaller."' AND p.estado_taller = 'P' ";
+                break;
+            case 7: //calidda
+                $w = "AND p.estado_calidda = 'P' AND p.estado_taller = 'A' AND p.estado_verifygas = 'A'";
+                break;
+            default:
+                $w = '';
+                break;
+        }
+        
         $query = "
         SELECT 
             p.nro_expediente,
@@ -209,17 +233,16 @@ class VehiculoModel extends \Vendor\DataBase {
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
         INNER JOIN app_persona pr ON pr.id_persona = p.id_persona
+        INNER JOIN conv_taller ta ON ta.id_taller = p.id_taller
         WHERE (
-            p.estado_taller = :estado
-            AND p.eliminado = :eliminado
+            p.eliminado = :eliminado
             AND v.eliminado = :eliminado
-            AND p.id_taller = :taller
+            ${w}
         ) ${sqlAll};
         ";
         $parms = [
             ':estado' => 'P',
-            ':eliminado' => '0',
-            ':taller' => $this->_idTaller
+            ':eliminado' => '0'
         ];
 
         return $this->getRows($query, $parms);
@@ -265,6 +288,39 @@ class VehiculoModel extends \Vendor\DataBase {
         return $this->getRow($query, $parms);
     }
     
+    protected function qFindPropietario() {
+        $query = "
+        SELECT
+            e.apellido_paterno,
+            e.apellido_materno,
+            e.primer_nombre,
+            e.segundo_nombre,
+            p.celular,
+            p.direccion_domicilio,
+            t.abreviatura tipo_doc,
+            p.documento_identidad,
+            v.placa,
+            v.marca,
+            v.modelo,
+            v.serie,
+            v.cilindrada,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATOFF') param_apagado,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATON') param_encendido,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATARRA') param_arranque,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBAT2500') param_rpm
+        FROM conv_propietario p
+        INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
+        INNER JOIN app_persona e ON e.id_persona = p.id_persona
+        INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
+        WHERE p.id_propietario = :id;    
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+    
     protected function qUpdateImg($file) {
         $query = "
         UPDATE ".$this->_tableDB." SET
@@ -278,5 +334,5 @@ class VehiculoModel extends \Vendor\DataBase {
 
         $this->execute($query, $parms);
     }
-
+    
 }

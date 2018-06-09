@@ -3,16 +3,16 @@
 * ---------------------------------------
 * --------- CREATED BY LV ----------
 * Autor:        Super 
-* Fecha:        03-06-2018 01:06:45 
-* Descripcion : PreConversionFilter.php
+* Fecha:        08-06-2018 01:06:03 
+* Descripcion : ConversionFilter.php
 * ---------------------------------------
 */ 
 
-namespace Proceso\PreConversion\Filters;
+namespace Proceso\Conversion\Filters;
    
 use \Vendor\ValidaForm;
 
-trait PreConversionFilter {
+trait ConversionFilter {
     
     private $_frm;
 

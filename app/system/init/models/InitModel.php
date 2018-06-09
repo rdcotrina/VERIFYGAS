@@ -3,13 +3,14 @@
 namespace System\Init\Models;
 
 class InitModel extends \Vendor\DataBase {
-    
+
     protected $_form;
     private $_usuario;
     private $_navegador;
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
+    private $_idTaller;
 
     public function __construct() {
         parent::__construct();
@@ -19,9 +20,9 @@ class InitModel extends \Vendor\DataBase {
         $this->_ipPublica = Obj()->Vendor->Session->get('app_ipPublica');
         $this->_ipLocal = Obj()->Vendor->Session->get('app_ipLocal');
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
-        
+        $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
     }
-    
+
     protected function login($flag = '', $user = '', $pass = '') {
         if (empty($flag)) {
             $flag = $this->_form->_flag;
@@ -42,7 +43,7 @@ class InitModel extends \Vendor\DataBase {
             return $this->getRows($query, $parms);  /* devuelve varios registros */
         }
     }
-    
+
     protected function spTheme() {
         $query = "CALL sp_appConfigTheme (:flag,:value,:usuario,:ipPublica,:ipLocal,:navegador,:hostName) ; ";
         $parms = [
@@ -54,16 +55,37 @@ class InitModel extends \Vendor\DataBase {
             ':navegador' => $this->_navegador,
             ':hostName' => $this->_hostName
         ];
-        return $this->getRow($query, $parms); 
+        return $this->getRow($query, $parms);
     }
-    
+
     protected function qLanguage() {
         $query = "SELECT descripcion, language, bandera FROM app_language; ";
         $parms = [];
 
-        return $this->getRows($query, $parms); 
+        return $this->getRows($query, $parms);
     }
-    
+
+    protected function qResultadosTaller() {
+        $query = "
+        SELECT
+            COUNT(estado_taller) total,
+            SUM(IF(estado_taller = 'A',1,0)) aprobados,
+            SUM(IF(estado_taller = 'R',1,0)) rechazados,
+            SUM(IF(estado_taller = 'P',1,0)) pendientes
+        FROM conv_propietario
+        WHERE eliminado = :eliminado
+        AND activo = :activo
+        AND id_taller = :taller;";
+        
+        $parms = [
+            ':eliminado' => 0,
+            ':activo' => 1,
+            ':taller' => $this->_idTaller
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+
     protected function qRoles() {
         $query = "
         SELECT 
@@ -79,9 +101,9 @@ class InitModel extends \Vendor\DataBase {
             ':activo' => 1,
             ':eliminado' => 0
         ];
-        return $this->getRows($query, $parms); 
+        return $this->getRows($query, $parms);
     }
-    
+
     protected function qThemeUser() {
         $query = "
         SELECT
@@ -107,9 +129,9 @@ class InitModel extends \Vendor\DataBase {
             ':user' => $this->_usuario
         ];
 
-        return $this->getRow($query, $parms); 
+        return $this->getRow($query, $parms);
     }
-    
+
     protected function qMenu() {
         $query = "
         SELECT
@@ -204,15 +226,15 @@ class InitModel extends \Vendor\DataBase {
         LEFT JOIN app_boton_rol_menu bm ON bm.id_rolmenu = k.id_rolmenu
         LEFT JOIN app_boton b ON b.id_boton = bm.id_boton
         ORDER BY k.orden;";
-        
+
         $parms = [
             ':idRol' => Obj()->Vendor->Session->get('app_defaultIdRol'),
             ':eliminado' => 0
         ];
 
-        return $this->getRows($query, $parms); 
+        return $this->getRows($query, $parms);
     }
-    
+
     protected function uLanguage() {
         $query = "
         UPDATE app_usuario SET
@@ -223,23 +245,22 @@ class InitModel extends \Vendor\DataBase {
             ':user' => $this->_usuario
         ];
 
-        return $this->execute($query, $parms); 
+        return $this->execute($query, $parms);
     }
-    
-    protected function spListas($flag='') {
 
-        if(!empty($flag)){
+    protected function spListas($flag = '') {
+
+        if (!empty($flag)) {
             $this->_form->_flag = $flag;
         }
-        
+
         $query = "CALL sp_system_init_listas(:flag,:criterio) ; ";
         $parms = [
             ':flag' => $this->_form->_flag,
             ':criterio' => @$this->_form->_criterio
         ];
-      
-        return $this->getRows($query, $parms);   
-    }
-    
-}
 
+        return $this->getRows($query, $parms);
+    }
+
+}

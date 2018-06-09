@@ -48,7 +48,7 @@ $$.' . $modulo . '.' . $file . 'Ax = class ' . $file . 'Ax extends $$.' . $modul
                 },
                 finally: (data) => {
                     //escriba aqui, se ejecutara una vez haya cargado el HTML
-                    Tools.addTourMain.call(this);
+                    //Tools.addTourMain.call(this);
                 }
             });
         };

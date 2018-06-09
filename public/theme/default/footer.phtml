@@ -14,11 +14,6 @@
 <script src="<?php echo BASE_URL; ?>vendor/core/Resource.js"></script>
 
 
-
-
-
-
-
 <script type="text/javascript">
     var topmenu = !1;
         Exe.require({require: '<?php echo BASE_URL; ?>public/js/validate/jquery.validate.min'});
@@ -84,12 +79,6 @@
 </script>
 
 
-
-
-
-
-
-
 <?php if (!Obj()->Vendor->Session->get('app_isLogin')) : ?>
     <script type="text/javascript">
         Exe.require({require: {system: 'init::System.InitRsc'}, run: false, callback: () => {
@@ -102,6 +91,8 @@
     </script>
 <?php else: ?>
     <script type="text/javascript">
+        var APP_IDROL = '<?php echo Obj()->Vendor->Session->get('app_defaultIdRol') ?>';
+        
         Exe.require({require: '<?php echo $rutaLayout['js']; ?>app.config', callback: () => {
                 Exe.require({require: '<?php echo $rutaLayout['js']; ?>demo.min', callback: () => {
                         Exe.require({require: '<?php echo $rutaLayout['js']; ?>app.min', callback: () => {
@@ -139,6 +130,7 @@
                             $('#void_menu').appMenu({
                                 data: <?php echo Obj()->Vendor->Session->get('app_menuUser') ?>
                             });
+                            Obj.System.InitAx.formDashBoard();
                         }, 500);
 
                         $("#search-fld").autocomplete({
@@ -149,6 +141,8 @@
                                 eval(e);
                             }
                         });
+                        
+                        
                     }
                 });
             }

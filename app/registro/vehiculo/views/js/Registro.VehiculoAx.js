@@ -19,6 +19,8 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._idFormIndex = `#${this._alias}formIndex`;
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
         this._idFormVehiculoEdit = `#${this._alias}formEditVehiculo`;
+        this._idFormPreConversion = `#${this._alias}formPreConversion`;
+        this._ifFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
         this._imgConsentimiento = null;
         this._imgDocIdentidad = null;
         this._imgFormatoSolicitud = null;
@@ -30,6 +32,18 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._imgSoat = null;
         this._imgTarjetaPropiedad = null;
         this._keyPropietario = null;
+        this._minVoltiosApagado = null;
+        this._maxVoltiosApagado = null;
+        this._minVoltiosArranque = null;
+        this._maxVoltiosArranque = null;
+        this._minVoltiosEncendido = null;
+        this._maxVoltiosEncendido = null;
+        this._minVoltios2500RPM = null;
+        this._maxVoltios2500RPM = null;
+        this._conformidadVoltiosApagado = 0;
+        this._conformidadArranque = 0;
+        this._conformidadEncendido = 0;
+        this._conformidad2500RPM = 0;
 
         this._formIndex = (tk) => {
             this.send({
@@ -96,8 +110,25 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 finally: (data) => {
 //                    this.addBtnUpdate();
 //                    this.getListBoxs(this._idFormVehiculoEdit);
-//                    this.setEventsUploads(tk);
-//                    this._find(tk);
+                    this.setEvents(tk);
+                    this._findPropietario(tk);
+                    this.getListBoxPreConversion(this._idFormPreConversion);
+                }
+            });
+        };
+
+        this._formObservacionRechazar = (btn, tk) => {
+            this.send({
+                element: btn,
+                token: tk,
+                context: this,
+                modal: true,
+                dataType: 'text',
+                success: (obj) => {
+                    $(this._dmain).append(obj.data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                    this.addBtnSaveObs();
                 }
             });
         };
@@ -112,6 +143,20 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 response: (data) => {
                     this.setVehiculo(data);
+                }
+            });
+        };
+
+        this._findPropietario = (tk) => {
+            this.send({
+                token: tk,
+                gifProcess: true,
+                context: this,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    this.setPreConversion(data);
                 }
             });
         };
@@ -146,17 +191,22 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
-        this._postAtender = (btn, tk, f) => {
+        this._postAtender = (btn, tk, f, obs = '') => {
+            this._keyPropietario = (f == 1) ? $(btn).parent('div').data('propietario') : this._keyPropietario;
             this.send({
                 flag: f,
                 token: tk,
                 context: this,
                 element: btn,
                 serverParams: (sData, obj) => {
-                    sData.push({name: '_keyPropietario', value: $(btn).parent('div').data('propietario')});
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_observacion', value: obs});
                 },
                 response: (data) => {
                     if (data.ok_error != 'error') {
+                        if(f == 2){
+                            Tools.closeModal(this._ifFormObservacionRechazar);
+                        }
                         Tools.execMessage(data);
                         this._getVehiculos(tk);
                     }
@@ -227,7 +277,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             serverParams: (sData, obj) => {
                 sData.push({name: '_imgConsentimiento', value: this._imgConsentimiento});
                 sData.push({name: '_imgDocIdentidad', value: this._imgDocIdentidad});
-                sData.push({name: '_imgFormatoSolixcitud', value: this._imgFormatoSolixcitud});
+                sData.push({name: '_imgFormatoSolicitud', value: this._imgFormatoSolicitud});
                 sData.push({name: '_imgHojaCalidda', value: this._imgHojaCalidda});
                 sData.push({name: '_imgInscripcionMovil', value: this._imgInscripcionMovil});
                 sData.push({name: '_imgLicenciaConducir', value: this._imgLicenciaConducir});
@@ -270,7 +320,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     postAprobar(btn, tk) {
         Tools.notify().confirm({
-            content: APP_MSN.preaprobar,
+            content: APP_MSN.aprobar,
             yes: () => {
                 this._postAtender(btn, tk, 1);
             }
@@ -278,12 +328,17 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     postRechazar(btn, tk) {
+        this._keyPropietario = $(btn).parent('div').data('propietario');
         Tools.notify().confirm({
             content: APP_MSN.rechazar,
             yes: () => {
-                this._postAtender(btn, tk, 2);
+                this._formObservacionRechazar(btn, tk);
             }
         });
+    }
+
+    postAtender(tk) {
+        this._postAtender(`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`, tk, 2, $(`#${this._alias}txt_observacion`).val());
     }
 
     postDelete(btn, tk) {

@@ -6,6 +6,9 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
         this._controller = 'init:';
         this._alias = 'LG__';
         this._formLogin = `#${this._alias}formLogin`;
+        this._idFormDashBoardTaller = `#${this._alias}formDashBoardTaller`;
+        this._idFormDashBoardVerifygas = `#${this._alias}formDashBoardVerifygas`;
+        this._dmain = `#${this._alias}${APP_CONTAINER_TABS}`; /*contenedor principal de opcion*/
 
         this._logOut = () => {
             this.send({
@@ -18,6 +21,102 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 }
             });
         };
+        
+        this._resultadosTaller = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                response: (data) => {
+                    this.setResultadosTaller(data);
+                }
+            });
+        };
+        //FALTAAAAAA
+        this._resultadosVerifygas = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                response: (data) => {
+                    this.setResultadosVerifygas(data);
+                }
+            });
+        };
+
+        this._formDashBoardTaller = () => {
+            this.send({
+                token: _tk_,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(this._dmain).html(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+//                    this.addBtnSaveObs();
+                    this._resultadosTaller(_tk_);
+                }
+            });
+        };
+        
+        this._formDashBoardVerifygas = () => {
+            this.send({
+                token: _tk_,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(this._dmain).html(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+//                    this.addBtnSaveObs();
+                    this._resultadosVerifygas(_tk_);
+                }
+            });
+        };
+        
+        this._formDashBoardCalidda = () => {
+            this.send({
+                token: _tk_,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(this._dmain).html(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+//                    this.addBtnSaveObs();
+
+                }
+            });
+        };
+        
+        this._formDashBoardPecs = () => {
+            this.send({
+                token: _tk_,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(this._dmain).html(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+//                    this.addBtnSaveObs();
+
+                }
+            });
+        };
+        
+        this._formDashBoard = () => {
+            this.send({
+                token: _tk_,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(this._dmain).html(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+//                    this.addBtnSaveObs();
+
+                }
+            });
+        };
+
     }
 
     main(tk) {
@@ -41,10 +140,10 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 if (obj.data.result == 1) {
                     let row = obj.data.data;
                     localStorage.setItem('__', obj.data.rdm);
-                    
+
                     /*carga de los parametros*/
                     store.set('tienda', row.id_tienda);
-                    
+
                     Tools.notify().ok({
                         content: APP_MSN.login_ok
                     });
@@ -72,6 +171,34 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
         }
     }
 
+    formDashBoard() {
+        Tools.addTab({
+            context: this,
+            id: this._alias,
+            label: APP_ETIQUET.panel,
+            fnCallback: () => {
+                switch (parseInt(APP_IDROL)) {
+                    case 3:
+                        this._formDashBoardTaller();
+                        break;
+                    case 5:
+                        this._formDashBoardVerifygas();
+                        break;
+                    case 7:
+                        this._formDashBoardCalidda();
+                        break;
+                    case 8:
+                        this._formDashBoardPecs();
+                        break;
+                    default: 
+                        this._formDashBoard();
+                        break;
+                }
+
+            }
+        });
+    }
+
     postChangeLanguage(elm) {
         this.send({
             flag: 1,
@@ -97,9 +224,9 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
             },
             success: (obj) => {
                 //si rol es 4=> developer,cargar app developer
-                if(idrol == 4){
-                    location.href =`${window.location.href}developer`;
-                }else{
+                if (idrol == 4) {
+                    location.href = `${window.location.href}developer`;
+                } else {
                     location.reload(true);
                 }
             }
