@@ -34,6 +34,17 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             ]
         });
     }
+    
+    addBtnSavePrec() {
+        $.fn.appButton.get({
+            container: `#${this._alias}actions_prec`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.GRB, type: 'submit'},
+                {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Registro.VehiculoAx.closeNewPreconversion'}]}
+            ]
+        });
+    }
 
     addBtnSaveObs() {
         $.fn.appButton.get({
@@ -282,10 +293,17 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
         //cargando parametro para min y max de voltios
         let apagado = data.param_apagado.split('-');
-        let encendido = data.param_encendido.split('-');
+        let encendido = data.param_encendido.split('-');// es RALENTI
         let arranque = data.param_arranque.split('-');
         let rpm = data.param_rpm.split('-');
-
+        let vmr = data.param_vacio_motor_ralenti.split('-');
+        let stftb1 = data.param_stftb1.split('*');
+        let ltftb1 = data.param_ltftb1.split('*');
+        let cmp = data.param_sensor_cmp.split('-');
+        let map = data.param_sensor_map.split('-');
+        let tps = data.param_sensor_tps.split('-');
+        let cils = data.param_cilindros.split('-');
+        
         this._minVoltiosApagado = apagado[0];
         this._maxVoltiosApagado = apagado[1];
         this._minVoltiosArranque = arranque[0];
@@ -294,6 +312,28 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         this._maxVoltiosEncendido = encendido[1];
         this._minVoltios2500RPM = rpm[0];
         this._maxVoltios2500RPM = rpm[1];
+        this._minVacioMotorRalenti = vmr[0];
+        this._maxVacioMotorRalenti = vmr[1];
+        this._maxGasRalentiCO = data.param_max_gas_ralenti_co;
+        this._maxGasRalentiHC = data.param_max_gas_ralenti_hc;
+        this._minGasRalentiCO2 = data.param_min_gas_ralenti_co2;
+        this._maxGasRalentiO2 = data.param_min_gas_ralenti_o2;
+        this._maxGasRPMCO = data.param_max_gas_rpm_co;
+        this._maxGasRPMHC = data.param_max_gas_rpm_hc;
+        this._minGasRPMCO2 = data.param_min_gas_rpm_co2;
+        this._maxGasRPMO2 = data.param_max_gas_rpm_o2;
+        this._minSTFTB1 = stftb1[0];
+        this._maxSTFTB1 = stftb1[1];
+        this._minLTFTB1 = ltftb1[0];
+        this._maxLTFTB1 = ltftb1[1];
+        this._minSensorCMP = cmp[0];
+        this._maxSensorCMP = cmp[1];
+        this._minSensorMAP = map[0];
+        this._maxSensorMAP = map[1];
+        this._minSensorTPS = tps[0];
+        this._maxSensorTPS = tps[1];
+        this._minCilindros = cils[0];
+        this._maxCilindros = cils[1];
     }
 
     setEvents(tk) {
@@ -346,7 +386,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             }
         });
 
-        $(`#${this._alias}txt_encendido`).keyup((e) => {
+        $(`#${this._alias}txt_ralentibateria`).keyup((e) => {
             let input, d_input, number, str;
 
             input = $(e.currentTarget);
@@ -393,29 +433,458 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 }
             }
         });
+        
+        $(`#${this._alias}txt_ralentimotor`).keyup((e) => {
+            let input, d_input, number, str;
 
-        setTimeout(() => {
-            let tt = APP_ETIQUET.help_apagado_btvl.replace('{APAGADO_MIN}', this._minVoltiosApagado).replace('{APAGADO_MAX}', this._maxVoltiosApagado);
-            $(`#help_apagado_btvl`).attr('title', tt).tooltip({
-                container: "body"
-            });
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
 
-            tt = APP_ETIQUET.help_arranque_btvl.replace('{APAGADO_MIN}', this._minVoltiosArranque).replace('{APAGADO_MAX}', this._maxVoltiosArranque);
-            $(`#help_arranque_btvl`).attr('title', tt).tooltip({
-                container: "body"
-            });
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
 
-            tt = APP_ETIQUET.help_encendido_btvl.replace('{APAGADO_MIN}', this._minVoltiosEncendido).replace('{APAGADO_MAX}', this._maxVoltiosEncendido);
-            $(`#help_encendido_btvl`).attr('title', tt).tooltip({
-                container: "body"
-            });
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minVacioMotorRalenti && number <= this._maxVacioMotorRalenti) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadVacioMotorRalenti = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadVacioMotorRalenti = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ralentianalisisgasesco`).keyup((e) => {
+            let input, d_input, number, str;
 
-            tt = APP_ETIQUET.help_2500rpm_btvl.replace('{APAGADO_MIN}', this._minVoltios2500RPM).replace('{APAGADO_MAX}', this._maxVoltios2500RPM);
-            $(`#help_2500rpm_btvl`).attr('title', tt).tooltip({
-                container: "body"
-            });
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
 
-        }, 3000);
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRalentiCO) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRalentiCO = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRalentiCO = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ralentianalisisgaseshc`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRalentiHC) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRalentiHC = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRalentiHC = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ralentigasesco2`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minGasRalentiCO2) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMinGasRalentiCO2 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMinGasRalentiCO2 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ralentianalisisgaseso2`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRalentiO2) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRalentiO2 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRalentiO2 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_analisisrpmco`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRPMCO) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRPMCO = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRPMCO = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_analisisrpmhc`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRPMHC) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRPMHC = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRPMHC = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_rpmco2`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minGasRPMCO2) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMinGasRPMCO2 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMinGasRPMCO2 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_analisisrpmo2`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number <= this._maxGasRPMO2) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadMaxGasRPMO2 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadMaxGasRPMO2 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_stftb1`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minSTFTB1 && number <= this._maxSTFTB1) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadSTFTB1 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadSTFTB1 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ltftb1`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minLTFTB1 && number <= this._maxLTFTB1) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadLTFTB1 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadLTFTB1 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_sensor_cmp`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minSensorCMP && number <= this._maxSensorCMP) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadSensorCMP = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadSensorCMP = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_sensor_map`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minSensorMAP && number <= this._maxSensorMAP) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadSensorMAP = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadSensorMAP = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_sensor_tps`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minSensorTPS && number <= this._maxSensorTPS) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadSensorTPS = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadSensorTPS = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ciclindro1`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minCilindros && number <= this._maxCilindros) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadCilindro1 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadCilindro1 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ciclindro2`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minCilindros && number <= this._maxCilindros) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadCilindro2 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadCilindro2 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ciclindro3`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minCilindros && number <= this._maxCilindros) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadCilindro3 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadCilindro3 = 0;
+                }
+            }
+        });
+        
+        $(`#${this._alias}txt_ciclindro4`).keyup((e) => {
+            let input, d_input, number, str;
+
+            input = $(e.currentTarget);
+            d_input = input.parent().parent('div');
+            str = $.trim(input.val());
+            number = parseFloat(str);
+
+            d_input.find('label.label').removeClass('label-success');
+            d_input.find('label.label').removeClass('label-danger');
+
+            if (!$.isNumeric(number) && str.length > 0) {
+                d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
+            } else if ($.isNumeric(number)) {
+                if (number >= this._minCilindros && number <= this._maxCilindros) {
+                    d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
+                    this._conformidadCilindro4 = 1;
+                } else {
+                    d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.no_conforme);
+                    this._conformidadCilindro4 = 0;
+                }
+            }
+        });
+        
+        //eventos para uploads
+        $(`#${this._alias}VEH__file_videovaciomotorralenti`).change(() => {
+            this.postUpload(tk, 1);
+        });
+        $(`#${this._alias}VEH__file_videovralentianalisisgases`).change(() => {
+            this.postUpload(tk, 2);
+        });
+        $(`#${this._alias}VEH__file_videovrpmanalisisgases`).change(() => {
+            this.postUpload(tk, 3);
+        });
+        $(`#${this._alias}VEH__file_videostftb1`).change(() => {
+            this.postUpload(tk, 4);
+        });
+        $(`#${this._alias}VEH__file_videoltftb1`).change(() => {
+            this.postUpload(tk, 5);
+        });
+        $(`#${this._alias}VEH__file_videocilindro`).change(() => {
+            this.postUpload(tk, 6);
+        });
     }
 
 };

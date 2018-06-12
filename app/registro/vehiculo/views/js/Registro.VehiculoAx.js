@@ -40,10 +40,50 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._maxVoltiosEncendido = null;
         this._minVoltios2500RPM = null;
         this._maxVoltios2500RPM = null;
+        this._minVacioMotorRalenti = null;
+        this._maxVacioMotorRalenti = null;
+        this._maxGasRalentiCO = 0;
+        this._maxGasRalentiHC = 0;
+        this._minGasRalentiCO2 = 0;
+        this._maxGasRalentiO2 = 0;
+        this._maxGasRPMCO = 0;
+        this._maxGasRPMHC = 0;
+        this._minGasRPMCO2 = 0;
+        this._maxGasRPMO2 = 0;
+        this._minSTFTB1 = 0;
+        this._maxSTFTB1 = 0;
+        this._minLTFTB1 = 0;
+        this._maxLTFTB1 = 0;
+        this._minSensorCMP = 0;
+        this._maxSensorCMP = 0;
+        this._minSensorMAP = 0;
+        this._maxSensorMAP = 0;
+        this._minSensorTPS = 0;
+        this._maxSensorTPS = 0;
+        this._minCilindros = 0;
+        this._maxCilindros = 0;
         this._conformidadVoltiosApagado = 0;
         this._conformidadArranque = 0;
         this._conformidadEncendido = 0;
         this._conformidad2500RPM = 0;
+        this._conformidadVacioMotorRalenti = 0;
+        this._conformidadMaxGasRalentiCO = 0;
+        this._conformidadMaxGasRalentiHC = 0;
+        this._conformidadMinGasRalentiCO2 = 0;
+        this._conformidadMaxGasRalentiO2 = 0;
+        this._conformidadMaxGasRPMCO = 0;
+        this._conformidadMaxGasRPMHC = 0;
+        this._conformidadMinGasRPMCO2 = 0;
+        this._conformidadMaxGasRPMO2 = 0;
+        this._conformidadSTFTB1 = 0;
+        this._conformidadLTFTB1 = 0;
+        this._conformidadSensorCMP = 0;
+        this._conformidadSensorMAP = 0;
+        this._conformidadSensorTPS = 0;
+        this._conformidadCilindro1 = 0;
+        this._conformidadCilindro2 = 0;
+        this._conformidadCilindro3 = 0;
+        this._conformidadCilindro4 = 0;
 
         this._formIndex = (tk) => {
             this.send({
@@ -108,8 +148,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     $(`#${this._alias}-TPC${APP_CONTAINER_TABS}`).html(data);
                 },
                 finally: (data) => {
-//                    this.addBtnUpdate();
-//                    this.getListBoxs(this._idFormVehiculoEdit);
+                    this.addBtnSavePrec();
                     this.setEvents(tk);
                     this._findPropietario(tk);
                     this.getListBoxPreConversion(this._idFormPreConversion);
@@ -295,6 +334,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             }
         });
     }
+    
+    postNewPreconversion(tk){
+        
+    }
 
     postEdit(tk) {
         this.send({
@@ -385,6 +428,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     closeNewVehiculo(btn, tk) {
         Tools.closeTab(`${this._alias}-NWV`);
+    }
+    
+    closeNewPreconversion(btn, tk) {
+        Tools.closeTab(`${this._alias}-TPC`);
     }
 
 };

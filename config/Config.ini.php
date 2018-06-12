@@ -1,7 +1,7 @@
 <?php
 
 define('DEFAULT_LAYOUT','default');
-define('APP_COMPANY','Livian FW');
+define('APP_COMPANY','VerifyGas');
 
 //configurar llamada de SPs
 switch (DB_MOTOR) {

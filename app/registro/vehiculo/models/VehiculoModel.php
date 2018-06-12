@@ -307,7 +307,22 @@ class VehiculoModel extends \Vendor\DataBase {
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATOFF') param_apagado,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATON') param_encendido,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATARRA') param_arranque,
-            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBAT2500') param_rpm
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBAT2500') param_rpm,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECVACIOMOTORRAL') param_vacio_motor_ralenti, 
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRALENTICO') param_max_gas_ralenti_co,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRALENTIHC') param_max_gas_ralenti_hc,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMINRALENTICO2') param_min_gas_ralenti_co2,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRALENTIO2') param_min_gas_ralenti_o2,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRPMCO') param_max_gas_rpm_co,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRPMHC') param_max_gas_rpm_hc,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMINRPMCO2') param_min_gas_rpm_co2,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECGASMAXRPMO2') param_max_gas_rpm_o2,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECSISELECSTFTB1') param_stftb1,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECSISELECLTFTB1') param_ltftb1,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORCMPRANGOS') param_sensor_cmp,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORMAPRANGOS') param_sensor_map,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORTPSRANGOS') param_sensor_tps,
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRANGOSCILINDROS') param_cilindros
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_persona e ON e.id_persona = p.id_persona
