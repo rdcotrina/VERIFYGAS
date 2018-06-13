@@ -125,7 +125,7 @@ var PREBTNLI = 'BSLI_'; /*prefijo de ID para los botones tipo <li>*/
 
                                     /*agregar type de boton*/
                                     if (oSettings.type == 'button') {
-                                        $(`#${kbtn}`).attr('type', typebtn);
+                                        $(oSettings.container).find(`#${kbtn}`).attr('type', typebtn);
                                     }
 
                                     /*cambiando id de li si se envia aliasbtn*/

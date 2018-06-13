@@ -84,6 +84,12 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._conformidadCilindro2 = 0;
         this._conformidadCilindro3 = 0;
         this._conformidadCilindro4 = 0;
+        this._videoVacioMotorRalenti = null;
+        this._videoAnalisisGasesRalenti = null;
+        this._videoAnalisisGasesRPM = null;
+        this._videoSTFTB1 = null;
+        this._videoLTFTB1 = null;
+        this._videoCilindros = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -243,10 +249,54 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 response: (data) => {
                     if (data.ok_error != 'error') {
-                        if(f == 2){
+                        if (f == 2) {
                             Tools.closeModal(this._ifFormObservacionRechazar);
                         }
                         Tools.execMessage(data);
+                        this._getVehiculos(tk);
+                    }
+                }
+            });
+        };
+
+        this._formObservacion = (tk) => {
+            this.send({
+                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                token: tk,
+                context: this,
+                modal: true,
+                dataType: 'text',
+                response: (data) => {
+                    $(APP_MAIN_MODALS).append(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                    this.addBtnSaveObs();
+                }
+            });
+        };
+
+        this._postNewPreconversion = (tk) => {
+            this.send({
+                flag: 1,
+                token: tk,
+                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                context: this,
+                form: this._idFormPreConversion,
+                formData: true,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_videoVacioMotorRalenti', value: this._videoVacioMotorRalenti});
+                    sData.push({name: '_videoAnalisisGasesRalenti', value: this._videoAnalisisGasesRalenti});
+                    sData.push({name: '_videoAnalisisGasesRPM', value: this._videoAnalisisGasesRPM});
+                    sData.push({name: '_videoSTFTB1', value: this._videoSTFTB1});
+                    sData.push({name: '_videoLTFTB1', value: this._videoLTFTB1});
+                    sData.push({name: '_videoCilindros', value: this._videoCilindros});
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_observacion', value: ($(`#${this._alias}txt_observacion`).length) ? $(`#${this._alias}txt_observacion`).val() : ''});
+                },
+                complete: (data) => {
+                    Tools.execMessage(data);
+                    if (data.ok_error != 'error') {
+                        this.closeNewPreconversion(null, null);
                         this._getVehiculos(tk);
                     }
                 }
@@ -334,9 +384,18 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             }
         });
     }
-    
-    postNewPreconversion(tk){
-        
+
+    postNewPreconversion(tk) {
+        //verificar si existe algun NO CONFORME y mostrar formulario para la observacion
+        if (!this.isConforme()) {
+            this._formObservacion(tk);
+        } else {
+            this._postNewPreconversion(tk);
+        }
+    }
+
+    postObservacion(tk) {
+        this._postNewPreconversion(tk);
     }
 
     postEdit(tk) {
@@ -422,6 +481,34 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
+    postUploadVideo(tk, load) {
+        this.send({
+            token: tk,
+            gifProcess: true,
+            context: this,
+            form: this._idFormPreConversion,
+            formData: true,
+            serverParams: (sData, obj) => {
+                sData.push({name: '_load', value: load});
+                sData.push({name: '_keyPropietario', value: this._keyPropietario});
+            },
+            complete: (data) => {
+                if (data.result == 1) {
+                    eval(`this.${data.element} = '${data.archivo}';`);
+                    if (!$.isEmptyObject(this._keyPropietario)) {
+                        Tools.notify().ok({
+                            content: APP_MSN.upload_ok
+                        });
+                    }
+                } else {
+                    Tools.notify().error({
+                        content: data.result
+                    });
+                }
+            }
+        });
+    }
+
     postSearch(btn, tk) {
         this._getVehiculos(tk);
     }
@@ -429,7 +516,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     closeNewVehiculo(btn, tk) {
         Tools.closeTab(`${this._alias}-NWV`);
     }
-    
+
     closeNewPreconversion(btn, tk) {
         Tools.closeTab(`${this._alias}-TPC`);
     }

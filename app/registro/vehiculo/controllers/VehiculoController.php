@@ -36,6 +36,80 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     public function getVehiculos() {
         echo json_encode($this->qGetVehiculos());
     }
+    
+    public function postUploadVideo() {     
+        $data = [];
+        
+        if ($this->_file) {
+            
+            switch ($this->_form->_load) {
+                case 1: //Prueba de Vacio de Motor ralenti
+                    $inputFile = $this->_file->file_videovaciomotorralenti;
+                    $nameElement = '_videoVacioMotorRalenti';
+                    $this->_columnDB = 'video_vacio_motor_ralenti';
+                    break;
+                case 2: //analisis de gases ralenti
+                    $inputFile = $this->_file->file_videovralentianalisisgases;
+                    $nameElement = '_videoAnalisisGasesRalenti';
+                    $this->_columnDB = 'video_analisis_gas_ralenti';
+                    break;
+                case 3: //analisis de gases RPM
+                    $inputFile = $this->_file->file_videovrpmanalisisgases;
+                    $nameElement = '_videoAnalisisGasesRPM';
+                    $this->_columnDB = 'video_analisis_gas_rpm';
+                    break;
+                case 4: //STFT B1
+                    $inputFile = $this->_file->file_videostftb1;
+                    $nameElement = '_videoSTFTB1';
+                    $this->_columnDB = 'video_stft_b1';
+                    break;
+                case 5: //recibo de agua/luz...
+                    $inputFile = $this->_file->file_videoltftb1;
+                    $nameElement = '_videoLTFTB1';
+                    $this->_columnDB = 'video_ltft_b1';
+                    break;
+                case 6: //documento de inscripcion movil
+                    $inputFile = $this->_file->file_videocilindro;
+                    $nameElement = '_videoCilindros';
+                    $this->_columnDB = 'video_cilindros';
+                    break;
+            }
+            
+            $root = ROOT . 'files' . DS . 'videos' . DS; //ruta donde se va alojar el archivo
+
+            $nvoNom = str_replace(' ', '', $inputFile['name']);
+
+            Obj()->Vendor->Tools->deleteFile($root . $nvoNom);
+
+            Obj()->Libs->Upload->upload($inputFile);
+            
+            Obj()->Libs->Upload->allowed = ['video/mpeg', 'video/x-flv', 'video/msvideo','video/mp4'];
+
+            if (Obj()->Libs->Upload->uploaded) {
+                Obj()->Libs->Upload->file_new_name_body = explode('.', $nvoNom)[0]; //se quita la extension
+
+                Obj()->Libs->Upload->Process($root);
+
+                if (Obj()->Libs->Upload->processed) {
+
+                    Obj()->Libs->Upload->Clean();
+
+                    //funciona desde el formulario editar
+//                    if ($this->_form->_keyPropietario) {
+//                        $this->qUpdateImg($nvoNom);
+//                    }
+
+                    $data = ['result' => 1, 'archivo' => $nvoNom, 'element' => $nameElement];
+                } else {
+                    $data = ['result' => Obj()->Libs->Upload->error];
+                }
+            }else {
+                $data = ['result' => Obj()->Libs->Upload->error];
+            }            
+        }
+        
+        echo json_encode($data);
+    }
 
     public function postUpload() {
         $data = [];
@@ -178,6 +252,15 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
             $data = $this->valida()->messages();
         }
         echo json_encode($data);
+    }
+    
+    public function postNewPreconversion() {
+//        if ($this->isValidate()) {
+//            $data = $this->spMantenimiento();
+//        } else {
+//            $data = $this->valida()->messages();
+//        }
+        echo json_encode($this->spMantenimientoPreConversion());
     }
 
     public function postEdit() {

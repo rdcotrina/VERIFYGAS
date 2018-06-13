@@ -335,6 +335,77 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         this._minCilindros = cils[0];
         this._maxCilindros = cils[1];
     }
+    
+    isConforme(){
+        if(!this._conformidadVoltiosApagado){
+            return false;
+        }
+        if(!this._conformidadArranque){
+            return false;
+        }
+        if(!this._conformidadEncendido){
+            return false;
+        }
+        if(!this._conformidad2500RPM){
+            return false;
+        }
+        if(!this._conformidadVacioMotorRalenti){
+            return false;
+        }
+        if(!this._conformidadMaxGasRalentiCO){
+            return false;
+        }
+        if(!this._conformidadMaxGasRalentiHC){
+            return false;
+        }
+        if(!this._conformidadMinGasRalentiCO2){
+            return false;
+        }
+        if(!this._conformidadMaxGasRalentiO2){
+            return false;
+        }
+        if(!this._conformidadMaxGasRPMCO){
+            return false;
+        }
+        if(!this._conformidadMaxGasRPMHC){
+            return false;
+        }
+        if(!this._conformidadMinGasRPMCO2){
+            return false;
+        }
+        if(!this._conformidadMaxGasRPMO2){
+            return false;
+        }
+        if(!this._conformidadSTFTB1){
+            return false;
+        }
+        if(!this._conformidadLTFTB1){
+            return false;
+        }
+        if(!this._conformidadSensorCMP){
+            return false;
+        }
+        if(!this._conformidadSensorMAP){
+            return false;
+        }
+        if(!this._conformidadSensorTPS){
+            return false;
+        }
+        if(!this._conformidadCilindro1){
+            return false;
+        }
+        if(!this._conformidadCilindro2){
+            return false;
+        }
+        if(!this._conformidadCilindro3){
+            return false;
+        }
+        if(!this._conformidadCilindro4){
+            return false;
+        }
+        
+        return true;
+    }
 
     setEvents(tk) {
 
@@ -867,23 +938,23 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
         
         //eventos para uploads
-        $(`#${this._alias}VEH__file_videovaciomotorralenti`).change(() => {
-            this.postUpload(tk, 1);
+        $(`#${this._alias}file_videovaciomotorralenti`).change(() => {
+            this.postUploadVideo(tk, 1);
         });
-        $(`#${this._alias}VEH__file_videovralentianalisisgases`).change(() => {
-            this.postUpload(tk, 2);
+        $(`#${this._alias}file_videovralentianalisisgases`).change(() => {
+            this.postUploadVideo(tk, 2);
         });
-        $(`#${this._alias}VEH__file_videovrpmanalisisgases`).change(() => {
-            this.postUpload(tk, 3);
+        $(`#${this._alias}file_videovrpmanalisisgases`).change(() => {
+            this.postUploadVideo(tk, 3);
         });
-        $(`#${this._alias}VEH__file_videostftb1`).change(() => {
-            this.postUpload(tk, 4);
+        $(`#${this._alias}file_videostftb1`).change(() => {
+            this.postUploadVideo(tk, 4);
         });
-        $(`#${this._alias}VEH__file_videoltftb1`).change(() => {
-            this.postUpload(tk, 5);
+        $(`#${this._alias}file_videoltftb1`).change(() => {
+            this.postUploadVideo(tk, 5);
         });
-        $(`#${this._alias}VEH__file_videocilindro`).change(() => {
-            this.postUpload(tk, 6);
+        $(`#${this._alias}file_videocilindro`).change(() => {
+            this.postUploadVideo(tk, 6);
         });
     }
 

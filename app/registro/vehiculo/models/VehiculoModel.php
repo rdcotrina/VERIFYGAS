@@ -133,6 +133,167 @@ class VehiculoModel extends \Vendor\DataBase {
         return $this->getRow($query, $parms);
     }
     
+    protected function spMantenimientoPreConversion() {        
+        
+        $query = "CALL sp_registro_vehiculo_mantenimiento_preconversion ("
+                . ":flag,"
+                . ":keyPropietario,"
+                . ":ralentimotor,"
+                . ":ralentianalisisgasesco,"
+                . ":ralentianalisisgaseshc,"
+                . ":ralentigasesco2,"
+                . ":ralentianalisisgaseso2,"
+                . ":analisisrpmco,"
+                . ":analisisrpmhc,"
+                . ":rpmco2,"
+                . ":analisisrpmo2,"
+                . ":fugasradiador,"
+                . ":fugasmanguera,"
+                . ":temperatura_panel,"
+                . ":electroventilador,"
+                . ":nivelrefrigerantemotor,"
+                . ":fugaaceitesello,"
+                . ":fugaaceitecarter,"
+                . ":fugaaceitevalvula,"
+                . ":estadonivelaceite,"
+                . ":fnivelaceitemotor,"
+                . ":apagado,"
+                . ":arranque,"
+                . ":ralentibateria,"
+                . ":2500rpm,"
+                . ":masa_motor,"
+                . ":masa_chasis,"
+                . ":botones,"
+                . ":anclaje,"
+                . ":electrolito,"
+                . ":estadomotorarranque,"
+                . ":alternador,"
+                . ":correasalternador,"
+                . ":stftb1,"
+                . ":valvula_egr,"
+                . ":valvula_iac,"
+                . ":sensor_thwect,"
+                . ":sensor_presion,"
+                . ":sensor_cmp,"
+                . ":sensor_map,"
+                . ":motor_ralenti_map,"
+                . ":sensor_tps,"
+                . ":ancho_puelo_inyectores,"
+                . ":ltftb1,"
+                . ":codigo_falla,"
+                . ":sensor_iat,"
+                . ":ignition_voltage,"
+                . ":sensor_ckp,"
+                . ":sensor_o2_s1b1,"
+                . ":sensor_o2_s1b2,"
+                . ":angulo_avance_ralenti,"
+                . ":angulo_avance_2500_rpm,"
+                . ":tiposistemaencendido,"
+                . ":resistencia_interna_bujias,"
+                . ":codigo_bujias,"
+                . ":estado_aire_despues_sensor,"
+                . ":estado_filtro_aire,"
+                . ":condiciones_chasis,"
+                . ":estado_amortiguadores_trasetros,"
+                . ":ciclindro1,"
+                . ":ciclindro2,"
+                . ":ciclindro3,"
+                . ":ciclindro4,"
+                . ":videoVacioMotorRalenti,"
+                . ":videoAnalisisGasesRalenti,"
+                . ":videoAnalisisGasesRPM,"
+                . ":videoSTFTB1,"
+                . ":videoLTFTB1,"
+                . ":videoCilindros,"
+                . ":observacion,"
+                . ":usuario,"
+                . ":ipPublica,"
+                . ":ipLocal,"
+                . ":navegador,"
+                . ":hostname"
+                . ");";
+        
+        $parms = [
+            ':flag' => $this->_form->_flag,
+            ':keyPropietario' => @$this->_form->_keyPropietario,
+            ':ralentimotor' => @$this->_form->txt_ralentimotor,
+            ':ralentianalisisgasesco' => @$this->_form->txt_ralentianalisisgasesco,
+            ':ralentianalisisgaseshc' => @$this->_form->txt_ralentianalisisgaseshc,
+            ':ralentigasesco2' => @$this->_form->txt_ralentigasesco2,
+            ':ralentianalisisgaseso2' => @$this->_form->txt_ralentianalisisgaseso2,
+            ':analisisrpmco' => @$this->_form->txt_analisisrpmco,
+            ':analisisrpmhc' => @$this->_form->txt_analisisrpmhc,
+            ':rpmco2' => @$this->_form->txt_rpmco2,
+            ':analisisrpmo2' => @$this->_form->txt_analisisrpmo2,
+            ':fugasradiador' => @$this->_form->lst_fugasradiador,
+            ':fugasmanguera' => @$this->_form->lst_fugasmanguera,
+            ':temperatura_panel' => @$this->_form->lst_temperatura_panel,
+            ':electroventilador' => @$this->_form->lst_electroventilador,
+            ':nivelrefrigerantemotor' => @$this->_form->lst_nivelrefrigerantemotor,
+            ':fugaaceitesello' => @$this->_form->lst_fugaaceitesello,
+            ':fugaaceitecarter' => @$this->_form->lst_fugaaceitecarter,
+            ':fugaaceitevalvula' => @$this->_form->lst_fugaaceitevalvula,
+            ':estadonivelaceite' => @$this->_form->lst_estadonivelaceite,
+            ':fnivelaceitemotor' => @$this->_form->lst_fnivelaceitemotor,
+            ':apagado' => @$this->_form->txt_apagado,
+            ':arranque' => @$this->_form->txt_arranque,
+            ':ralentibateria' => @$this->_form->txt_ralentibateria,
+            ':2500rpm' => @$this->_form->txt_2500rpm,
+            ':masa_motor' => @$this->_form->lst_masa_motor,
+            ':masa_chasis' => @$this->_form->lst_masa_chasis,
+            ':botones' => @$this->_form->lst_botones,
+            ':anclaje' => @$this->_form->lst_anclaje,
+            ':electrolito' => @$this->_form->lst_electrolito,
+            ':estadomotorarranque' => @$this->_form->lst_estadomotorarranque,
+            ':alternador' => @$this->_form->lst_alternador,
+            ':correasalternador' => @$this->_form->lst_correasalternador,
+            ':stftb1' => @$this->_form->txt_stftb1,
+            ':valvula_egr' => @$this->_form->lst_valvula_egr,
+            ':valvula_iac' => @$this->_form->lst_valvula_iac,
+            ':sensor_thwect' => @$this->_form->lst_sensor_thwect,
+            ':sensor_presion' => @$this->_form->lst_sensor_presion,
+            ':sensor_cmp' => @$this->_form->txt_sensor_cmp,
+            ':sensor_map' => @$this->_form->txt_sensor_map,
+            ':motor_ralenti_map' => @$this->_form->lst_motor_ralenti_map,
+            ':sensor_tps' => @$this->_form->txt_sensor_tps,
+            ':ancho_puelo_inyectores' => @$this->_form->lst_ancho_puelo_inyectores,
+            ':ltftb1' => @$this->_form->txt_ltftb1,
+            ':codigo_falla' => @$this->_form->lst_codigo_falla,
+            ':sensor_iat' => @$this->_form->lst_sensor_iat,
+            ':ignition_voltage' => @$this->_form->lst_ignition_voltage,
+            ':sensor_ckp' => @$this->_form->lst_sensor_ckp,
+            ':sensor_o2_s1b1' => @$this->_form->lst_sensor_o2_s1b1,
+            ':sensor_o2_s1b2' => @$this->_form->lst_sensor_o2_s1b2,
+            ':angulo_avance_ralenti' => @$this->_form->lst_angulo_avance_ralenti,
+            ':angulo_avance_2500_rpm' => @$this->_form->lst_angulo_avance_2500_rpm,
+            ':tiposistemaencendido' => @$this->_form->lst_tiposistemaencendido,
+            ':resistencia_interna_bujias' => @$this->_form->lst_resistencia_interna_bujias,
+            ':codigo_bujias' => @$this->_form->lst_codigo_bujias,
+            ':estado_aire_despues_sensor' => @$this->_form->lst_estado_aire_despues_sensor,
+            ':estado_filtro_aire' => @$this->_form->lst_estado_filtro_aire,
+            ':condiciones_chasis' => @$this->_form->lst_condiciones_chasis,
+            ':estado_amortiguadores_trasetros' => @$this->_form->lst_estado_amortiguadores_trasetros,
+            ':ciclindro1' => @$this->_form->txt_ciclindro1,
+            ':ciclindro2' => @$this->_form->txt_ciclindro2,
+            ':ciclindro3' => @$this->_form->txt_ciclindro3,
+            ':ciclindro4' => @$this->_form->txt_ciclindro4,
+            ':videoVacioMotorRalenti' => @$this->_form->_videoVacioMotorRalenti,
+            ':videoAnalisisGasesRalenti' => @$this->_form->_videoAnalisisGasesRalenti,
+            ':videoAnalisisGasesRPM' => @$this->_form->_videoAnalisisGasesRPM,
+            ':videoSTFTB1' => @$this->_form->_videoSTFTB1,
+            ':videoLTFTB1' => @$this->_form->_videoLTFTB1,
+            ':videoCilindros' => @$this->_form->_videoCilindros,
+            ':observacion' => @$this->_observacion,
+            ':usuario' => $this->_usuario,
+            ':ipPublica' => $this->_ipPublica,
+            ':ipLocal' => $this->_ipLocal,
+            ':navegador' => $this->_navegador,
+            ':hostname' => $this->_hostName
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+    
     protected function spAtender() {
         $query = "CALL sp_registro_vehiculo_atender ("
                 . ":flag,"
