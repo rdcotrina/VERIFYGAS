@@ -95,9 +95,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                     Obj()->Libs->Upload->Clean();
 
                     //funciona desde el formulario editar
-//                    if ($this->_form->_keyPropietario) {
-//                        $this->qUpdateImg($nvoNom);
-//                    }
+                    if ($this->_form->_tienePreconversion) {
+                        $this->qUpdateVideo($nvoNom);
+                    }
 
                     $data = ['result' => 1, 'archivo' => $nvoNom, 'element' => $nameElement];
                 } else {
@@ -290,6 +290,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     
     public function getTipoSistemaEncendido() {
         echo json_encode($this->qTipoSistemaEncendido());
+    }
+    
+    public function getPreConversion() {
+        echo json_encode($this->qGetPreConversion());
     }
 
 }

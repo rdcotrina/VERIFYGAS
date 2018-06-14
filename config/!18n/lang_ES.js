@@ -79,6 +79,8 @@ var lang_ES = {
         informacion_general: 'Información General',
         configuracion: 'Configuración',
         productos: 'Productos',
+        documentos: 'Documentos',
+        expediente: 'Expediente',
         principal: 'Principal',
         modo_vista: 'Modo vista',
         categoria: 'Categoría',

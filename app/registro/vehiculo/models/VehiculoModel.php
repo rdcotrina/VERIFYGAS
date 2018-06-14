@@ -283,14 +283,14 @@ class VehiculoModel extends \Vendor\DataBase {
             ':videoSTFTB1' => @$this->_form->_videoSTFTB1,
             ':videoLTFTB1' => @$this->_form->_videoLTFTB1,
             ':videoCilindros' => @$this->_form->_videoCilindros,
-            ':observacion' => @$this->_observacion,
+            ':observacion' => @$this->_form->_observacion,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
             ':navegador' => $this->_navegador,
             ':hostname' => $this->_hostName
         ];
-
+       
         return $this->getRow($query, $parms);
     }
     
@@ -389,7 +389,8 @@ class VehiculoModel extends \Vendor\DataBase {
             v.imagen_revision_tecnica,
             v.imagen_servicio_publico,
             v.imagen_solicitud_cobranza,
-            v.imagen_tarjeta_propiedad
+            v.imagen_tarjeta_propiedad,
+            (SELECT COUNT(*) FROM conv_pre_conversion a WHERE a.id_propietario = v.id_propietario) tiene_preconversion
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
@@ -425,6 +426,16 @@ class VehiculoModel extends \Vendor\DataBase {
             p.celular,
             p.direccion_domicilio,
             p.direccion_trabajo,
+            p.imagen_documento_identidad,
+            p.imagen_licencia_conducir,
+            p.imagen_consentimiento,
+            v.imagen_tarjeta_propiedad,
+            v.imagen_servicio_publico,
+            v.imagen_revision_tecnica,
+            v.imagen_movil,
+            v.imagen_poliza,
+            v.imagen_solicitud_cobranza,
+            v.imagen_formulario_calidda,
             v.tarjeta,
             v.placa,
             v.marca,
@@ -497,9 +508,98 @@ class VehiculoModel extends \Vendor\DataBase {
         return $this->getRow($query, $parms);
     }
     
+    protected function qGetPreConversion() {
+        $query = "
+        SELECT 
+            vacio_motor_ralenti,
+            analisis_gas_ralenti_co,
+            analisis_gas_ralenti_hc,
+            analisis_gas_ralenti_co2,
+            analisis_gas_ralenti_o2,
+            analisis_gas_rpm_co,
+            analisis_gas_rpm_hc,
+            analisis_gas_rpm_co2,
+            analisis_gas_rpm_o2,
+            fuga_refrigerante_radiador,
+            fuga_refrigerante_mangueras,
+            funcionamiento_indicador_temperatura,
+            functionamiento_electroventilador,
+            nivel_refrigerante_motor,
+            fuga_aceite_sello,
+            fuga_aceite_carter,
+            fuga_aceite_valvula,
+            estado_nivel_aceite,
+            nivel_aceite_motor,
+            bateria_apagado,
+            bateria_arranque,
+            bateria_ralenti,
+            bateria_rpm,
+            masa_motor,
+            masa_chasis,
+            estado_bateria_boton,
+            estado_bateria_anclaje,
+            nivel_electrolito_bateria,
+            estado_arranque_motor,
+            alternador,
+            correa_alternador,
+            stft_b1,
+            ltft_b1,
+            valvula_egr,
+            valvula_iac,
+            sensor_thw_ect,
+            sensor_presion,
+            sensor_cmp,
+            sensor_map,
+            motor_ralenti_sensor_map,
+            sensor_tps,
+            ancho_pulso_inyector,
+            codigo_falla,
+            sendor_iat,
+            ignition_voltage,
+            sensor_ckp,
+            sensor_02_s1b1,
+            sensor_o2_s1b2,
+            angulo_avance_ralenti,
+            angulo_avance_rpm,
+            id_tipo_sistema_encendido,
+            resistencia_bujias,
+            codigo_bujias,
+            estado_toma_aire,
+            estado_filtro_aire,
+            estado_chasis,
+            estado_amortiguadores,
+            cilindro_1,
+            cilindro_2,
+            cilindro_3,
+            cilindro_4,
+            observaciones
+        FROM conv_pre_conversion
+        WHERE id_propietario = :id;";
+        
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+    
     protected function qUpdateImg($file) {
         $query = "
         UPDATE ".$this->_tableDB." SET
+            ".$this->_columnDB." = :file
+        WHERE id_propietario = :id ; 
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario,
+            ':file' => $file
+        ];
+
+        $this->execute($query, $parms);
+    }
+    
+    protected function qUpdateVideo($file) {
+        $query = "
+        UPDATE conv_pre_conversion SET
             ".$this->_columnDB." = :file
         WHERE id_propietario = :id ; 
         ";

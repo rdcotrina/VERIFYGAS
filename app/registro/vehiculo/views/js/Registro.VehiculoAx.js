@@ -20,7 +20,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._idFormVehiculo = `#${this._alias}formVehiculo`;
         this._idFormVehiculoEdit = `#${this._alias}formEditVehiculo`;
         this._idFormPreConversion = `#${this._alias}formPreConversion`;
-        this._ifFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
+        this._idFormPreConversionEdit = `#${this._alias}formPreConversionEdit`;
+        this._idFormViewPreConversion = `#${this._alias}formViewPreConversion`;
+        this._idFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
+        this._idFormObservacion = `#${this._alias}formObservacion`;
+        this._idFormViewExpediente = `#${this._alias}formViewExpediente`;
         this._imgConsentimiento = null;
         this._imgDocIdentidad = null;
         this._imgFormatoSolicitud = null;
@@ -90,6 +94,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._videoSTFTB1 = null;
         this._videoLTFTB1 = null;
         this._videoCilindros = null;
+        this._tienePreconversion = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -140,7 +145,23 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     this.addBtnUpdate();
                     this.getListBoxs(this._idFormVehiculoEdit);
                     this.setEventsUploads(tk);
-                    this._find(tk);
+                    this._find(tk, this._idFormVehiculoEdit, false);
+                }
+            });
+        };
+
+        this._formViewExpediente = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-NEXP${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnCloseExpediente();
+                    this.getListBoxs(this._idFormViewExpediente);
+                    this._find(tk, this._idFormViewExpediente, true);
                 }
             });
         };
@@ -156,8 +177,43 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 finally: (data) => {
                     this.addBtnSavePrec();
                     this.setEvents(tk);
-                    this._findPropietario(tk);
+                    this._findPropietario(tk, this._idFormPreConversion);
                     this.getListBoxPreConversion(this._idFormPreConversion);
+                }
+            });
+        };
+        
+        this._formViewPreConversion = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-VTPC${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnCloseViewPrec();
+                    this._findPropietario(tk, this._idFormViewPreConversion);
+                    this.getListBoxPreConversion(this._idFormViewPreConversion);
+                    this._getPreConversion(tk,this._idFormViewPreConversion);
+                }
+            });
+        };
+
+        this._formPreConversionEdit = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-TPC${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnUpdatePrec();
+                    this.setEvents(tk);
+                    this._findPropietario(tk, this._idFormPreConversionEdit);
+                    this.getListBoxPreConversion(this._idFormPreConversionEdit);
+                    this._getPreConversion(tk,this._idFormPreConversionEdit);
                 }
             });
         };
@@ -178,7 +234,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
-        this._find = (tk) => {
+        this._getPreConversion = (tk,form) => {
             this.send({
                 token: tk,
                 gifProcess: true,
@@ -187,12 +243,12 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                 },
                 response: (data) => {
-                    this.setVehiculo(data);
+                    this.setPreConversionData(data,form);
                 }
             });
         };
 
-        this._findPropietario = (tk) => {
+        this._find = (tk, form, activeLinks) => {
             this.send({
                 token: tk,
                 gifProcess: true,
@@ -201,7 +257,21 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                 },
                 response: (data) => {
-                    this.setPreConversion(data);
+                    this.setVehiculo(data, form, activeLinks);
+                }
+            });
+        };
+
+        this._findPropietario = (tk, form) => {
+            this.send({
+                token: tk,
+                gifProcess: true,
+                context: this,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    this.setPreConversion(data, form);
                 }
             });
         };
@@ -250,7 +320,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 response: (data) => {
                     if (data.ok_error != 'error') {
                         if (f == 2) {
-                            Tools.closeModal(this._ifFormObservacionRechazar);
+                            Tools.closeModal(this._idFormObservacionRechazar);
                         }
                         Tools.execMessage(data);
                         this._getVehiculos(tk);
@@ -275,13 +345,14 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
-        this._postNewPreconversion = (tk) => {
+        this._postNewPreconversion = (tk, closeObs) => {
             this.send({
                 flag: 1,
                 token: tk,
+                gifProcess: true,
                 element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
                 context: this,
-                form: this._idFormPreConversion,
+                form: (this._tienePreconversion == 1) ? this._idFormPreConversionEdit : this._idFormPreConversion,
                 formData: true,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_videoVacioMotorRalenti', value: this._videoVacioMotorRalenti});
@@ -291,12 +362,15 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_videoLTFTB1', value: this._videoLTFTB1});
                     sData.push({name: '_videoCilindros', value: this._videoCilindros});
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
-                    sData.push({name: '_observacion', value: ($(`#${this._alias}txt_observacion`).length) ? $(`#${this._alias}txt_observacion`).val() : ''});
+                    sData.push({name: '_observacion', value: (closeObs) ? $(`#${this._alias}txt_observacion`).val() : ''});
                 },
                 complete: (data) => {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewPreconversion(null, null);
+                        if (closeObs) {
+                            Tools.closeModal(this._idFormObservacion);
+                        }
                         this._getVehiculos(tk);
                     }
                 }
@@ -331,12 +405,31 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     formPreConversion(btn, tk) {
         this._keyPropietario = $(btn).parent('div').data('propietario');
+        this._tienePreconversion = $(btn).parent('div').data('tienepreconversion');
+
         Tools.addTab({
             context: this,
             id: `${this._alias}-TPC`,
             label: APP_ETIQUET.pre_conversion,
             fnCallback: () => {
-                this._formPreConversion(tk);
+                if (this._tienePreconversion == 1) {
+                    this._formPreConversionEdit(tk);
+                } else {
+                    this._formPreConversion(tk);
+                }
+            }
+        });
+    }
+
+    formViewPreConversion(btn, tk) {
+        this._keyPropietario = $(btn).parent('div').data('propietario');
+        
+        Tools.addTab({
+            context: this,
+            id: `${this._alias}-VTPC`,
+            label: APP_ETIQUET.pre_conversion,
+            fnCallback: () => {
+                this._formViewPreConversion(tk);
             }
         });
     }
@@ -351,6 +444,20 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             label: APP_ETIQUET.registrar_vehiculo,
             fnCallback: () => {
                 this._formEditVehiculo(tk);
+            }
+        });
+    }
+
+    formViewExpediente(btn, tk) {
+        this.closeExpediente(null, null);
+        this._keyPropietario = $(btn).parent('div').data('propietario');
+
+        Tools.addTab({
+            context: this,
+            id: `${this._alias}-NEXP`,
+            label: APP_ETIQUET.expediente,
+            fnCallback: () => {
+                this._formViewExpediente(tk);
             }
         });
     }
@@ -390,12 +497,12 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         if (!this.isConforme()) {
             this._formObservacion(tk);
         } else {
-            this._postNewPreconversion(tk);
+            this._postNewPreconversion(tk, 0);
         }
     }
 
     postObservacion(tk) {
-        this._postNewPreconversion(tk);
+        this._postNewPreconversion(tk, 1);
     }
 
     postEdit(tk) {
@@ -486,11 +593,12 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             token: tk,
             gifProcess: true,
             context: this,
-            form: this._idFormPreConversion,
+            form: (this._tienePreconversion == 1) ? this._idFormPreConversionEdit : this._idFormPreConversion,
             formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_load', value: load});
                 sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                sData.push({name: '_tienePreconversion', value: this._tienePreconversion});
             },
             complete: (data) => {
                 if (data.result == 1) {
@@ -519,6 +627,14 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     closeNewPreconversion(btn, tk) {
         Tools.closeTab(`${this._alias}-TPC`);
+    }
+
+    closeExpediente(btn, tk) {
+        Tools.closeTab(`${this._alias}-NEXP`);
+    }
+    
+    closeViewPreconversion(btn, tk) {
+        Tools.closeTab(`${this._alias}-VTPC`);
     }
 
 };
