@@ -95,6 +95,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._videoLTFTB1 = null;
         this._videoCilindros = null;
         this._tienePreconversion = null;
+        this._grabaAprueba = 0; //1: graba y aprueba, 0: solo graga
 
         this._formIndex = (tk) => {
             this.send({
@@ -176,13 +177,14 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnSavePrec();
-                    this.setEvents(tk);
-                    this._findPropietario(tk, this._idFormPreConversion);
+                    this._findPropietario(tk, this._idFormPreConversion).done(()=>{
+                        this.setEvents(tk);
+                    });
                     this.getListBoxPreConversion(this._idFormPreConversion);
                 }
             });
         };
-        
+
         this._formViewPreConversion = (tk) => {
             this.send({
                 token: tk,
@@ -195,7 +197,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     this.addBtnCloseViewPrec();
                     this._findPropietario(tk, this._idFormViewPreConversion);
                     this.getListBoxPreConversion(this._idFormViewPreConversion);
-                    this._getPreConversion(tk,this._idFormViewPreConversion);
+                    this._getPreConversion(tk, this._idFormViewPreConversion);
                 }
             });
         };
@@ -210,10 +212,13 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnUpdatePrec();
-                    this.setEvents(tk);
-                    this._findPropietario(tk, this._idFormPreConversionEdit);
+                    
+                    this._findPropietario(tk, this._idFormPreConversionEdit).done(()=>{
+                        this.setEvents(tk);
+                    });
+                    
                     this.getListBoxPreConversion(this._idFormPreConversionEdit);
-                    this._getPreConversion(tk,this._idFormPreConversionEdit);
+                    this._getPreConversion(tk, this._idFormPreConversionEdit);
                 }
             });
         };
@@ -234,7 +239,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
-        this._getPreConversion = (tk,form) => {
+        this._getPreConversion = (tk, form) => {
             this.send({
                 token: tk,
                 gifProcess: true,
@@ -243,7 +248,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                 },
                 response: (data) => {
-                    this.setPreConversionData(data,form);
+                    this.setPreConversionData(data, form);
                 }
             });
         };
@@ -263,7 +268,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         };
 
         this._findPropietario = (tk, form) => {
-            this.send({
+            return this.send({
                 token: tk,
                 gifProcess: true,
                 context: this,
@@ -350,7 +355,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 flag: 1,
                 token: tk,
                 gifProcess: true,
-                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                element: (this._grabaAprueba)?`#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`:`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
                 context: this,
                 form: (this._tienePreconversion == 1) ? this._idFormPreConversionEdit : this._idFormPreConversion,
                 formData: true,
@@ -362,6 +367,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_videoLTFTB1', value: this._videoLTFTB1});
                     sData.push({name: '_videoCilindros', value: this._videoCilindros});
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
                     sData.push({name: '_observacion', value: (closeObs) ? $(`#${this._alias}txt_observacion`).val() : ''});
                 },
                 complete: (data) => {
@@ -404,6 +410,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     formPreConversion(btn, tk) {
+        this._grabaAprueba = 0;
         this._keyPropietario = $(btn).parent('div').data('propietario');
         this._tienePreconversion = $(btn).parent('div').data('tienepreconversion');
 
@@ -423,7 +430,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     formViewPreConversion(btn, tk) {
         this._keyPropietario = $(btn).parent('div').data('propietario');
-        
+
         Tools.addTab({
             context: this,
             id: `${this._alias}-VTPC`,
@@ -497,12 +504,35 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         if (!this.isConforme()) {
             this._formObservacion(tk);
         } else {
-            this._postNewPreconversion(tk, 0);
+            //verificar si Guarda y Aprueba
+            if (this._grabaAprueba) {
+                Tools.notify().confirm({
+                    content: APP_MSN.seguro_preconversion,
+                    yes: () => {
+                        this._postNewPreconversion(tk, 0);
+                    }
+                });
+            } else {
+                this._postNewPreconversion(tk, 0);
+            }
         }
     }
 
     postObservacion(tk) {
-        this._postNewPreconversion(tk, 1);
+        //si cargo la observacion quiere decir que solo se grabara
+        this._grabaAprueba = 0;
+        
+        //verificar si Guarda y Aprueba
+        if (this._grabaAprueba) {
+            Tools.notify().confirm({
+                content: APP_MSN.seguro_preconversion,
+                yes: () => {
+                    this._postNewPreconversion(tk, 1);
+                }
+            });
+        } else {
+            this._postNewPreconversion(tk, 1);
+        }
     }
 
     postEdit(tk) {
@@ -632,7 +662,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     closeExpediente(btn, tk) {
         Tools.closeTab(`${this._alias}-NEXP`);
     }
-    
+
     closeViewPreconversion(btn, tk) {
         Tools.closeTab(`${this._alias}-VTPC`);
     }

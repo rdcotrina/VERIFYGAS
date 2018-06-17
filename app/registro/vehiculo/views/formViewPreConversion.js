@@ -9,12 +9,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -68,12 +62,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -127,12 +115,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -151,9 +133,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-8 control-label" ><a id="va_ralentimotor" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
-                                    <div class="col-md-4">
-                                    </div>
+                                    <label class="col-md-6 control-label"><a id="va_ralentimotor" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
                                 </div>
 
                             </fieldset>
@@ -202,9 +182,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-8 control-label"><a id="va_analisisgasesralenti" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
-                                        <div class="col-md-4">
-                                        </div>
+                                        <label class="col-md-6 control-label"><a id="va_analisisgasesralenti" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
                                     </div>
                                 </div>
 
@@ -248,9 +226,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-8 control-label"><a id="va_analisisgasesrpm" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
-                                        <div class="col-md-4">
-                                        </div>
+                                        <label class="col-md-6 control-label"><a id="va_analisisgasesrpm" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>                                     
                                     </div>
                                 </div>
                             </fieldset>
@@ -261,7 +237,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -270,12 +246,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -284,58 +254,19 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="existe_fugas_radiador"></label>
-                                            <select class="chosen" name="lst_fugasradiador" id="lst_fugasradiador">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="sistema_refrigeracion_texto"></label>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="existe_fugas_mangueras"></label>
-                                            <select class="chosen" name="lst_fugasmanguera" id="lst_fugasmanguera">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="indicador_temperatura_panel"></label>
-                                            <select class="chosen" name="lst_temperatura_panel" id="lst_temperatura_panel">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="ciclado_electroventilador"></label>
-                                            <select class="chosen" name="lst_electroventilador" id="lst_electroventilador">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
+                                            <label class="control-label"></label>
+                                            <select class="chosen" name="lst_sistema_refrigeracion_texto" id="lst_sistema_refrigeracion_texto">
                                                 <option value="" class="tr-language" data-tr="seleccionar"></option>
                                                 <option value="1" class="tr-language" data-tr="conforme"></option>
                                                 <option value="0" class="tr-language" data-tr="no_conforme"></option>
                                             </select>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nivel_refrigerante_motor"></label>
-                                            <select class="chosen" name="lst_nivelrefrigerantemotor" id="lst_nivelrefrigerantemotor">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
                                     </div>
                                 </div>
                             </fieldset>
@@ -349,7 +280,7 @@
 
 
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -358,12 +289,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -372,48 +297,14 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fuga_aceite_sellos"></label>
-                                            <select class="chosen" name="lst_fugaaceitesello" id="lst_fugaaceitesello">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fuga_aceite_carter"></label>
-                                            <select class="chosen" name="lst_fugaaceitecarter" id="lst_fugaaceitecarter">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fuga_aceite_valvulas"></label>
-                                            <select class="chosen" name="lst_fugaaceitevalvula" id="lst_fugaaceitevalvula">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="sistema_lubricacion_texto"></label>
                                         </div>
                                     </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="estado_nivel_aceite"></label>
-                                            <select class="chosen" name="lst_estadonivelaceite" id="lst_estadonivelaceite">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nivel_aceite_motor"></label>
-                                            <select class="chosen" name="lst_fnivelaceitemotor" id="lst_fnivelaceitemotor">
+                                            <label class="control-label"></label>
+                                            <select class="chosen" name="lst_sistema_lubricacion_texto" id="lst_sistema_lubricacion_texto">
                                                 <option value="" class="tr-language" data-tr="seleccionar"></option>
                                                 <option value="1" class="tr-language" data-tr="conforme"></option>
                                                 <option value="0" class="tr-language" data-tr="no_conforme"></option>
@@ -438,12 +329,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -488,102 +373,35 @@
                                         <label class="label"></label>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label tr-language" data-tr="masa_motor"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_masa_motor" id="lst_masa_motor">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-4 control-label tr-language" data-tr="masa_chasis"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_masa_chasis" id="lst_masa_chasis">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
 
                             </fieldset>
 
-                            <fieldset class="col-md-6 form-horizontal">
-                                <legend class="tr-language" data-tr="estado_bateria"></legend>
+                            <fieldset class="col-md-6">
+                                <legend class="tr-language" data-tr="estado_bateria_otros"></legend>
 
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="botones"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_botones" id="lst_botones">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 has-feedback">
+                                                <label class="control-label tr-language" data-tr="estado_carga_sistema_texto"></label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4 has-feedback">
+                                                <label class="control-label"></label>
+                                                <select class="chosen" name="lst_estado_carga_sistema_texto" id="lst_estado_carga_sistema_texto">
+                                                    <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                    <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                    <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="anclaje"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_anclaje" id="lst_anclaje">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="nivel_electrolito"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_electrolito" id="lst_electrolito">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </fieldset>
 
                             </fieldset>
-                            <fieldset class="col-md-6 form-horizontal">
-                                <legend></legend>
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="estado_motor_arranque"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_estadomotorarranque" id="lst_estadomotorarranque">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset class="col-md-6 form-horizontal">
-                                <legend class="tr-language" data-tr="estado_sistema_carga"></legend>
 
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="alternador"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_alternador" id="lst_alternador">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-5 control-label tr-language" data-tr="correas_alternador"></label>
-                                    <div class="col-md-5">
-                                        <select class="chosen" name="lst_correasalternador" id="lst_correasalternador">
-                                            <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                            <option value="1" class="tr-language" data-tr="conforme"></option>
-                                            <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                        </select>
-                                    </div>
-                                </div>
 
-                            </fieldset>
 
                         </div>
 
@@ -601,22 +419,16 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
                         <div class="bv-form">
 
-                            <fieldset class="col-md-12 form-horizontal">
+                            <fieldset class="col-md-12">
 
                                 <!--<legend class="tr-language" data-tr="analisis_gases"></legend>-->
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 form-horizontal">
                                     <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="stftb1"></label>
                                         <div class="col-md-4">
@@ -627,52 +439,20 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-8 control-label"><a id="va_stftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                        <label class="col-md-7 control-label"><a id="va_stftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-5 control-label tr-language" data-tr="ltftb1"></label>
                                         <div class="col-md-4">
+                                            <input class="form-control tr-language-ph" type="text" id="txt_ltftb1" name="txt_ltftb1" data-trph="porcentaje_abr" maxlength="6">
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="valvula_egr"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_valvula_egr" id="lst_valvula_egr">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
+                                        <div class="col-md-3">
+                                            <label class="label"></label>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="valvula_iac"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_valvula_iac" id="lst_valvula_iac">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
+                                        <label class="col-md-7 control-label"><a id="va_ltftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_thwect"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_thwect" id="lst_sensor_thwect">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_presion"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_presion" id="lst_sensor_presion">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="sensor_cmp"></label>
                                         <div class="col-md-4">
@@ -692,16 +472,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="motor_ralenti_map"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_motor_ralenti_map" id="lst_motor_ralenti_map">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="sensor_tps"></label>
                                         <div class="col-md-4">
                                             <input class="form-control tr-language-ph" type="text" id="txt_sensor_tps" name="txt_sensor_tps" data-trph="voltios" maxlength="6">
@@ -710,116 +480,31 @@
                                             <label class="label"></label>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="ancho_puelo_inyectores"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_ancho_puelo_inyectores" id="lst_ancho_puelo_inyectores">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
+
 
                                 </div>
 
                                 <div class="col-md-6">
 
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="ltftb1"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_ltftb1" name="txt_ltftb1" data-trph="porcentaje_abr" maxlength="6">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 has-feedback">
+                                                    <label class="control-label tr-language" data-tr="sistema_electronico_combustible_texto"></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4 has-feedback">
+                                                    <label class="control-label"></label>
+                                                    <select class="chosen" name="lst_sistema_electronico_combustible_texto" id="lst_sistema_electronico_combustible_texto">
+                                                        <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                        <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                        <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-8 control-label"><a id="va_ltftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
-                                        <div class="col-md-4">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="codigo_falla"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_codigo_falla" id="lst_codigo_falla">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_iat"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_iat" id="lst_sensor_iat">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="ignition_voltage"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_ignition_voltage" id="lst_ignition_voltage">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_ckp"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_ckp" id="lst_sensor_ckp">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_o2_s1b1"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_o2_s1b1" id="lst_sensor_o2_s1b1">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_o2_s1b2"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_sensor_o2_s1b2" id="lst_sensor_o2_s1b2">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="angulo_avance_ralenti"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_angulo_avance_ralenti" id="lst_angulo_avance_ralenti">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="angulo_avance_2500_rpm"></label>
-                                        <div class="col-md-7">
-                                            <select class="chosen" name="lst_angulo_avance_2500_rpm" id="lst_angulo_avance_2500_rpm">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    </fieldset>
 
                                 </div>
                             </fieldset>
@@ -830,7 +515,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -839,12 +524,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -853,7 +532,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="tipo_sistema_encendido"></label>
                                             <span id="d_tisisencendido">
                                                 <select class="chosen" name="lst_tiposistemaencendido" id="lst_tiposistemaencendido">
@@ -861,36 +540,35 @@
                                                 </select>
                                             </span>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="resistencia_interna_bujias"></label>
-                                            <select class="chosen" name="lst_resistencia_interna_bujias" id="lst_resistencia_interna_bujias">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="codigo_bujias"></label>
-                                            <select class="chosen" name="lst_codigo_bujias" id="lst_codigo_bujias">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
                                     </div>
                                 </div>
                             </fieldset>
-
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="sistema_encendido_texto"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
+                                            <label class="control-label"></label>
+                                            <select class="chosen" name="lst_sistema_encendido_texto" id="lst_sistema_encendido_texto">
+                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -899,12 +577,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -913,75 +585,19 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="estado_aire_despues_sensor"></label>
-                                            <select class="chosen" name="lst_estado_aire_despues_sensor" id="lst_estado_aire_despues_sensor">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="estado_admision_aire_texto"></label>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="estado_filtro_aire"></label>
-                                            <select class="chosen" name="lst_estado_filtro_aire" id="lst_estado_filtro_aire">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
                                     </div>
-                                </div>
-                            </fieldset>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
-                <header role="heading">
-                    <span class="widget-icon"> <i class="fa fa-binoculars txt-color-blueLight"></i> </span>		
-                    <h2 class="tr-language" data-tr="inspecciones_visuales"> </h2>
-                </header>
-                <!-- widget div-->
-                <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body">
-
-                        <div class="bv-form">
-
-                            <fieldset>
-                                <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="condiciones_chasis"></label>
-                                            <select class="chosen" name="lst_condiciones_chasis" id="lst_condiciones_chasis">
+                                            <label class="control-label"></label>
+                                            <select class="chosen" name="lst_estado_admision_aire_texto" id="lst_estado_admision_aire_texto">
                                                 <option value="" class="tr-language" data-tr="seleccionar"></option>
                                                 <option value="1" class="tr-language" data-tr="conforme"></option>
                                                 <option value="0" class="tr-language" data-tr="no_conforme"></option>
                                             </select>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="estado_amortiguadores_trasetros"></label>
-                                            <select class="chosen" name="lst_estado_amortiguadores_trasetros" id="lst_estado_amortiguadores_trasetros">
-                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
-                                                <option value="1" class="tr-language" data-tr="conforme"></option>
-                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
-                                            </select>
-                                        </div>
-
                                     </div>
                                 </div>
                             </fieldset>
@@ -990,9 +606,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-sm-12">
+        </div>        
+        <div class="clearfix"></div>
+        <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -1001,18 +617,12 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
                         <div class="bv-form">
-                            
-                            <fieldset class="col-md-6 form-horizontal">
+
+                            <fieldset class="col-md-12 form-horizontal">
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label tr-language" data-tr="ciclindro1"></label>
@@ -1051,12 +661,51 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-8 control-label"><a id="va_cilindros" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
-                                    <div class="col-md-4">
+                                    <label class="col-md-6 control-label"><a id="va_cilindros" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                </div>
+
+
+                            </fieldset>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget jarviswidget-color-blueDark">
+                <header role="heading">
+                    <span class="widget-icon"> <i class="fa fa-binoculars txt-color-blueLight"></i> </span>		
+                    <h2 class="tr-language" data-tr="inspecciones_visuales"> </h2>
+                </header>
+                <!-- widget div-->
+                <div role="content">
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        <div class="bv-form">
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="inspecciones_visuales_texto"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                            <label class="control-label"></label>
+                                            <select class="chosen" name="lst_inspecciones_visuales_texto" id="lst_inspecciones_visuales_texto">
+                                                <option value="" class="tr-language" data-tr="seleccionar"></option>
+                                                <option value="1" class="tr-language" data-tr="conforme"></option>
+                                                <option value="0" class="tr-language" data-tr="no_conforme"></option>
+                                            </select>
+                                        </div>
+
                                     </div>
                                 </div>
-                               
-
                             </fieldset>
 
                         </div>
@@ -1067,7 +716,7 @@
 
 
         <div class="clearfix"></div>
-        
+
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-12">
@@ -1075,7 +724,7 @@
                 </div>
             </div>
         </div>
-        
+
     </form>
 </div>
 

@@ -18,7 +18,55 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         this._tour = Obj.Proceso.ConversionTour;
         this._idFormIndex = `#${this._alias}formIndex`;
         this._ifFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
+        this._idFormConversion = `#${this._alias}formConversion`;
+        this._idFormConversionEdit = `#${this._alias}formConversionEdit`;
         this._keyPropietario = null;
+        this._grabaAprueba = 0;
+        this._minPresionSalidaRegualdor = 0;
+        this._minConfTemperaturaConmutacion = 0;
+        this._maxConfTemperaturaConmutacion = 0;
+        this._minStftb1CombustibleGNV = 0;
+        this._maxStftb1CombustibleGNV = 0;
+        this._minLtftb1CombustibleGNV = 0;
+        this._maxLtftb1CombustibleGNV = 0;
+        this._maxGasesRalentiGasolinaCO = 0;
+        this._maxGasesRalentiGasolinaHC = 0;
+        this._minGasesRalentiGasolinaCO2 = 0;
+        this._maxGasesRalentiGasolinaO2 = 0;
+        this._maxGasesRPMGasolinaCO = 0;
+        this._maxGasesRPMGasolinaHC = 0;
+        this._minGasesRPMGasolinaCO2 = 0;
+        this._maxGasesRPMGasolinaO2 = 0;
+        this._maxGasesRalentiGnvCO = 0;
+        this._maxGasesRalentiGnvHC = 0;
+        this._minGasesRalentiGnvCO2 = 0;
+        this._maxGasesRalentiGnvO2 = 0;
+        this._maxGasesRPMGnvCO = 0;
+        this._maxGasesRPMGnvHC = 0;
+        this._minGasesRPMGnvCO2 = 0;
+        this._maxGasesRPMGnvO2 = 0;
+        this._tieneConversion = 0;
+        this._conformidadPresionSalidaRegualdor = 0;
+        this._conformidadConfTemperaturaConmutacion = 0;
+        this._conformidadStftb1CombustibleGNV = 0;
+        this._conformidadLtftb1CombustibleGNV = 0;
+        this._conformidadGasesRalentiGasolinaCO = 0;
+        this._conformidadGasesRalentiGasolinaHC = 0;
+        this._conformidadGasesRalentiGasolinaCO2 = 0;
+        this._conformidadGasesRalentiGasolinaO2 = 0;
+        this._conformidadGasesRPMGasolinaCO = 0;
+        this._conformidadGasesRPMGasolinaHC = 0;
+        this._conformidadGasesRPMGasolinaCO2 = 0;
+        this._conformidadGasesRPMGasolinaO2 = 0;
+        this._conformidadGasesRalentiGnvCO = 0;
+        this._conformidadGasesRalentiGnvHC = 0;
+        this._conformidadGasesRalentiGnvO2 = 0;
+        this._conformidadGasesRPMGnvCO = 0;
+        this._conformidadGasesRPMGnvHC = 0;
+        this._conformidadGasesRPMGnvCO2 = 0;
+        this._conformidadGasesRPMGnvO2 = 0;
+        this._videoEstadoFUncionamientoGNV = null;
+        this._videoVarios = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -87,20 +135,59 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                 }
             });
         };
-        
+
         this._formConversion = (tk) => {
             this.send({
                 token: tk,
                 context: this,
                 dataType: 'text',
                 response: (data) => {
-                    $(`#${this._alias}-TPREC${APP_CONTAINER_TABS}`).html(data);
+                    $(`#${this._alias}-TCONV${APP_CONTAINER_TABS}`).html(data);
                 },
                 finally: (data) => {
-//                    this.addBtnUpdate();
-//                    this.setEvents(tk);
-//                    this._findPropietario(tk);
-//                    this.getListBoxPreConversion(this._idFormPreConversion);
+                    this.addBtnSaveConv();
+                    this._findPropietario(tk, this._idFormConversion).done(() => {
+                        this.setEvents(tk);
+                    });
+                }
+            });
+        };
+
+        this._findPropietario = (tk, form) => {
+            return this.send({
+                token: tk,
+                gifProcess: true,
+                context: this,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    this.setPreConversion(data, form);
+                }
+            });
+        };
+        
+        this._postNewConversion = (tk) => {
+            this.send({
+                flag: 1,
+                token: tk,
+                gifProcess: true,
+                element: (this._grabaAprueba)?`#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`:`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                context: this,
+                form: (this._tienePreconversion == 1) ? this._idFormConversionEdit : this._idFormConversion,
+                formData: true,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_videoEstadoFUncionamientoGNV', value: this._videoEstadoFUncionamientoGNV});
+                    sData.push({name: '_videoVarios', value: this._videoVarios});
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
+                },
+                complete: (data) => {
+                    Tools.execMessage(data);
+                    if (data.ok_error != 'error') {
+                        this.closeNewConversion(null, null);
+                        this._getVehiculos(tk);
+                    }
                 }
             });
         };
@@ -121,10 +208,12 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
 
     formConversion(btn, tk) {
         this._keyPropietario = $(btn).parent('div').data('propietario');
+        this._tieneConversion = $(btn).parent('div').data('tieneconversion');
+
         Tools.addTab({
             context: this,
-            id: `${this._alias}-TPREC`,
-            label: APP_ETIQUET.conversion,
+            id: `${this._alias}-TCONV`,
+            label: APP_ETIQUET.datos_converion,
             fnCallback: () => {
                 this._formConversion(tk);
             }
@@ -154,8 +243,63 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         this._postAtender(`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`, tk, 2, $(`#${this._alias}txt_observacion`).val());
     }
 
+    postNewConversion(tk) {
+        //verificar si Guarda y Aprueba
+        if (this._grabaAprueba) {
+            //verificar si existe algun NO CONFORME y mostrar msn
+            if (!this.isConforme()) {
+                Tools.notify().error({
+                    content: APP_MSN.no_puede_grabar_enviar_conversion
+                });
+                return false;
+            }
+            Tools.notify().confirm({
+                content: APP_MSN.seguro_preconversion,
+                yes: () => {
+                    this._postNewConversion(tk);
+                }
+            });
+        } else {
+            this._postNewConversion(tk);
+        }
+
+    }
+
+    postUploadVideo(tk, load) {
+        this.send({
+            token: tk,
+            gifProcess: true,
+            context: this,
+            form: (this._tieneConversion == 1) ? this._idFormConversionEdit : this._idFormConversion,
+            formData: true,
+            serverParams: (sData, obj) => {
+                sData.push({name: '_load', value: load});
+                sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                sData.push({name: '_tieneConversion', value: this._tieneConversion});
+            },
+            complete: (data) => {
+                if (data.result == 1) {
+                    eval(`this.${data.element} = '${data.archivo}';`);
+                    if (!$.isEmptyObject(this._keyPropietario)) {
+                        Tools.notify().ok({
+                            content: APP_MSN.upload_ok
+                        });
+                    }
+                } else {
+                    Tools.notify().error({
+                        content: data.result
+                    });
+                }
+            }
+        });
+    }
+
     postSearch(btn, tk) {
         this._getVehiculos(tk);
+    }
+
+    closeNewConversion(btn, tk) {
+        Tools.closeTab(`${this._alias}-TCONV`);
     }
 
 };

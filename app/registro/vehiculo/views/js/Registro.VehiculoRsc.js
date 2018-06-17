@@ -41,11 +41,21 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             keymnu: this._alias,
             btns: [
                 {keybtn: APP_BTN.GRB, type: 'submit'},
+                {keybtn: APP_BTN.GRBAPR, type: 'submit'},
                 {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Registro.VehiculoAx.closeNewPreconversion'}]}
             ]
+        }, (oSettings) => {
+            $(`#${this._alias}actions_prec`).find('button').mouseover((e)=>{
+                if($(e.currentTarget).hasClass('btn-success')){
+                    this._grabaAprueba = 1;
+                }else{
+                    this._grabaAprueba = 0;
+                }
+            });
+            
         });
     }
-    
+
     addBtnCloseViewPrec() {
         $.fn.appButton.get({
             container: `#${this._alias}actions_prec`,
@@ -90,7 +100,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             ]
         });
     }
-    
+
     addBtnCloseExpediente() {
         $.fn.appButton.get({
             container: `#${this._alias}actions`,
@@ -275,7 +285,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
     }
 
-    setVehiculo(data,form,activeLinks) {
+    setVehiculo(data, form, activeLinks) {
         Tools.setDataForm(form, {
             alias: this._alias,
             elements: [
@@ -306,22 +316,22 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: 'txt_fechavigenciasoat', value: data.fecha_poliza_vigencia}
             ]
         });
-        
-        if(activeLinks){
-            $(`#${this._alias}a_doc_identidad`).attr('href',`files/docs_registro/${data.imagen_documento_identidad}`); 
-            $(`#${this._alias}a_licencia_conducir`).attr('href',`files/docs_registro/${data.imagen_licencia_conducir}`); 
-            $(`#${this._alias}a_tarjeta_propiedad`).attr('href',`files/docs_registro/${data.imagen_tarjeta_propiedad}`); 
-            $(`#${this._alias}a_consentimiento`).attr('href',`files/docs_registro/${data.imagen_consentimiento}`); 
-            $(`#${this._alias}a_hoja_unica_datos`).attr('href',`files/docs_registro/${data.imagen_formulario_calidda}`); 
-            $(`#${this._alias}a_app_movil`).attr('href',`files/docs_registro/${data.imagen_movil}`); 
-            $(`#${this._alias}a_soat`).attr('href',`files/docs_registro/${data.imagen_poliza}`); 
-            $(`#${this._alias}a_revision`).attr('href',`files/docs_registro/${data.imagen_revision_tecnica}`); 
-            $(`#${this._alias}a_recibo_luz`).attr('href',`files/docs_registro/${data.imagen_servicio_publico}`); 
-            $(`#${this._alias}a_solicitud_cobranza`).attr('href',`files/docs_registro/${data.imagen_solicitud_cobranza}`); 
+
+        if (activeLinks) {
+            $(`#${this._alias}a_doc_identidad`).attr('href', `files/docs_registro/${data.imagen_documento_identidad}`);
+            $(`#${this._alias}a_licencia_conducir`).attr('href', `files/docs_registro/${data.imagen_licencia_conducir}`);
+            $(`#${this._alias}a_tarjeta_propiedad`).attr('href', `files/docs_registro/${data.imagen_tarjeta_propiedad}`);
+            $(`#${this._alias}a_consentimiento`).attr('href', `files/docs_registro/${data.imagen_consentimiento}`);
+            $(`#${this._alias}a_hoja_unica_datos`).attr('href', `files/docs_registro/${data.imagen_formulario_calidda}`);
+            $(`#${this._alias}a_app_movil`).attr('href', `files/docs_registro/${data.imagen_movil}`);
+            $(`#${this._alias}a_soat`).attr('href', `files/docs_registro/${data.imagen_poliza}`);
+            $(`#${this._alias}a_revision`).attr('href', `files/docs_registro/${data.imagen_revision_tecnica}`);
+            $(`#${this._alias}a_recibo_luz`).attr('href', `files/docs_registro/${data.imagen_servicio_publico}`);
+            $(`#${this._alias}a_solicitud_cobranza`).attr('href', `files/docs_registro/${data.imagen_solicitud_cobranza}`);
         }
     }
 
-    setPreConversionData(data,form) {
+    setPreConversionData(data, form) {
         Tools.setDataForm(form, {
             alias: this._alias,
             elements: [
@@ -334,60 +344,45 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: 'txt_analisisrpmhc', value: data.analisis_gas_rpm_hc},
                 {item: 'txt_rpmco2', value: data.analisis_gas_rpm_co2},
                 {item: 'txt_analisisrpmo2', value: data.analisis_gas_rpm_o2},
-                {item: 'lst_fugasradiador', value: data.fuga_refrigerante_radiador, type: 'select'},
-                {item: 'lst_electroventilador', value: data.functionamiento_electroventilador, type: 'select'},
-                {item: 'lst_fugasmanguera', value: data.fuga_refrigerante_mangueras, type: 'select'},
-                {item: 'lst_nivelrefrigerantemotor', value: data.nivel_refrigerante_motor, type: 'select'},
-                {item: 'lst_temperatura_panel', value: data.funcionamiento_indicador_temperatura, type: 'select'},
-                {item: 'lst_fugaaceitesello', value: data.fuga_aceite_sello, type: 'select'},
-                {item: 'lst_estadonivelaceite', value: data.estado_nivel_aceite, type: 'select'},
-                {item: 'lst_fugaaceitecarter', value: data.fuga_aceite_carter, type: 'select'},
-                {item: 'lst_fnivelaceitemotor', value: data.nivel_aceite_motor, type: 'select'},
-                {item: 'lst_fugaaceitevalvula', value: data.fuga_aceite_valvula, type: 'select'},
+                {item: 'lst_sistema_refrigeracion_texto', value: data.sistema_refrigeracion, type: 'select'},
+                {item: 'lst_sistema_lubricacion_texto', value: data.sistema_lubricacion, type: 'select'},
                 {item: 'txt_apagado', value: data.bateria_apagado},
                 {item: 'txt_arranque', value: data.bateria_arranque},
                 {item: 'txt_ralentibateria', value: data.bateria_ralenti},
                 {item: 'txt_2500rpm', value: data.bateria_rpm},
-                {item: 'lst_masa_motor', value: data.masa_motor, type: 'select'},
-                {item: 'lst_masa_chasis', value: data.masa_chasis, type: 'select'},
-                {item: 'lst_botones', value: data.estado_bateria_boton, type: 'select'},
-                {item: 'lst_anclaje', value: data.estado_bateria_anclaje, type: 'select'},
-                {item: 'lst_electrolito', value: data.nivel_electrolito_bateria, type: 'select'},
-                {item: 'lst_estadomotorarranque', value: data.estado_arranque_motor, type: 'select'},
-                {item: 'lst_alternador', value: data.alternador, type: 'select'},
-                {item: 'lst_correasalternador', value: data.correa_alternador, type: 'select'},
+                {item: 'lst_estado_carga_sistema_texto', value: data.estado_bateria_otros, type: 'select'},
                 {item: 'txt_stftb1', value: data.stft_b1},
                 {item: 'txt_ltftb1', value: data.ltft_b1},
-                {item: 'lst_valvula_egr', value: data.valvula_egr, type: 'select'},
-                {item: 'lst_valvula_iac', value: data.valvula_iac, type: 'select'},
-                {item: 'lst_sensor_thwect', value: data.sensor_thw_ect, type: 'select'},
-                {item: 'lst_sensor_presion', value: data.sensor_presion, type: 'select'},
                 {item: 'txt_sensor_cmp', value: data.sensor_cmp},
                 {item: 'txt_sensor_map', value: data.sensor_map},
-                {item: 'lst_motor_ralenti_map', value: data.motor_ralenti_sensor_map, type: 'select'},
                 {item: 'txt_sensor_tps', value: data.sensor_tps},
-                {item: 'lst_ancho_puelo_inyectores', value: data.ancho_pulso_inyector, type: 'select'},
-                {item: 'lst_codigo_falla', value: data.codigo_falla, type: 'select'},
-                {item: 'lst_sensor_iat', value: data.sendor_iat, type: 'select'},
-                {item: 'lst_ignition_voltage', value: data.ignition_voltage, type: 'select'},
-                {item: 'lst_sensor_ckp', value: data.sensor_ckp, type: 'select'},
-                {item: 'lst_sensor_o2_s1b1', value: data.sensor_02_s1b1, type: 'select'},
-                {item: 'lst_sensor_o2_s1b2', value: data.sensor_o2_s1b2, type: 'select'},
-                {item: 'lst_angulo_avance_ralenti', value: data.angulo_avance_ralenti, type: 'select'},
-                {item: 'lst_angulo_avance_2500_rpm', value: data.angulo_avance_rpm, type: 'select'},
-                {item: 'lst_tiposistemaencendido', value: data.id_tipo_sistema_encendido, type: 'select'},
-                {item: 'lst_resistencia_interna_bujias', value: data.resistencia_bujias, type: 'select'},
-                {item: 'lst_codigo_bujias', value: data.codigo_bujias, type: 'select'},
-                {item: 'lst_estado_aire_despues_sensor', value: data.estado_toma_aire, type: 'select'},
-                {item: 'lst_estado_filtro_aire', value: data.estado_filtro_aire, type: 'select'},
-                {item: 'lst_condiciones_chasis', value: data.estado_chasis, type: 'select'},
-                {item: 'lst_estado_amortiguadores_trasetros', value: data.estado_amortiguadores, type: 'select'},
+                {item: 'lst_sistema_electronico_combustible_texto', value: data.sistema_electronico_comustible, type: 'select'},
+                {item: 'lst_sistema_encendido_texto', value: data.sistema_encendido, type: 'select'},
+                {item: 'lst_estado_admision_aire_texto', value: data.sistema_admision_aire, type: 'select'},
+                {item: 'lst_inspecciones_visuales_texto', value: data.inspeccion_visual, type: 'select'},
                 {item: 'txt_ciclindro1', value: data.cilindro_1},
                 {item: 'txt_ciclindro2', value: data.cilindro_2},
                 {item: 'txt_ciclindro3', value: data.cilindro_3},
                 {item: 'txt_ciclindro4', value: data.cilindro_4}
             ]
         });
+        //se retrasa 1.5 seg porque antes debe cargar la lista
+        setTimeout(() => {
+            Tools.setDataForm(form, {
+                alias: this._alias,
+                elements: [
+                    {item: 'lst_tiposistemaencendido', value: data.id_tipo_sistema_encendido, type: 'select'}
+                ]
+            });
+        }, 1500);
+
+        $(`#${this._alias}va_ralentimotor`).attr('href', `files/videos/${data.video_vacio_motor_ralenti}`);
+        $(`#${this._alias}va_analisisgasesralenti`).attr('href', `files/videos/${data.video_analisis_gas_ralenti}`);
+        $(`#${this._alias}va_analisisgasesrpm`).attr('href', `files/videos/${data.video_analisis_gas_rpm}`);
+        $(`#${this._alias}va_stftb1`).attr('href', `files/videos/${data.video_stft_b1}`);
+        $(`#${this._alias}va_ltftb1`).attr('href', `files/videos/${data.video_ltft_b1}`);
+        $(`#${this._alias}va_cilindros`).attr('href', `files/videos/${data.video_cilindro}`);
+
     }
 
     setPreConversion(data, form) {
@@ -517,6 +512,27 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             return false;
         }
         if (!this._conformidadCilindro4) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_sistema_refrigeracion_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_sistema_lubricacion_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_estado_carga_sistema_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_sistema_electronico_combustible_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_sistema_encendido_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_estado_admision_aire_texto`).val()) {
+            return false;
+        }
+        if (!$(`#${this._alias}lst_inspecciones_visuales_texto`).val()) {
             return false;
         }
 

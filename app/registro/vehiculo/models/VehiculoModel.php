@@ -134,7 +134,7 @@ class VehiculoModel extends \Vendor\DataBase {
     }
     
     protected function spMantenimientoPreConversion() {        
-        
+
         $query = "CALL sp_registro_vehiculo_mantenimiento_preconversion ("
                 . ":flag,"
                 . ":keyPropietario,"
@@ -147,64 +147,34 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":analisisrpmhc,"
                 . ":rpmco2,"
                 . ":analisisrpmo2,"
-                . ":fugasradiador,"
-                . ":fugasmanguera,"
-                . ":temperatura_panel,"
-                . ":electroventilador,"
-                . ":nivelrefrigerantemotor,"
-                . ":fugaaceitesello,"
-                . ":fugaaceitecarter,"
-                . ":fugaaceitevalvula,"
-                . ":estadonivelaceite,"
-                . ":fnivelaceitemotor,"
+                . ":sistema_refrigeracion_texto,"
+                . ":sistema_lubricacion_texto,"
                 . ":apagado,"
                 . ":arranque,"
                 . ":ralentibateria,"
                 . ":2500rpm,"
-                . ":masa_motor,"
-                . ":masa_chasis,"
-                . ":botones,"
-                . ":anclaje,"
-                . ":electrolito,"
-                . ":estadomotorarranque,"
-                . ":alternador,"
-                . ":correasalternador,"
+                . ":estado_carga_sistema_texto,"
                 . ":stftb1,"
-                . ":valvula_egr,"
-                . ":valvula_iac,"
-                . ":sensor_thwect,"
-                . ":sensor_presion,"
+                . ":ltftb1,"
                 . ":sensor_cmp,"
                 . ":sensor_map,"
-                . ":motor_ralenti_map,"
                 . ":sensor_tps,"
-                . ":ancho_puelo_inyectores,"
-                . ":ltftb1,"
-                . ":codigo_falla,"
-                . ":sensor_iat,"
-                . ":ignition_voltage,"
-                . ":sensor_ckp,"
-                . ":sensor_o2_s1b1,"
-                . ":sensor_o2_s1b2,"
-                . ":angulo_avance_ralenti,"
-                . ":angulo_avance_2500_rpm,"
+                . ":sistema_electronico_combustible_texto,"
                 . ":tiposistemaencendido,"
-                . ":resistencia_interna_bujias,"
-                . ":codigo_bujias,"
-                . ":estado_aire_despues_sensor,"
-                . ":estado_filtro_aire,"
-                . ":condiciones_chasis,"
-                . ":estado_amortiguadores_trasetros,"
+                . ":sistema_encendido_texto,"
+                . ":estado_admision_aire_texto,"
                 . ":ciclindro1,"
                 . ":ciclindro2,"
                 . ":ciclindro3,"
                 . ":ciclindro4,"
+                . ":inspecciones_visuales_texto,"
                 . ":videoVacioMotorRalenti,"
                 . ":videoAnalisisGasesRalenti,"
                 . ":videoAnalisisGasesRPM,"
                 . ":videoSTFTB1,"
                 . ":videoLTFTB1,"
                 . ":videoCilindros,"
+                . ":grabaAprueba,"
                 . ":observacion,"
                 . ":usuario,"
                 . ":ipPublica,"
@@ -225,64 +195,34 @@ class VehiculoModel extends \Vendor\DataBase {
             ':analisisrpmhc' => @$this->_form->txt_analisisrpmhc,
             ':rpmco2' => @$this->_form->txt_rpmco2,
             ':analisisrpmo2' => @$this->_form->txt_analisisrpmo2,
-            ':fugasradiador' => @$this->_form->lst_fugasradiador,
-            ':fugasmanguera' => @$this->_form->lst_fugasmanguera,
-            ':temperatura_panel' => @$this->_form->lst_temperatura_panel,
-            ':electroventilador' => @$this->_form->lst_electroventilador,
-            ':nivelrefrigerantemotor' => @$this->_form->lst_nivelrefrigerantemotor,
-            ':fugaaceitesello' => @$this->_form->lst_fugaaceitesello,
-            ':fugaaceitecarter' => @$this->_form->lst_fugaaceitecarter,
-            ':fugaaceitevalvula' => @$this->_form->lst_fugaaceitevalvula,
-            ':estadonivelaceite' => @$this->_form->lst_estadonivelaceite,
-            ':fnivelaceitemotor' => @$this->_form->lst_fnivelaceitemotor,
+            ':sistema_refrigeracion_texto' => @$this->_form->lst_sistema_refrigeracion_texto,
+            ':sistema_lubricacion_texto' => @$this->_form->lst_sistema_lubricacion_texto,
             ':apagado' => @$this->_form->txt_apagado,
             ':arranque' => @$this->_form->txt_arranque,
             ':ralentibateria' => @$this->_form->txt_ralentibateria,
             ':2500rpm' => @$this->_form->txt_2500rpm,
-            ':masa_motor' => @$this->_form->lst_masa_motor,
-            ':masa_chasis' => @$this->_form->lst_masa_chasis,
-            ':botones' => @$this->_form->lst_botones,
-            ':anclaje' => @$this->_form->lst_anclaje,
-            ':electrolito' => @$this->_form->lst_electrolito,
-            ':estadomotorarranque' => @$this->_form->lst_estadomotorarranque,
-            ':alternador' => @$this->_form->lst_alternador,
-            ':correasalternador' => @$this->_form->lst_correasalternador,
+            ':estado_carga_sistema_texto' => @$this->_form->lst_estado_carga_sistema_texto,
             ':stftb1' => @$this->_form->txt_stftb1,
-            ':valvula_egr' => @$this->_form->lst_valvula_egr,
-            ':valvula_iac' => @$this->_form->lst_valvula_iac,
-            ':sensor_thwect' => @$this->_form->lst_sensor_thwect,
-            ':sensor_presion' => @$this->_form->lst_sensor_presion,
+            ':ltftb1' => @$this->_form->txt_ltftb1,
             ':sensor_cmp' => @$this->_form->txt_sensor_cmp,
             ':sensor_map' => @$this->_form->txt_sensor_map,
-            ':motor_ralenti_map' => @$this->_form->lst_motor_ralenti_map,
             ':sensor_tps' => @$this->_form->txt_sensor_tps,
-            ':ancho_puelo_inyectores' => @$this->_form->lst_ancho_puelo_inyectores,
-            ':ltftb1' => @$this->_form->txt_ltftb1,
-            ':codigo_falla' => @$this->_form->lst_codigo_falla,
-            ':sensor_iat' => @$this->_form->lst_sensor_iat,
-            ':ignition_voltage' => @$this->_form->lst_ignition_voltage,
-            ':sensor_ckp' => @$this->_form->lst_sensor_ckp,
-            ':sensor_o2_s1b1' => @$this->_form->lst_sensor_o2_s1b1,
-            ':sensor_o2_s1b2' => @$this->_form->lst_sensor_o2_s1b2,
-            ':angulo_avance_ralenti' => @$this->_form->lst_angulo_avance_ralenti,
-            ':angulo_avance_2500_rpm' => @$this->_form->lst_angulo_avance_2500_rpm,
+            ':sistema_electronico_combustible_texto' => @$this->_form->lst_sistema_electronico_combustible_texto,
             ':tiposistemaencendido' => @$this->_form->lst_tiposistemaencendido,
-            ':resistencia_interna_bujias' => @$this->_form->lst_resistencia_interna_bujias,
-            ':codigo_bujias' => @$this->_form->lst_codigo_bujias,
-            ':estado_aire_despues_sensor' => @$this->_form->lst_estado_aire_despues_sensor,
-            ':estado_filtro_aire' => @$this->_form->lst_estado_filtro_aire,
-            ':condiciones_chasis' => @$this->_form->lst_condiciones_chasis,
-            ':estado_amortiguadores_trasetros' => @$this->_form->lst_estado_amortiguadores_trasetros,
+            ':sistema_encendido_texto' => @$this->_form->lst_sistema_encendido_texto,
+            ':estado_admision_aire_texto' => @$this->_form->lst_estado_admision_aire_texto,
             ':ciclindro1' => @$this->_form->txt_ciclindro1,
             ':ciclindro2' => @$this->_form->txt_ciclindro2,
             ':ciclindro3' => @$this->_form->txt_ciclindro3,
             ':ciclindro4' => @$this->_form->txt_ciclindro4,
+            ':inspecciones_visuales_texto' => @$this->_form->lst_inspecciones_visuales_texto,
             ':videoVacioMotorRalenti' => @$this->_form->_videoVacioMotorRalenti,
             ':videoAnalisisGasesRalenti' => @$this->_form->_videoAnalisisGasesRalenti,
             ':videoAnalisisGasesRPM' => @$this->_form->_videoAnalisisGasesRPM,
             ':videoSTFTB1' => @$this->_form->_videoSTFTB1,
             ':videoLTFTB1' => @$this->_form->_videoLTFTB1,
             ':videoCilindros' => @$this->_form->_videoCilindros,
+            ':grabaAprueba' => @$this->_form->_grabaAprueba,
             ':observacion' => @$this->_form->_observacion,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
@@ -512,67 +452,42 @@ class VehiculoModel extends \Vendor\DataBase {
         $query = "
         SELECT 
             vacio_motor_ralenti,
+            video_vacio_motor_ralenti,
             analisis_gas_ralenti_co,
             analisis_gas_ralenti_hc,
             analisis_gas_ralenti_co2,
             analisis_gas_ralenti_o2,
+            video_analisis_gas_ralenti,
             analisis_gas_rpm_co,
             analisis_gas_rpm_hc,
             analisis_gas_rpm_co2,
             analisis_gas_rpm_o2,
-            fuga_refrigerante_radiador,
-            fuga_refrigerante_mangueras,
-            funcionamiento_indicador_temperatura,
-            functionamiento_electroventilador,
-            nivel_refrigerante_motor,
-            fuga_aceite_sello,
-            fuga_aceite_carter,
-            fuga_aceite_valvula,
-            estado_nivel_aceite,
-            nivel_aceite_motor,
+            video_analisis_gas_rpm,
+            sistema_refrigeracion,
+            sistema_lubricacion,
             bateria_apagado,
             bateria_arranque,
             bateria_ralenti,
             bateria_rpm,
-            masa_motor,
-            masa_chasis,
-            estado_bateria_boton,
-            estado_bateria_anclaje,
-            nivel_electrolito_bateria,
-            estado_arranque_motor,
-            alternador,
-            correa_alternador,
+            estado_bateria_otros,
             stft_b1,
+            video_stft_b1,
             ltft_b1,
-            valvula_egr,
-            valvula_iac,
-            sensor_thw_ect,
-            sensor_presion,
+            video_ltft_b1,
             sensor_cmp,
             sensor_map,
-            motor_ralenti_sensor_map,
             sensor_tps,
-            ancho_pulso_inyector,
-            codigo_falla,
-            sendor_iat,
-            ignition_voltage,
-            sensor_ckp,
-            sensor_02_s1b1,
-            sensor_o2_s1b2,
-            angulo_avance_ralenti,
-            angulo_avance_rpm,
+            sistema_electronico_comustible,
             id_tipo_sistema_encendido,
-            resistencia_bujias,
-            codigo_bujias,
-            estado_toma_aire,
-            estado_filtro_aire,
-            estado_chasis,
-            estado_amortiguadores,
+            sistema_encendido,
+            sistema_admision_aire,
+            inspeccion_visual,
             cilindro_1,
             cilindro_2,
             cilindro_3,
             cilindro_4,
-            observaciones
+            video_cilindro,
+            observacion
         FROM conv_pre_conversion
         WHERE id_propietario = :id;";
         
