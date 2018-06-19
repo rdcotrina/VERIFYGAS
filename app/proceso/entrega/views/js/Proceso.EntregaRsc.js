@@ -24,6 +24,27 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
         });
     }
     
+    addBtnSave() {
+        $.fn.appButton.get({
+            container: `#${this._alias}actions`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.GRBAPR, type: 'submit'},
+                {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.EntregaAx.closeEntrega'}]}
+            ]
+        });
+    }
+    
+    addBtnClose(){
+        $.fn.appButton.get({
+            container: `#${this._alias}actions`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.EntregaAx.closeEntrega'}]}
+            ]
+        });
+    }
+    
     addBtnSaveObs() {
         $.fn.appButton.get({
             container: `#${this._alias}foot_btns`,
@@ -42,7 +63,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
 
         $.each(data, (i, e) => {
             h += `
-            <div class="bigBox" style="background-color:#e2e2e2;height:auto;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
+            <div class="bigBox" style="background-color:#e2e2e2;height:200px;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
                 <span>
                     <i class="fa fa-address-book"></i> ${e.nombre_completo}
                 </span>
@@ -74,10 +95,9 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
                     notext: true,
                     //forceBtnXs: true,
                     btns: [
-                        {keybtn: APP_BTN.PRC, evts: [{click: 'Obj.Proceso.EntregaAx.formEntrega'}]},
-                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.EntregaAx.postAprobar'}]},
-                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.EntregaAx.postRechazar'}]},
-                        {keybtn: APP_BTN.FIN, evts: [{click: 'Obj.Proceso.EntregaAx.postRechazar'}]}
+                        {keybtn: APP_BTN.ENT, evts: [{click: 'Obj.Proceso.EntregaAx.formEntrega'}]},
+                        {keybtn: APP_BTN.VENT, evts: [{click: 'Obj.Proceso.EntregaAx.formViewEntrega'}]},
+                        {keybtn: APP_BTN.FIN, evts: [{click: 'Obj.Proceso.EntregaAx.postFinalizar'}]}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
@@ -91,6 +111,88 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
         eval(txtEval);
         $(`#${this._alias}d_vehiculos_aprobados`).find('._tools').find('.btn').css({
             padding: '5px'
+        });
+    }
+    
+    setPropietario(data, form) {
+        Tools.setDataForm(form, {
+            alias: this._alias,
+            elements: [
+                {item: '_nombres', value: `${data.primer_nombre} ${data.segundo_nombre}`, type: 'html'},
+                {item: '_apellidos', value: `${data.apellido_paterno} ${data.apellido_materno}`, type: 'html'},
+                {item: '_celular', value: data.celurar, type: 'html'},
+                {item: '_direccion', value: data.direccion, type: 'html'},
+                {item: '_tipodoc', value: data.tipo_doc, type: 'html'},
+                {item: '_num_doc', value: data.documento_identidad, type: 'html'},
+                {item: '_placa', value: data.placa, type: 'html'},
+                {item: '_marca', value: data.marca, type: 'html'},
+                {item: '_modelo', value: data.modelo, type: 'html'},
+                {item: '_serie', value: data.serie, type: 'html'},
+                {item: '_cilindrada', value: data.cilindrada, type: 'html'}
+            ]
+        });
+    }
+    
+    setEntrega(data){
+        $(`#${this._alias}va_escaneo_1`).attr('href', `files/entrega/${data.escaneo_1}`);
+        $(`#${this._alias}va_escaneo_2`).attr('href', `files/entrega/${data.escaneo_2}`);
+        $(`#${this._alias}va_escaneo_3`).attr('href', `files/entrega/${data.escaneo_3}`);
+        $(`#${this._alias}va_escaneo_4`).attr('href', `files/entrega/${data.escaneo_4}`);
+        $(`#${this._alias}va_escaneo_5`).attr('href', `files/entrega/${data.escaneo_5}`);
+        $(`#${this._alias}va_escaneo_6`).attr('href', `files/entrega/${data.escaneo_6}`);
+        $(`#${this._alias}va_escaneo_7`).attr('href', `files/entrega/${data.escaneo_7}`);
+        $(`#${this._alias}va_escaneo_8`).attr('href', `files/entrega/${data.escaneo_8}`);
+        $(`#${this._alias}va_escaneo_9`).attr('href', `files/entrega/${data.escaneo_9}`);
+        $(`#${this._alias}va_escaneo_10`).attr('href', `files/entrega/${data.escaneo_10}`);
+        $(`#${this._alias}va_escaneo_11`).attr('href', `files/entrega/${data.escaneo_11}`);
+        $(`#${this._alias}va_escaneo_12`).attr('href', `files/entrega/${data.escaneo_12}`);
+        $(`#${this._alias}va_escaneo_13`).attr('href', `files/entrega/${data.escaneo_13}`);
+        $(`#${this._alias}va_escaneo_14`).attr('href', `files/entrega/${data.escaneo_14}`);
+    }
+    
+    setEvents(tk){
+        //eventos para uploads
+        $(`#${this._alias}file_escaneo_1`).change(() => {
+            this.postUpload(tk, 1);
+        });
+        $(`#${this._alias}file_escaneo_2`).change(() => {
+            this.postUpload(tk, 2);
+        });
+        $(`#${this._alias}file_escaneo_3`).change(() => {
+            this.postUpload(tk, 3);
+        });
+        $(`#${this._alias}file_escaneo_4`).change(() => {
+            this.postUpload(tk, 4);
+        });
+        $(`#${this._alias}file_escaneo_5`).change(() => {
+            this.postUpload(tk, 5);
+        });
+        $(`#${this._alias}file_escaneo_6`).change(() => {
+            this.postUpload(tk, 6);
+        });
+        $(`#${this._alias}file_escaneo_7`).change(() => {
+            this.postUpload(tk, 7);
+        });
+        $(`#${this._alias}file_escaneo_8`).change(() => {
+            this.postUpload(tk, 8);
+        });
+        $(`#${this._alias}file_escaneo_9`).change(() => {
+            this.postUpload(tk, 9);
+        });
+        $(`#${this._alias}aile_escaneo_10`).change(() => {
+            this.postUpload(tk, 10);
+        });
+        $(`#${this._alias}txt_escaneo_11`).change(() => {
+            this.postUpload(tk, 11);
+        });
+        $(`#${this._alias}txt_escaneo_12`).change(() => {
+            this.postUpload(tk, 12);
+        });
+        $(`#${this._alias}txt_escaneo_13`).change(() => {
+            this.postUpload(tk, 13);
+        });
+        $(`#${this._alias}txt_escaneo_14`).change(() => {
+            this.postUpload(tk,14);
         });
     }
     

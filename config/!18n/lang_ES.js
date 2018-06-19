@@ -110,28 +110,28 @@ var lang_ES = {
         primer_nombre: 'Primer Nombre',
         segundo_nombre: 'Segundo Nombre',
         datos_vehiculo: 'Datos del Vehículo',
-        pais: 'País (nacionalidad)',
+        pais: 'País (Nacionalidad)',
         estado_civil: 'Estado Civil',
         telefono_casa: 'Telefono Casa',
         telefono_trabajo: 'Telefono Trabajo',
         celular: 'Celular',
         direccion_domicilio: 'Dirección de Domicilio',
         direccion_trabajo: 'Dirección de Trabajo',
-        tipo_doc: 'Tipo Doc.',
-        nro_documento_identidad: 'Nro. de Doc. de Identidad',
-        img_doc_identidad: 'Doc. de Identidad (imagen)',
+        tipo_doc: 'Tipo Documento',
+        nro_documento_identidad: 'Número de Documento de Identidad',
+        img_doc_identidad: 'Documento de Identidad (imagen)',
         img_licencia_conducir: 'Licencia de Conducir (imagen)',
         tarjeta_propiedad: 'Tarjeta de Propiedad',
         placa: 'Placa',
         marca: 'Marca',
         modelo: 'Modelo',
-        nro_motor: 'Nro. de Motor',
-        nro_serie: 'Nro. Serie',
+        nro_motor: 'Número de Motor',
+        nro_serie: 'Número Serie',
         anio_fabricacion: 'Año de Fabricación',
         cilindrada: 'Cilindrada',
         img_tarjeta_propiedad: 'Tarjeta de Propiedad (imagen)',
         recibo_agua_luz_gas: 'Recibo de Agua/Luz/Gas Natural',
-        nro_revision_tecnica: 'Nro. Revisión Técnica',
+        nro_revision_tecnica: 'Número Revisión Técnica',
         fecha_prox_inspeccion: 'Fecha de Próxima Inspección',
         img_revision_tecnica: 'Revisión Técnica (imagen)',
         soat: 'SOAT (número de póliza)',
@@ -139,13 +139,13 @@ var lang_ES = {
         inscripcion_app_movil: 'Inscripcion de app movil (Uber, Easy Taxi)',
         img_soat: 'SOAT (imagen)',
         consentimiento: 'Principio de consentimiento al tratamiento de datos personales del cliente',
+        consentimiento_form: 'Consentimiento',
         otros_datos: 'Otros Datos',
         aqui: '(descargar)',
         formato_solicitud_cobranza: 'Formato de Solicitud de Cobranza',
         hoja_unica_datos: 'Hoja Única de Datos - Calidda',
-        documentos: 'Documentos',
         img_consentimiento: 'Consentimiento (imagen)',
-        nro_exp: 'Nro. Exp.',
+        nro_exp: 'Número Exp.',
         pre_conversion: 'Pre Conversión',
         conversion: 'Conversión',
         apellidos_nombres: 'Apellidos y Nombres',
@@ -164,7 +164,7 @@ var lang_ES = {
         '2500_rpm': '2500&nbsp;RPM',
         masa_motor: 'Masa de Motor',
         masa_chasis: 'Masa de Chasis',
-        estado_bateria_otros: 'Estado de Bateríay Otros',
+        estado_bateria_otros: 'Estado de Batería y Otros',
         botones: 'Botones',
         anclaje: 'Anclaje',
         nivel_electrolito: 'Nivel de Electrolito',
@@ -344,7 +344,7 @@ var lang_ES = {
         Verificar montaje por debajo del sistema de compensacion de refrigerante<br>
         Verificar manometro de 0 - 200 Bar que este conectado/Utilizacion de teflon para gas alta presion (Color amarillo)<br>
         Verificar existencia de fugas de gas y refrigerante`,
-        entrega_gas: 'Entrega de Gas (Inyectores de Gas)',
+        entrega_gas: 'Riel de Inyectores de Gas',
         entrega_gas_texto: `
         Montado en forma vertical y maximo a 45 grados de inclinacion<br>
         Instalar utilizando bases de acero con amortiguadores de vibracion (Goma)<br>
@@ -397,7 +397,7 @@ var lang_ES = {
         Tubería de Alta Presión<br>
         Válvula de Carga<br>
         Regulador de Presión<br>
-        Entrega de Gas (Inyectores de Gas)<br>
+        Riel de Inyectores de Gas<br>
         ECU/Centralita/Controlador de Gas<br>
         Variador de Avance<br>
         Conmutador <br>
@@ -407,12 +407,12 @@ var lang_ES = {
         bar: 'Bar',
         configuracion_temperatura_conmutacion: 'Configuración de temperatura de conmutacion',
         cenrigrados: '°C',
-        stft_b1_combustible_gnv:'STFT B1 en combustible GNV',
-        ltft_b1_combustible_gnv:'LTFT B1 en combustible GNV',
-        analisis_gas_ralenti_gasolina:'Analisis de gases en ralenti en gasolina',
-        analisis_gas_rpm_gasolina:'Analisis de gases 2500/3000 rpm en gasolina',
-        analisis_gas_ralenti_gnv:'Analisis de gases en ralenti en GNV',
-        analisis_gas_rpm_gnv:'Analisis de gases 2500/3000 rpm en GNV',
+        stft_b1_combustible_gnv: 'STFT B1 en combustible GNV',
+        ltft_b1_combustible_gnv: 'LTFT B1 en combustible GNV',
+        analisis_gas_ralenti_gasolina: 'Analisis de gases en ralenti en gasolina',
+        analisis_gas_rpm_gasolina: 'Analisis de gases 2500/3000 rpm en gasolina',
+        analisis_gas_ralenti_gnv: 'Analisis de gases en ralenti en GNV',
+        analisis_gas_rpm_gnv: 'Analisis de gases 2500/3000 rpm en GNV',
         video_estado_funcionamiento_gnv: 'Realice un video para el Estado y Fumcionamiento de GNV',
         estado_funcionamiento_gnv_texto: `
         Estabilidad en ralenti<br>
@@ -434,7 +434,35 @@ var lang_ES = {
         Registrar luego de autocalibracion en minimo que la diferencia entre el tiempo de inyeccion de gasolina y el tiempo de inyeccion de gas, no supere los 2.5ms<br>
         Verificar en calibracion en ruta que la conmutacion es estable<br>
         Verificar luego de calibracion en ruta, realizar activacion de auto-adaptacion (Si aplica)<br>
-        Verificar luego de calibracion en ruta si existen codigos de falla (Si existe revision, correccion, desviacion)`
+        Verificar luego de calibracion en ruta si existen codigos de falla (Si existe revision, correccion, desviacion)`,
+        ver_video: 'Ver Video',
+        entrega: 'Documentos de Entrega',
+        escanear_documentos: 'Escanear Documentos de Engrega',
+        escaneo_1: 'Cartilla informativa cofide para el cliente',
+        escaneo_2: 'Manual del usuario y garantia',
+        escaneo_3: 'Contrato de financiamiento Calidda',
+        escaneo_4: 'Acta de entrega señalando conformidad del cliente y firmada por el cliente',
+        escaneo_5: 'Stickers y material comercial publicitario del PEC y de Calidda',
+        escaneo_6: 'Impresión file de la converison ejecutada',
+        escaneo_7: 'Declaracion jurada',
+        escaneo_8: 'Factura PEC',
+        escaneo_9: 'Registro Produce',
+        escaneo_10: 'Carta de responsabilidad del PEC',
+        escaneo_11: 'Factura y/o Boleta entregada al cliente',
+        escaneo_12: 'Registrar nombre de la entidad certificadora',
+        escaneo_13: 'Registrar numero del certificado de conformidad del vehiculo a GNV',
+        escaneo_14: 'Capacitacion al cliente final en la utilizacion del GNV y evidenciar cada parte del Kit instalado en la conversion',
+        consentimiento_1: `A que mis datos personales sean procesados por VerifyGas para actividades de marketing por copia impresa, por medios automáticos
+        o electrónicos, incluidos por correo postal o electrónico, telefono, fax y cualquier otro medio(por ejemplo: sitios web, aplicaciones moviles)`,
+        consentimiento_2: `A que mis datos personales sean procesados por VerifyGas para analizar mis preferencias y recibir comunicaciones
+        personales comercializadas.`,
+        consentimiento_3: `A que mis datos personales sean comunicados a las empresas subsidiarias o filiales de VerifyGas, asi como a sus socios
+        en el sector de la automoción, financiero, de seguros y telecomunicaciones, que los procesaran para finalidades de marketing por copia impresa, por medios automáticos
+        o electrónicos, incluidos por correo postal o electrónico, telefono, fax y cualquier otro medio(por ejemplo: sitios web, aplicaciones moviles)`,
+        acepto: 'Acepto',
+        filtros_busqueda: 'Filtros de Busqueda',
+        por_atender: 'Por Atender',
+        atendidos: 'Atendidos'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',
@@ -459,6 +487,9 @@ var lang_ES = {
         rechazar: '¿Está seguro de rechazar el registro?',
         operacion_ok: 'La operación se realizó correctamente.',
         seguro_preconversion: '¿Está seguro de Guardar y Aprobar la Pre Conversión?',
-        no_puede_grabar_enviar_conversion: 'No puede Grabar y Aprobar mientras la Conversion no este CONFORME en su totalidad. Puede presionar el boton Grabar'
+        no_puede_grabar_enviar_conversion: 'No puede Grabar y Aprobar mientras la Conversion no este CONFORME en su totalidad. Puede presionar el boton Grabar',
+        entrega: '¿Está seguro de grabar y aprobar la documentacion de la entrega?',
+        finalizar: '¿Está seguro que la ENTREGA se realizó correctamente?',
+        no_conforme: 'No puede aprobar mientras la Pre Conversión no este CONFORME en su totalidad.'
     }
 };

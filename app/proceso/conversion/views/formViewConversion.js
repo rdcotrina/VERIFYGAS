@@ -613,7 +613,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
                                             <label class="control-label"></label>
-                                            <input type="file" name="file_video_varios" id="file_video_varios" class="form-control"/>
+                                            <a id="va_varios" target="_blank" class="tr-language" data-tr="ver_video"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -851,9 +851,8 @@
                                 <legend></legend>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="col-md-6 control-label tr-language" data-tr="video_estado_funcionamiento_gnv"></label>
+                                        <label class="col-md-6 control-label"><a id="va_estado_funcionamiento" target="_blank" class="tr-language" data-tr="video_estado_funcionamiento_gnv"></a></label>
                                         <div class="col-md-6">
-                                            <input class="form-control" type="file" id="file_video_estado_funcionamiento_gnv" name="file_video_estado_funcionamiento_gnv">
                                         </div>
                                     </div>
                                 </div>
@@ -891,176 +890,10 @@
         <div class="form-actions">
             <div class="row">
                 <div class="col-md-12">
-                    <span id="actions_cov" class="btn-toolbar"></span>
+                    <span id="actions_vcov" class="btn-toolbar"></span>
                 </div>
             </div>
         </div>
-        
-        <js>
-            $.validate({
-            ignore: [],
-                rules: {
-                   txt_marka_cilindro_gnv: {
-                        required: true
-                    },
-                    txt_xerie_cilindro_gnv: {
-                        required: true
-                    },
-                    txt_capacidad_litros:{
-                        required: true,
-                        number: true
-                    },
-                    txt_fecha_fabricacion: {
-                        required: true,
-                        date: true
-                    },
-                    txt_ubicacion_cuna_cilindro: {
-                        required: true
-                    },
-                    lst_cilindro_gnv_texto: {
-                        required: true
-                    },
-                    txt_narca_valvula: {
-                        required: true
-                    },
-                    lst_valvula_cilindro_texto: {
-                        required: true
-                    },
-                    lst_tuberia_alta_presion_texto: {
-                        required: true
-                    },
-                    lst_valvula_carga_texto: {
-                        required: true
-                    },
-                    txt_cerie_regulador_presion: {
-                        required: true
-                    },
-                    lst_regulador_presion_texto: {
-                        required: true
-                    },
-                    txt_serhie_entrega_gas: {
-                        required: true
-                    },
-                    txt_zerie_controlador_gas: {
-                        required: true
-                    },
-                    lst_controlador_gas_texto:{
-                        required: true
-                    },
-                    lst_entrega_gas_texto:{
-                        required: true
-                    },
-                    txt_qerie_variador_avance:{
-                        required: true
-                    },
-                    lst_conmutador_texto:{
-                        required: true
-                    },
-                    lst_variador_avance_texto:{
-                        required: true
-                    },
-                    lst_emulacion_inyectores_texto: {
-                        required: true
-                    },
-                    file_video_varios: {
-                        required: true
-                    },
-                    txt_presion_salida_regulador: {
-                        required: true,
-                        number: true
-                    },
-                    txt_configuracion_temperatura_conmutacion: {
-                        required: true,
-                        number: true
-                    },
-                    txt_stft_b1_combustible_gnv: {
-                        required: true,
-                        number: true
-                    },
-                    txt_ltft_b1_combustible_gnv: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gasolinaco: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gasolinahc: {
-                        required: true,
-                        number: true
-                    },
-                    txt_hanalisis_gas_ralenti_gasolinaco2: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gasolinao2: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gasolinaco: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gasolinahc: {
-                        required: true,
-                        number: true
-                    },
-                    txt_wanalisis_gas_rpm_gasolinaco2: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gasolinao2: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gnvco: {
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gnvhc:{
-                        required: true,
-                        number: true
-                    },
-                    txt_vanalisis_gas_ralenti_gnvco2:{
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_ralenti_gnvo2:{
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gnvco:{
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gnvhc:{
-                        required: true,
-                        number: true
-                    },
-                    txt_ianalisis_gas_rpm_gnvco2:{
-                        required: true,
-                        number: true
-                    },
-                    txt_analisis_gas_rpm_gnvo2:{
-                        required: true,
-                        number: true
-                    },
-                    file_video_estado_funcionamiento_gnv:{
-                        required: true
-                    },
-                    lst_estado_funcionamiento_gnv_texto:{
-                        required: true,
-                        number: true
-                    } 
-                },
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                },
-                submitHandler: function () {
-                    Obj.Proceso.ConversionAx.postNewConversion(__PK__);
-                }
-            });
-        </js>
         
     </form>
 

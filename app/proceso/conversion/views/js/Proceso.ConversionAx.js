@@ -20,6 +20,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         this._ifFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
         this._idFormConversion = `#${this._alias}formConversion`;
         this._idFormConversionEdit = `#${this._alias}formConversionEdit`;
+        this._idFormViewConversion = `#${this._alias}formViewConversion`;
         this._keyPropietario = null;
         this._grabaAprueba = 0;
         this._minPresionSalidaRegualdor = 0;
@@ -153,6 +154,54 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
             });
         };
 
+        this._formConversionEdit = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-TCONV${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnUpdtConv();
+                    this._findPropietario(tk, this._idFormConversionEdit).done(() => {
+                        this.setEvents(tk);
+                    });
+                    this._getConversion(tk, this._idFormConversionEdit, 0);
+                }
+            });
+        };
+
+        this._formViewConversion = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-VTCONV${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnCloseViewConv();
+                    this._findPropietario(tk, this._idFormViewConversion);
+                    this._getConversion(tk, this._idFormViewConversion, 1);
+                }
+            });
+        };
+
+        this._getConversion = (tk, form, linkVideos) => {
+            this.send({
+                token: tk,
+                gifProcess: true,
+                context: this,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    this.setConversionData(data, form, linkVideos);
+                }
+            });
+        };
+
         this._findPropietario = (tk, form) => {
             return this.send({
                 token: tk,
@@ -162,27 +211,26 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                 },
                 response: (data) => {
-                    this.setPreConversion(data, form);
+                    this.setConversion(data, form);
                 }
             });
         };
-        
+
         this._postNewConversion = (tk) => {
             this.send({
                 flag: 1,
                 token: tk,
                 gifProcess: true,
-                element: (this._grabaAprueba)?`#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`:`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                element: (this._grabaAprueba) ? `#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}` : `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
                 context: this,
-                form: (this._tienePreconversion == 1) ? this._idFormConversionEdit : this._idFormConversion,
-                formData: true,
+                form: (this._tieneConversion == 1) ? this._idFormConversionEdit : this._idFormConversion,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_videoEstadoFUncionamientoGNV', value: this._videoEstadoFUncionamientoGNV});
                     sData.push({name: '_videoVarios', value: this._videoVarios});
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                     sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
                 },
-                complete: (data) => {
+                response: (data) => {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewConversion(null, null);
@@ -207,6 +255,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
     }
 
     formConversion(btn, tk) {
+        this._grabaAprueba = 0;
         this._keyPropietario = $(btn).parent('div').data('propietario');
         this._tieneConversion = $(btn).parent('div').data('tieneconversion');
 
@@ -215,7 +264,24 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
             id: `${this._alias}-TCONV`,
             label: APP_ETIQUET.datos_converion,
             fnCallback: () => {
-                this._formConversion(tk);
+                if (this._tieneConversion == 1) {
+                    this._formConversionEdit(tk);
+                } else {
+                    this._formConversion(tk);
+                }
+            }
+        });
+    }
+
+    formViewConversion(btn, tk) {
+        this._keyPropietario = $(btn).parent('div').data('propietario');
+
+        Tools.addTab({
+            context: this,
+            id: `${this._alias}-VTCONV`,
+            label: APP_ETIQUET.datos_converion,
+            fnCallback: () => {
+                this._formViewConversion(tk);
             }
         });
     }
@@ -280,11 +346,9 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
             complete: (data) => {
                 if (data.result == 1) {
                     eval(`this.${data.element} = '${data.archivo}';`);
-                    if (!$.isEmptyObject(this._keyPropietario)) {
-                        Tools.notify().ok({
-                            content: APP_MSN.upload_ok
-                        });
-                    }
+                    Tools.notify().ok({
+                        content: APP_MSN.upload_ok
+                    });
                 } else {
                     Tools.notify().error({
                         content: data.result
@@ -300,6 +364,10 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
 
     closeNewConversion(btn, tk) {
         Tools.closeTab(`${this._alias}-TCONV`);
+    }
+
+    closeViewConversion(btn, tk) {
+        Tools.closeTab(`${this._alias}-VTCONV`);
     }
 
 };

@@ -133,7 +133,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-6 control-label"><a id="va_ralentimotor" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                    <label class="col-md-4 control-label tr-language" data-tr="video_noconformidad"></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="file" id="file_videovaciomotorralenti" name="file_videovaciomotorralenti">
+                                    </div>
                                 </div>
 
                             </fieldset>
@@ -180,10 +183,13 @@
                                             <label class="label"></label>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label class="col-md-6 control-label"><a id="va_analisisgasesralenti" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                        <label class="col-md-4 control-label tr-language" data-tr="video_noconformidad"></label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" type="file" id="file_videovralentianalisisgases" name="file_videovralentianalisisgases">
+                                        </div>
                                     </div>
+                                    
                                 </div>
 
                                 <div class="col-md-6">
@@ -226,7 +232,10 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-md-6 control-label"><a id="va_analisisgasesrpm" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>                                     
+                                        <label class="col-md-4 control-label tr-language" data-tr="video_noconformidad"></label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" type="file" id="file_videovrpmanalisisgases" name="file_videovrpmanalisisgases">
+                                        </div>
                                     </div>
                                 </div>
                             </fieldset>
@@ -439,7 +448,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-7 control-label"><a id="va_stftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                        <label class="col-md-5 control-label tr-language" data-tr="video_noconformidad"></label>
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="file" id="file_videostftb1" name="file_videostftb1">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="ltftb1"></label>
@@ -451,7 +463,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-7 control-label"><a id="va_ltftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                        <label class="col-md-5 control-label tr-language" data-tr="video_noconformidad"></label>
+                                        <div class="col-md-7">
+                                            <input class="form-control" type="file" id="file_videoltftb1" name="file_videoltftb1">
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="sensor_cmp"></label>
@@ -661,7 +676,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-6 control-label"><a id="va_cilindros" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
+                                    <label class="col-md-4 control-label tr-language" data-tr="video_noconformidad"></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="file" id="file_videocilindro" name="file_videocilindro">
+                                    </div>
                                 </div>
 
 

@@ -32,7 +32,11 @@ class Exe_ {
                 if ($.isFunction(callback)) {
                     setTimeout(() => {
                         callback();
-                    }, 200);   /*se retarda 200 ms, porque se estaba ejecutando antes que cargue el js*/
+                        var tv = scriptId.replace('app','on->');
+                        tv = tv.replace('views','');
+                        tv = tv.replace(/js/g,'');
+                        console.log(tv);
+                    }, 500);   /*se retarda 200 ms, porque se estaba ejecutando antes que cargue el js*/
 
                 }
                 /*str es NULL, cuando require: 'string/string'*/
@@ -121,7 +125,7 @@ class Exe_ {
                     eval(`
                         Obj.${file}.main('${_tk_}');
                         $('html,body').animate({ scrollTop: 0}, 0);
-                        //console.log('[Obj.${file}.main()] ejecutado.');
+                        //console.log('${file}.pirncipal');
                     `);
                 }
                 /*si archvo ya existe, se verifica si tiene callback y se ejecuta*/

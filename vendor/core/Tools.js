@@ -19,7 +19,7 @@ class Tools_ {
         }
 
         let li = $(this._tabTemplate.replace(/#\{href\}/g, "#" + obj.id + '_CONTAINER').replace(/#\{label\}/g, obj.label).replace(/#\{idli\}/g, 'li-' + obj.id));
-        let tabContentHtml = (obj.content !== undefined) ? obj.content : `<h1><i class="fa fa-cog fa-spin"></i> ${APP_ETIQUET.loading}</h1>`;
+        let tabContentHtml = (obj.content !== undefined) ? obj.content : `<h1><i class="fa fa-cog fa-spin"></i> Cargando...</h1>`;
 
         this._tabs.find("#cont-tabs-sys").append(li);
         this._tabs.find('#cont-main-sys').append("<div id='" + obj.id + "_CONTAINER' class='tab-pane'><p>" + tabContentHtml + "</p></div>");

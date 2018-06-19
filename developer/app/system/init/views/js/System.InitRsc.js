@@ -6,12 +6,12 @@ $$.System.InitRsc = class InitRsc extends Resource {
         super();
     }
 
-    addTour(){
+    addTour() {
         $('#btnTour').click(function () {
             Obj.System.InitTour.home();
         });
     }
-    
+
     validate() {
         $("#LG__formLogin").validate({
             // Rules for form validation
@@ -96,15 +96,17 @@ $$.System.InitRsc = class InitRsc extends Resource {
     }
 
     inactividadRsc() {
-        $(document).idleTimeout({
-            redirectUrl: 'Obj.System.InitAx.logOut(null);',
-            idleTimeLimit: 1800, // 'No activity' time limit in seconds. 1800 = 30 Minutes, DEBE VENIR DE LA DB
-            dialogTitle: APP_ETIQUET.cierre_sesion,
-            dialogText: APP_ETIQUET.inactividad,
-            dialogTimeRemaining: APP_ETIQUET.tiempo_inactividad,
-            dialogStayLoggedInButton: APP_ETIQUET.continuar,
-            dialogLogOutNowButton: APP_ETIQUET.salir
-        });
+        setTimeout(function () {
+            $(document).idleTimeout({
+                redirectUrl: 'Obj.System.InitAx.logOut(null);',
+                idleTimeLimit: 1800, // 'No activity' time limit in seconds. 1800 = 30 Minutes, DEBE VENIR DE LA DB
+                dialogTitle: 'Advertencia de cierre de sesión',
+                dialogText: 'Como ha estado inactivo, su sesión está a punto de caducar.',
+                dialogTimeRemaining: 'Tiempo restante',
+                dialogStayLoggedInButton: 'Continuar',
+                dialogLogOutNowButton: 'Salir'
+            });
+        }, 1500);
     }
 
     demo() {

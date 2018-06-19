@@ -76,8 +76,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
             }
             
             $root = ROOT . 'files' . DS . 'videos' . DS; //ruta donde se va alojar el archivo
-
-            $nvoNom = str_replace(' ', '', $inputFile['name']);
+            
+            $ext = explode('.', $inputFile['name'])[1];
+            
+            $nvoNom = $this->_usuario.$nameElement.'_'.uniqid('vg').'.'.$ext;
 
             Obj()->Vendor->Tools->deleteFile($root . $nvoNom);
 
@@ -182,8 +184,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
 
 
             $root = ROOT . 'files' . DS . 'docs_registro' . DS; //ruta donde se va alojar el archivo
-
-            $nvoNom = str_replace(' ', '', $inputFile['name']);
+            
+            $ext = explode('.', $inputFile['name'])[1];
+            
+            $nvoNom = $this->_usuario.$nameElement.'_'.uniqid('vg').'.'.$ext;
 
             Obj()->Vendor->Tools->deleteFile($root . $nvoNom);
 
@@ -216,9 +220,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         }
         echo json_encode($data);
     }
-
-    private function _sendMailNewVehiculo($data) {        
-        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailNewVehiculo.phtml');
+    
+    private function _sendMailPreconversionAprobadaVerifyGas($data) {
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailPreconversionAprobadaVerifyGas.phtml');
         
         /* reemplazando titulos */
         $body = str_replace("{NOMBRES}", $data['propietario'], $body);
@@ -228,16 +232,67 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{SERIE}", $data['serie'], $body);
         
         Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
-        Obj()->Libs->PHPMailer->Subject = 'Nuevo Registro';
+        Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
         Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
-        Obj()->Libs->PHPMailer->AltBody = 'Se realizó un nuevo registro de vehículo';
+        Obj()->Libs->PHPMailer->AltBody = 'Se aprobo una pre conversión';
 
         /* realizando el envio a los correos del postulante */
         //correos y nombres de destinatario
-        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'VERIFYGAS Mail');
-        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'VERIFYGAS Mail');
+        #Obj()->Libs->PHPMailer->addAddress('victor.luperdi@calidda.com.pe', 'PRE CONVERSION');#correo de calidda
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'PRE CONVERSION');
+        //enviando
+        Obj()->Libs->PHPMailer->send();
+    }
+
+    private function _sendMailPreconversionAprobadaTaller($data) {        
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailPreconversionAprobadaTaller.phtml');
+        
+        /* reemplazando titulos */
+        $body = str_replace("{NOMBRES}", $data['propietario'], $body);
+        $body = str_replace("{PLACA}", $data['placa'], $body);
+        $body = str_replace("{MARCA}", $data['marca'], $body);
+        $body = str_replace("{MODELO}", $data['modelo'], $body);
+        $body = str_replace("{SERIE}", $data['serie'], $body);
+        
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
+        Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
+        //contenido del correo
+        Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
+        Obj()->Libs->PHPMailer->AltBody = 'Se aprobo una pre conversión';
+
+        /* realizando el envio a los correos del postulante */
+        //correos y nombres de destinatario
+        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'PRE CONVERSION');#correo de verifygas
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'PRE CONVERSION');
+        //enviando
+        Obj()->Libs->PHPMailer->send();
+    }
+    
+    private function _sendMailPreconversionAprobadaCalidda($data) {
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailPreconversionAprobadaCalidda.phtml');
+        
+        /* reemplazando titulos */
+        $body = str_replace("{NOMBRES}", $data['propietario'], $body);
+        $body = str_replace("{PLACA}", $data['placa'], $body);
+        $body = str_replace("{MARCA}", $data['marca'], $body);
+        $body = str_replace("{MODELO}", $data['modelo'], $body);
+        $body = str_replace("{SERIE}", $data['serie'], $body);
+        
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
+        Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
+        //contenido del correo
+        Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
+        Obj()->Libs->PHPMailer->AltBody = 'Se aprobo una pre conversión';
+
+        /* realizando el envio a los correos del postulante */
+        //correos y nombres de destinatario
+        //Obj()->Libs->PHPMailer->addAddress('taller@hotmail.com', 'PRE CONVERSION');#correo de taller
+        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'PRE CONVERSION');#correo de verifygas
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'PRE CONVERSION');
         //enviando
         Obj()->Libs->PHPMailer->send();
     }
@@ -245,9 +300,6 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     public function postNew() {
         if ($this->isValidate()) {
             $data = $this->spMantenimiento();
-//            if ($data['result'] == 1) {
-//                $this->_sendMailNewVehiculo($data);
-//            }
         } else {
             $data = $this->valida()->messages();
         }
@@ -277,7 +329,32 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
     }
     
     public function postAtender() {
-        echo json_encode($this->spAtender());
+        $data = $this->spAtender();
+        if($this->_form->_flag == 1 && $data['ok_error'] == 'ok'){//se esta aprobando, enviar correos segun rol
+            switch ($this->_idRol) {
+                case 3://el usuario que aprueba es de rol TALLER, enviar mail a verifygas
+                    $this->_sendMailPreconversionAprobadaTaller($data);
+                    break;
+                case 5://el usuario que aprueba es de rol VERIFYGAS, enviar mail a calidda
+                    $this->_sendMailPreconversionAprobadaVerifyGas($data);
+                    break;
+                case 7://el usuario que aprueba es de rol CALIDDA, enviar mail a taller y verifygas
+                    $this->_sendMailPreconversionAprobadaCalidda($data);
+                    break;
+            }
+        }elseif($this->_form->_flag == 2 && $data['ok_error'] == 'ok'){//se esta rechazando, enviar correos segun rol
+            #PENDIENTE HASTA QUE SE APLIQUE EL FILTRO POR ESTADO EN LOS FILTROS
+            /*switch ($this->_idRol) {
+                case 5://el usuario que rechaza es de rol VERIFYGAS, enviar mail a taller
+                    $this->_sendMailPreconversionRechazaVerifyGas($data);
+                    break;
+                case 7://el usuario que rechaza es de rol CALIDDA, enviar mail a taller y verifygas
+                    $this->_sendMailPreconversionRechazaCalidda($data);
+                    break;
+            }*/
+        }
+        
+        echo json_encode($data);
     }
 
     public function find() {

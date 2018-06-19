@@ -34,8 +34,80 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
         echo json_encode($this->qGetVehiculos());
     }
     
+    private function _sendMailConversionAprobadaTaller($data) {
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailConversionAprobadaTaller.phtml');
+        
+        /* reemplazando titulos */
+        $body = str_replace("{NOMBRES}", $data['propietario'], $body);
+        $body = str_replace("{PLACA}", $data['placa'], $body);
+        $body = str_replace("{MARCA}", $data['marca'], $body);
+        $body = str_replace("{MODELO}", $data['modelo'], $body);
+        $body = str_replace("{SERIE}", $data['serie'], $body);
+        
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->Subject = 'Conversion Aprobada';
+        Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
+        //contenido del correo
+        Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
+        Obj()->Libs->PHPMailer->AltBody = 'Se aprobo una conversión';
+
+        /* realizando el envio a los correos del postulante */
+        //correos y nombres de destinatario
+        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'CONVERSION');#correo de verifygas
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'CONVERSION');
+        //enviando
+        Obj()->Libs->PHPMailer->send();
+    }
+    
+    private function _sendMailConversionAprobadaVerifyGas($data) {
+        $body = file_get_contents('files' . DS . 'mails' . DS . 'mailConversionAprobadaVerifyGas.phtml');
+        
+        /* reemplazando titulos */
+        $body = str_replace("{NOMBRES}", $data['propietario'], $body);
+        $body = str_replace("{PLACA}", $data['placa'], $body);
+        $body = str_replace("{MARCA}", $data['marca'], $body);
+        $body = str_replace("{MODELO}", $data['modelo'], $body);
+        $body = str_replace("{SERIE}", $data['serie'], $body);
+        
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->Subject = 'Conversion Aprobada';
+        Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
+        //contenido del correo
+        Obj()->Libs->PHPMailer->msgHTML($body, ROOT);
+        Obj()->Libs->PHPMailer->AltBody = 'Se aprobo una conversión';
+
+        /* realizando el envio a los correos del postulante */
+        //correos y nombres de destinatario
+        #Obj()->Libs->PHPMailer->addAddress('victor.luperdi@calidda.com.pe', 'CONVERSION');#correo de calidda
+        #Obj()->Libs->PHPMailer->addAddress('taller@hotmail.com', 'CONVERSION');#correo de taller
+        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'CONVERSION');
+        //enviando
+        Obj()->Libs->PHPMailer->send();
+    }
+    
     public function postAtender() {
-        echo json_encode($this->spAtender());
+        $data = $this->spAtender();
+        if($this->_form->_flag == 1 && $data['ok_error'] == 'ok'){//se esta aprobando, enviar correos segun rol
+            switch ($this->_idRol) {
+                case 3://el usuario que aprueba es de rol TALLER, enviar mail a verifygas
+                    $this->_sendMailConversionAprobadaTaller($data);
+                    break;
+                case 5://el usuario que aprueba es de rol VERIFYGAS, enviar mail a calidda y taller
+                    $this->_sendMailConversionAprobadaVerifyGas($data);
+                    break;
+            }
+        }elseif($this->_form->_flag == 2 && $data['ok_error'] == 'ok'){//se esta rechazando, enviar correos segun rol
+            #PENDIENTE HASTA QUE SE APLIQUE EL FILTRO POR ESTADO EN LOS FILTROS
+            /*switch ($this->_idRol) {
+                case 5://el usuario que rechaza es de rol VERIFYGAS, enviar mail a taller
+                    $this->_sendMailPreconversionRechazaVerifyGas($data);
+                    break;
+                case 7://el usuario que rechaza es de rol CALIDDA, enviar mail a taller y verifygas
+                    $this->_sendMailPreconversionRechazaCalidda($data);
+                    break;
+            }*/
+        }
+        echo json_encode($data);
     }
     
     public function findPropietario() {
@@ -56,13 +128,16 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
                 case 2: //analisis de gases ralenti
                     $inputFile = $this->_file->file_video_estado_funcionamiento_gnv;
                     $nameElement = '_videoEstadoFUncionamientoGNV';
-                    $this->_columnDB = 'video_estado_funcionamiento_gnv';
+                    $this->_columnDB = 'video_estado_funcionamiento';
                     break;
             }
             
             $root = ROOT . 'files' . DS . 'videos' . DS; //ruta donde se va alojar el archivo
+            
+            $ext = explode('.', $inputFile['name'])[1];
 
-            $nvoNom = str_replace(' ', '', $inputFile['name']);
+            $nvoNom = $this->_usuario.$nameElement.'_'.uniqid('vg').'.'.$ext;
+           // $nvoNom = $this->_usuario.$nameElement.'.'.$ext;//str_replace(' ', '', $inputFile['name']);
 
             Obj()->Vendor->Tools->deleteFile($root . $nvoNom);
 
@@ -80,9 +155,9 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
                     Obj()->Libs->Upload->Clean();
 
                     //funciona desde el formulario editar
-//                    if ($this->_form->_tieneCreconversion) {
-//                        $this->qUpdateVideo($nvoNom);
-//                    }
+                    if ($this->_form->_tieneConversion) {
+                        $this->qUpdateVideo($nvoNom);
+                    }
 
                     $data = ['result' => 1, 'archivo' => $nvoNom, 'element' => $nameElement];
                 } else {
@@ -103,6 +178,10 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
 //            $data = $this->valida()->messages();
 //        }
         echo json_encode($this->spMantenimientoConversion());
+    }
+    
+    public function getConversion() {
+        echo json_encode($this->qGetConversion());
     }
     
 }

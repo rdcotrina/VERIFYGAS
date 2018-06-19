@@ -124,7 +124,7 @@ class Tools_ {
                 $.smallBox({
                     title: (obj.title !== undefined) ? obj.title : APP_MSN.msn_sys,
                     content: (obj.content !== undefined) ? obj.content : "No content",
-                    color: (obj.color !== undefined) ? obj.color : "#296191",
+                    color: (obj.color !== undefined) ? obj.color : "#C79121",
                     iconSmall: (obj.icon !== undefined) ? obj.icon : "fa fa-thumbs-up bounce animated",
                     timeout: (obj.timeout !== undefined) ? obj.timeout : 6000
                 });

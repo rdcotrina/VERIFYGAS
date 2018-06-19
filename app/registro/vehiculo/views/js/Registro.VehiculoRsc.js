@@ -35,6 +35,36 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         });
     }
 
+    addButtonsCons() {
+        $.fn.appButton.get({
+            container: `#${this._alias}foot_btns_cons`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.GRB, type: 'submit'}
+            ]
+        });
+    }
+
+    addBtnConsentimiento() {
+        $.fn.appButton.get({
+            container: `#${this._alias}btn_cons`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.KNS, evts: [{click: 'Obj.Registro.VehiculoAx.formConsentimiento'}]}
+            ]
+        });
+    }
+    
+    addBtnViewConsentimiento() {
+        $.fn.appButton.get({
+            container: `#${this._alias}btn_vcons`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.VKNS, evts: [{click: 'Obj.Registro.VehiculoAx.formViewConsentimiento'}]}
+            ]
+        });
+    }
+
     addBtnSavePrec() {
         $.fn.appButton.get({
             container: `#${this._alias}actions_prec`,
@@ -45,14 +75,14 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Registro.VehiculoAx.closeNewPreconversion'}]}
             ]
         }, (oSettings) => {
-            $(`#${this._alias}actions_prec`).find('button').mouseover((e)=>{
-                if($(e.currentTarget).hasClass('btn-success')){
+            $(`#${this._alias}actions_prec`).find('button').mouseover((e) => {
+                if ($(e.currentTarget).hasClass('btn-success')) {
                     this._grabaAprueba = 1;
-                }else{
+                } else {
                     this._grabaAprueba = 0;
                 }
             });
-            
+
         });
     }
 
@@ -251,7 +281,14 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                     <div id="${this._alias}${i}_tools" class="_tools"></div>
                 </div>
             </div>`;
-
+            let btns = `
+            {keybtn: APP_BTN.PRE, evts: [{click: 'Obj.Registro.VehiculoAx.formPreConversion'}]},
+            {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
+            {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}`;
+            //si estado de busqueda es 1, no mostrar botones de atender
+            if($(`#${this._alias}lst_estado`).val() == 1){
+                btns = '';
+            }
             //botones
             txtEval += `
                 $.fn.appButton.get({
@@ -265,9 +302,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                         {keybtn: APP_BTN.VPRKO, evts: [{click: 'Obj.Registro.VehiculoAx.formViewPreConversion'}]},    
                         {keybtn: APP_BTN.EDT, evts: [{click: 'Obj.Registro.VehiculoAx.formEditVehiculo'}]},
                         {keybtn: APP_BTN.DEL, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]},
-                        {keybtn: APP_BTN.PRE, evts: [{click: 'Obj.Registro.VehiculoAx.formPreConversion'}]},
-                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
-                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}
+                        ${btns}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
@@ -282,6 +317,17 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         eval(txtEval);
         $(`#${this._alias}d_vehiculo`).find('._tools').find('.btn').css({
             padding: '5px'
+        });
+    }
+
+    setConsentimiento(form) {
+        Tools.setDataForm(form, {
+            alias: this._alias,
+            elements: [
+                {item: 'chk_consentimiento_1', value: this._consentimiento_1, type: 'checkbox'},
+                {item: 'chk_consentimiento_2', value: this._consentimiento_2, type: 'checkbox'},
+                {item: 'chk_consentimiento_3', value: this._consentimiento_3, type: 'checkbox'}
+            ]
         });
     }
 
@@ -316,6 +362,9 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: 'txt_fechavigenciasoat', value: data.fecha_poliza_vigencia}
             ]
         });
+        this._consentimiento_1 = data.consentimiento_1;
+        this._consentimiento_2 = data.consentimiento_2;
+        this._consentimiento_3 = data.consentimiento_3;
 
         if (activeLinks) {
             $(`#${this._alias}a_doc_identidad`).attr('href', `files/docs_registro/${data.imagen_documento_identidad}`);
@@ -366,6 +415,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: 'txt_ciclindro4', value: data.cilindro_4}
             ]
         });
+        this._conformeAll = data.conformidad_todo; 
         //se retrasa 1.5 seg porque antes debe cargar la lista
         setTimeout(() => {
             Tools.setDataForm(form, {
@@ -402,6 +452,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                 {item: '_cilindrada', value: data.cilindrada, type: 'html'}
             ]
         });
+        
         //cargando parametro para min y max de voltios
         let apagado = data.param_apagado.split('-');
         let encendido = data.param_encendido.split('-');// es RALENTI

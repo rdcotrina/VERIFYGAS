@@ -962,9 +962,6 @@
                     lst_emulacion_inyectores_texto: {
                         required: true
                     },
-                    file_video_varios: {
-                        required: true
-                    },
                     txt_presion_salida_regulador: {
                         required: true,
                         number: true
@@ -1044,9 +1041,6 @@
                     txt_analisis_gas_rpm_gnvo2:{
                         required: true,
                         number: true
-                    },
-                    file_video_estado_funcionamiento_gnv:{
-                        required: true
                     },
                     lst_estado_funcionamiento_gnv_texto:{
                         required: true,

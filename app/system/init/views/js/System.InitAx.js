@@ -175,7 +175,7 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
         Tools.addTab({
             context: this,
             id: this._alias,
-            label: APP_ETIQUET.panel,
+            label: 'Panel',
             fnCallback: () => {
                 switch (parseInt(APP_IDROL)) {
                     case 3:

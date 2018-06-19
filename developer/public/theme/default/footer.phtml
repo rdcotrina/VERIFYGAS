@@ -15,6 +15,68 @@
 
 
 
+
+
+<script type="text/javascript">
+
+
+    /*obtener el src de los js incluidos, para verificar que no sean suplantados*/
+    /*
+     $.each($('script'),function(){
+     alert($(this).attr('src'))
+     });
+     */
+    var APP_MSN = null;
+    var APP_ETIQUET = null;
+    var APP_TOUR = null;
+    var APP_CONTAINER_TABS = '_CONTAINER';
+    var APP_ROOT = '<?php echo BASE_URL; ?>';
+    var APP_MAIN_MODALS = '#cont-modal-sys';
+
+    Exe.require({require: `${APP_ROOT}vendor/core/Tools`, callback: () => {
+            Tools.traslation('<?php echo Obj()->Vendor->Session->get('app_language') ?>');
+            Tools.getUserIP((ip) => localStorage.setItem('app_idLocal', ip));
+
+
+            /*
+             * agregando lista de roles
+             * @type undefined
+             */
+            var rols = <?php echo json_encode(Obj()->Vendor->Session->get('app_roles')) ?>;
+
+            var defaultNameRol = '<?php echo Obj()->Vendor->Session->get('app_defaultNameRol') ?>';
+            var liR = '', cssrol;
+//            $.each(rols, function (i, v) {
+//                cssrol = (v.nrol != defaultNameRol) ? 'arol' : '';
+//                if (v.nrol != defaultNameRol) {
+//                    liR += `<li><a href="javascript:;" class="${cssrol}" data-k="${v.id_rol}"><i class="fa fa-bars"></i> ${Tools.traslate(v.nrol)}</a></li>`;
+//                }
+//            });
+//            $('#ul-rols').html(liR);
+            //agregar rol por defecto
+            $('#sp-defaut-rol').html(Tools.traslate(defaultNameRol));
+        }
+    });
+
+    Exe.require({require: `${APP_ROOT}libs/Aes/js/aes`, callback: () => {
+            Exe.require({require: `<?php echo BASE_URL; ?>libs/Aes/js/aesctr`});
+        }
+    });
+    Exe.require({require: `${APP_ROOT}libs/Aes/js/base64`});
+    Exe.require({require: `${APP_ROOT}libs/Aes/js/utf8`});
+
+    /*
+     * Al final de la carga se limpia nmsp $$
+     * para evitar que los objetos sean instanciados fuera de Obj.
+     */
+    //setTimeout(function(){ $$ = null; },500); /*en mozilla necesita mas tiempo, terminar esta validacion despues*/
+
+</script>
+
+
+
+
+
 <?php if (!Obj()->Vendor->Session->get('app_isLogin')) : ?>
     <script type="text/javascript">
         Exe.require({require: {system: 'init::System.InitRsc'}, run: false, callback: () => {
@@ -102,60 +164,6 @@
         Exe.require({require: '<?php echo BASE_URL; ?>config/prefix/appBtn'});
 </script>
 
-<script type="text/javascript">
 
-
-    /*obtener el src de los js incluidos, para verificar que no sean suplantados*/
-    /*
-     $.each($('script'),function(){
-     alert($(this).attr('src'))
-     });
-     */
-    var APP_MSN = null;
-    var APP_ETIQUET = null;
-    var APP_TOUR = null;
-    var APP_CONTAINER_TABS = '_CONTAINER';
-    var APP_ROOT = '<?php echo BASE_URL; ?>';
-    var APP_MAIN_MODALS = '#cont-modal-sys';
-
-    Exe.require({require: `${APP_ROOT}vendor/core/Tools`, callback: () => {
-            Tools.traslation('<?php echo Obj()->Vendor->Session->get('app_language') ?>');
-            Tools.getUserIP((ip) => localStorage.setItem('app_idLocal', ip));
-
-
-            /*
-             * agregando lista de roles
-             * @type undefined
-             */
-            var rols = <?php echo json_encode(Obj()->Vendor->Session->get('app_roles')) ?>;
-
-            var defaultNameRol = '<?php echo Obj()->Vendor->Session->get('app_defaultNameRol') ?>';
-            var liR = '', cssrol;
-//            $.each(rols, function (i, v) {
-//                cssrol = (v.nrol != defaultNameRol) ? 'arol' : '';
-//                if (v.nrol != defaultNameRol) {
-//                    liR += `<li><a href="javascript:;" class="${cssrol}" data-k="${v.id_rol}"><i class="fa fa-bars"></i> ${Tools.traslate(v.nrol)}</a></li>`;
-//                }
-//            });
-//            $('#ul-rols').html(liR);
-            //agregar rol por defecto
-            $('#sp-defaut-rol').html(Tools.traslate(defaultNameRol));
-        }
-    });
-
-    Exe.require({require: `${APP_ROOT}libs/Aes/js/aes`, callback: () => {
-            Exe.require({require: `<?php echo BASE_URL; ?>libs/Aes/js/aesctr`});
-        }
-    });
-    Exe.require({require: `${APP_ROOT}libs/Aes/js/base64`});
-    Exe.require({require: `${APP_ROOT}libs/Aes/js/utf8`});
-
-    /*
-     * Al final de la carga se limpia nmsp $$
-     * para evitar que los objetos sean instanciados fuera de Obj.
-     */
-    //setTimeout(function(){ $$ = null; },500); /*en mozilla necesita mas tiempo, terminar esta validacion despues*/
-
-</script>
 <script src="<?php echo BASE_URL; ?>public/js/pace/pace.min.js"></script>
 </html>

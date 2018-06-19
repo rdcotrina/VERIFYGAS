@@ -25,6 +25,8 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._idFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
         this._idFormObservacion = `#${this._alias}formObservacion`;
         this._idFormViewExpediente = `#${this._alias}formViewExpediente`;
+        this._idFormConsentimiento = `#${this._alias}formConsentimiento`;
+        this._idFormViewConsentimiento = `#${this._alias}formViewConsentimiento`;
         this._imgConsentimiento = null;
         this._imgDocIdentidad = null;
         this._imgFormatoSolicitud = null;
@@ -96,6 +98,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._videoCilindros = null;
         this._tienePreconversion = null;
         this._grabaAprueba = 0; //1: graba y aprueba, 0: solo graga
+        this._consentimiento_1 = 0;
+        this._consentimiento_2 = 0;
+        this._consentimiento_3 = 0;
+        this._conformeAll = 0;
 
         this._formIndex = (tk) => {
             this.send({
@@ -128,6 +134,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnSave();
+                    this.addBtnConsentimiento();
                     this.getListBoxs(this._idFormVehiculo);
                     this.setEventsUploads(tk);
                 }
@@ -144,6 +151,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnUpdate();
+                    this.addBtnConsentimiento();
                     this.getListBoxs(this._idFormVehiculoEdit);
                     this.setEventsUploads(tk);
                     this._find(tk, this._idFormVehiculoEdit, false);
@@ -160,6 +168,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     $(`#${this._alias}-NEXP${APP_CONTAINER_TABS}`).html(data);
                 },
                 finally: (data) => {
+                    this.addBtnViewConsentimiento();
                     this.addBtnCloseExpediente();
                     this.getListBoxs(this._idFormViewExpediente);
                     this._find(tk, this._idFormViewExpediente, true);
@@ -177,7 +186,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnSavePrec();
-                    this._findPropietario(tk, this._idFormPreConversion).done(()=>{
+                    this._findPropietario(tk, this._idFormPreConversion).done(() => {
                         this.setEvents(tk);
                     });
                     this.getListBoxPreConversion(this._idFormPreConversion);
@@ -212,11 +221,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 },
                 finally: (data) => {
                     this.addBtnUpdatePrec();
-                    
-                    this._findPropietario(tk, this._idFormPreConversionEdit).done(()=>{
+
+                    this._findPropietario(tk, this._idFormPreConversionEdit).done(() => {
                         this.setEvents(tk);
                     });
-                    
+
                     this.getListBoxPreConversion(this._idFormPreConversionEdit);
                     this._getPreConversion(tk, this._idFormPreConversionEdit);
                 }
@@ -355,10 +364,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 flag: 1,
                 token: tk,
                 gifProcess: true,
-                element: (this._grabaAprueba)?`#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`:`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                element: (this._grabaAprueba) ? `#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}` : `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
                 context: this,
                 form: (this._tienePreconversion == 1) ? this._idFormPreConversionEdit : this._idFormPreConversion,
-                formData: true,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_videoVacioMotorRalenti', value: this._videoVacioMotorRalenti});
                     sData.push({name: '_videoAnalisisGasesRalenti', value: this._videoAnalisisGasesRalenti});
@@ -369,8 +377,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                     sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
                     sData.push({name: '_observacion', value: (closeObs) ? $(`#${this._alias}txt_observacion`).val() : ''});
+                    sData.push({name: '_conformeAll', value: this._conformeAll});
                 },
-                complete: (data) => {
+                response: (data) => {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewPreconversion(null, null);
@@ -386,6 +395,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     main(tk) {
+        this._consentimiento_1 = 0;
+        this._consentimiento_2 = 0;
+        this._consentimiento_3 = 0;
+        this._conformeAll = 0;
+
         Tools.addTab({
             context: this,
             id: this._alias,
@@ -393,6 +407,39 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             breadCrumb: Exe.getRoot(),
             fnCallback: () => {
                 this._formIndex(tk);
+            }
+        });
+    }
+
+    formConsentimiento(btn, tk) {
+        this.send({
+            element: btn,
+            token: tk,
+            context: this,
+            modal: true,
+            dataType: 'text',
+            success: (obj) => {
+                $(APP_MAIN_MODALS).append(obj.data);
+            },
+            final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                this.addButtonsCons();
+                this.setConsentimiento(this._idFormConsentimiento);
+            }
+        });
+    }
+
+    formViewConsentimiento(btn, tk) {
+        this.send({
+            element: btn,
+            token: tk,
+            context: this,
+            modal: true,
+            dataType: 'text',
+            success: (obj) => {
+                $(APP_MAIN_MODALS).append(obj.data);
+            },
+            final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                this.setConsentimiento(this._idFormViewConsentimiento);
             }
         });
     }
@@ -476,7 +523,6 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
             context: this,
             form: this._idFormVehiculo,
-            formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_imgConsentimiento', value: this._imgConsentimiento});
                 sData.push({name: '_imgDocIdentidad', value: this._imgDocIdentidad});
@@ -488,8 +534,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                 sData.push({name: '_imgRevisionTecnica', value: this._imgRevisionTecnica});
                 sData.push({name: '_imgSoat', value: this._imgSoat});
                 sData.push({name: '_imgTarjetaPropiedad', value: this._imgTarjetaPropiedad});
+                sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
+                sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
+                sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
             },
-            complete: (data) => {
+            response: (data) => {
                 Tools.execMessage(data);
                 if (data.ok_error != 'error') {
                     this.closeNewVehiculo(null, null);
@@ -502,8 +551,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     postNewPreconversion(tk) {
         //verificar si existe algun NO CONFORME y mostrar formulario para la observacion
         if (!this.isConforme()) {
+            this._conformeAll = 0;
             this._formObservacion(tk);
         } else {
+            this._conformeAll = 1;
             //verificar si Guarda y Aprueba
             if (this._grabaAprueba) {
                 Tools.notify().confirm({
@@ -521,7 +572,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     postObservacion(tk) {
         //si cargo la observacion quiere decir que solo se grabara
         this._grabaAprueba = 0;
-        
+
         //verificar si Guarda y Aprueba
         if (this._grabaAprueba) {
             Tools.notify().confirm({
@@ -542,11 +593,13 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             element: `#${PREBTNCTXT}${this._alias}${APP_BTN.UPD}`,
             context: this,
             form: this._idFormVehiculoEdit,
-            formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
+                sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
+                sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
             },
-            complete: (data) => {
+            response: (data) => {
                 Tools.execMessage(data);
                 if (data.ok_error != 'error') {
                     this._keyPropietario = null;
@@ -558,6 +611,13 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     postAprobar(btn, tk) {
+        //QUEDA PENDIENTE
+//        if (this._conformeAll == 0) {
+//            Tools.notify().smallMsn({
+//                content: APP_MSN.no_conforme,color:'#C79121'
+//            });
+//            return false;
+//        }
         Tools.notify().confirm({
             content: APP_MSN.aprobar,
             yes: () => {
@@ -604,11 +664,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             complete: (data) => {
                 if (data.result == 1) {
                     eval(`this.${data.element} = '${data.archivo}';`);
-                    if (!$.isEmptyObject(this._keyPropietario)) {
-                        Tools.notify().ok({
-                            content: APP_MSN.upload_ok
-                        });
-                    }
+                    Tools.notify().ok({
+                        content: APP_MSN.upload_ok
+                    });
                 } else {
                     Tools.notify().error({
                         content: data.result
@@ -633,11 +691,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             complete: (data) => {
                 if (data.result == 1) {
                     eval(`this.${data.element} = '${data.archivo}';`);
-                    if (!$.isEmptyObject(this._keyPropietario)) {
-                        Tools.notify().ok({
-                            content: APP_MSN.upload_ok
-                        });
-                    }
+                    Tools.notify().ok({
+                        content: APP_MSN.upload_ok
+                    });
                 } else {
                     Tools.notify().error({
                         content: data.result
@@ -649,6 +705,14 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
 
     postSearch(btn, tk) {
         this._getVehiculos(tk);
+    }
+
+    addConsentimiento(tk) {
+        Tools.closeModal(this._idFormConsentimiento);
+
+        this._consentimiento_1 = ($(`#${this._alias}chk_consentimiento_1`).is(':checked')) ? 1 : 0;
+        this._consentimiento_2 = ($(`#${this._alias}chk_consentimiento_2`).is(':checked')) ? 1 : 0;
+        this._consentimiento_3 = ($(`#${this._alias}chk_consentimiento_3`).is(':checked')) ? 1 : 0;
     }
 
     closeNewVehiculo(btn, tk) {

@@ -1,19 +1,19 @@
 /* 
-* ---------------------------------------
-* --------- CREATED BY LV ----------
-* Autor:        Super 
-* Fecha:        08-06-2018 01:06:03 
-* Descripcion : ConversionRsc.js
-* ---------------------------------------
-*/ 
+ * ---------------------------------------
+ * --------- CREATED BY LV ----------
+ * Autor:        Super 
+ * Fecha:        08-06-2018 01:06:03 
+ * Descripcion : ConversionRsc.js
+ * ---------------------------------------
+ */
 "use strict";
 
 $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
-    
+
     constructor() {
         super();
     }
-    
+
     addBtnSearch() {
         $.fn.appButton.get({
             container: `#${this._alias}btn_search`,
@@ -23,7 +23,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             ]
         });
     }
-    
+
     addBtnSaveObs() {
         $.fn.appButton.get({
             container: `#${this._alias}foot_btns`,
@@ -33,10 +33,10 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 {keybtn: APP_BTN.CLS}
             ]
         }, (oSettings) => {
-            $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss','modal');
+            $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss', 'modal');
         });
     }
-    
+
     setVehiculos(data) {
         let h = '', txtEval = '';
 
@@ -64,7 +64,14 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                     <div id="${this._alias}${i}_tools" class="_tools"></div>
                 </div>
             </div>`;
-
+            let btns = `
+            {keybtn: APP_BTN.KONV, evts: [{click: 'Obj.Proceso.ConversionAx.formConversion'}]},
+            {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.ConversionAx.postAprobar'}]},
+            {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.ConversionAx.postRechazar'}]}`;
+            //si estado de busqueda es 1, no mostrar botones de atender
+            if($(`#${this._alias}lst_estado`).val() == 1){
+                btns = '';
+            }
             //botones
             txtEval += `
                 $.fn.appButton.get({
@@ -74,9 +81,8 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                     notext: true,
                     //forceBtnXs: true,
                     btns: [
-                        {keybtn: APP_BTN.KONV, evts: [{click: 'Obj.Proceso.ConversionAx.formConversion'}]},
-                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.ConversionAx.postAprobar'}]},
-                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.ConversionAx.postRechazar'}]}
+                        {keybtn: APP_BTN.VWCONV, evts: [{click: 'Obj.Proceso.ConversionAx.formViewConversion'}]},
+                        ${btns}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
@@ -93,8 +99,8 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             padding: '5px'
         });
     }
-    
-    setPreConversion(data, form) {
+
+    setConversion(data, form) {
         Tools.setDataForm(form, {
             alias: this._alias,
             elements: [
@@ -111,11 +117,11 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 {item: '_cilindrada', value: data.cilindrada, type: 'html'}
             ]
         });
-        
+
         let confTempConm = data.param_conf_temperatura_conmutacion.split('-');
         let stftb1CombustibleGNV = data.param_stftb1_combustible_gnv.split('*');
         let ltftb1CombustibleGNV = data.param_ltftb1_combustible_gnv.split('*');
-        
+
         this._minPresionSalidaRegualdor = data.param_min_presion_salida_regulador;
         this._minConfTemperaturaConmutacion = confTempConm[0];
         this._maxConfTemperaturaConmutacion = confTempConm[1];
@@ -140,8 +146,8 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         this._minGasesRPMGnvCO2 = data.param_min_gas_rpm_gnv_co2;
         this._maxGasesRPMGnvO2 = data.param_max_gas_rpm_gnv_o2;
     }
-    
-    setEvents(tk){ 
+
+    setEvents(tk) {
         $(`#${this._alias}txt_presion_salida_regulador`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -165,7 +171,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_configuracion_temperatura_conmutacion`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -189,7 +195,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_stft_b1_combustible_gnv`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -213,7 +219,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_ltft_b1_combustible_gnv`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -237,7 +243,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gasolinaco`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -261,7 +267,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gasolinahc`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -285,7 +291,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_hanalisis_gas_ralenti_gasolinaco2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -309,7 +315,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gasolinao2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -333,7 +339,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_rpm_gasolinaco`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -357,7 +363,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_rpm_gasolinahc`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -381,7 +387,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_wanalisis_gas_rpm_gasolinaco2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -405,7 +411,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_rpm_gasolinao2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -429,7 +435,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gnvco`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -453,7 +459,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gnvhc`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -477,7 +483,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_vanalisis_gas_ralenti_gnvco2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -501,7 +507,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_ralenti_gnvo2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -525,7 +531,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-       
+
         $(`#${this._alias}txt_analisis_gas_rpm_gnvco`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -549,7 +555,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_analisis_gas_rpm_gnvhc`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -573,7 +579,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         $(`#${this._alias}txt_ianalisis_gas_rpm_gnvco2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -597,7 +603,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-    
+
         $(`#${this._alias}txt_analisis_gas_rpm_gnvo2`).keyup((e) => {
             let input, d_input, number, str;
 
@@ -621,7 +627,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 }
             }
         });
-        
+
         //eventos para uploads
         $(`#${this._alias}file_video_varios`).change(() => {
             this.postUploadVideo(tk, 1);
@@ -630,7 +636,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             this.postUploadVideo(tk, 2);
         });
     }
-    
+
     addBtnSaveConv() {
         $.fn.appButton.get({
             container: `#${this._alias}actions_cov`,
@@ -641,17 +647,38 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.ConversionAx.closeNewConversion'}]}
             ]
         }, (oSettings) => {
-            $(`#${this._alias}actions_cov`).find('button').mouseover((e)=>{
-                if($(e.currentTarget).hasClass('btn-success')){
+            $(`#${this._alias}actions_cov`).find('button').mouseover((e) => {
+                if ($(e.currentTarget).hasClass('btn-success')) {
                     this._grabaAprueba = 1;
-                }else{
+                } else {
                     this._grabaAprueba = 0;
                 }
             });
-            
+
         });
     }
-    
+
+    addBtnUpdtConv() {
+        $.fn.appButton.get({
+            container: `#${this._alias}actions_cov`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.UPD, type: 'submit'},
+                {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.ConversionAx.closeNewConversion'}]}
+            ]
+        });
+    }
+
+    addBtnCloseViewConv() {
+        $.fn.appButton.get({
+            container: `#${this._alias}actions_vcov`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.ConversionAx.closeViewConversion'}]}
+            ]
+        });
+    }
+
     isConforme() {
         if (!this._conformidadPresionSalidaRegualdor) {
             return false;
@@ -736,15 +763,70 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         }
         if (!$(`#${this._alias}lst_variador_avance_texto`).val()) {
             return false;
-        }if (!$(`#${this._alias}lst_emulacion_inyectores_texto`).val()) {
+        }
+        if (!$(`#${this._alias}lst_emulacion_inyectores_texto`).val()) {
             return false;
         }
         if (!$(`#${this._alias}lst_estado_funcionamiento_gnv_texto`).val()) {
             return false;
         }
-        
+
 
         return true;
     }
-    
+
+    setConversionData(data, form, viewVideos) {
+        Tools.setDataForm(form, {
+            alias: this._alias,
+            elements: [
+                {item: 'txt_marka_cilindro_gnv', value: data.marca_gnv},
+                {item: 'txt_xerie_cilindro_gnv', value: data.serie_gnv},
+                {item: 'txt_capacidad_litros', value: data.capacidad_litros},
+                {item: 'txt_fecha_fabricacion', value: data.fecha_fabricacion},
+                {item: 'txt_ubicacion_cuna_cilindro', value: data.ubicacion_cuna_cilindro},
+                {item: 'lst_cilindro_gnv_texto', value: data.cilindro_gnv_texto, type: 'select'},
+                {item: 'txt_narca_valvula', value: data.marca_valvula_cilindro},
+                {item: 'lst_valvula_cilindro_texto', value: data.marca_valvula_cilindro_texto, type: 'select'},
+                {item: 'lst_tuberia_alta_presion_texto', value: data.tuberia_alta_predion_texto, type: 'select'},
+                {item: 'lst_valvula_carga_texto', value: data.valvula_carga_texto, type: 'select'},
+                {item: 'txt_cerie_regulador_presion', value: data.serie_regulador_presion},
+                {item: 'lst_regulador_presion_texto', value: data.regulador_presion_texto, type: 'select'},
+                {item: 'txt_serhie_entrega_gas', value: data.serie_entrega_gas},
+                {item: 'lst_entrega_gas_texto', value: data.entrega_gas_texto, type: 'select'},
+                {item: 'txt_zerie_controlador_gas', value: data.serie_controlador_gas},
+                {item: 'lst_controlador_gas_texto', value: data.controlador_gas_texto, type: 'select'},
+                {item: 'txt_qerie_variador_avance', value: data.serie_variador_avance},
+                {item: 'lst_variador_avance_texto', value: data.variador_avance_texto, type: 'select'},
+                {item: 'lst_conmutador_texto', value: data.conmutador_texto, type: 'select'},
+                {item: 'lst_emulacion_inyectores_texto', value: data.emulacion_inyectores_texto, type: 'select'},
+                {item: 'txt_presion_salida_regulador', value: data.presion_salida_regulador},
+                {item: 'txt_configuracion_temperatura_conmutacion', value: data.conf_temperatura_conmutacion},
+                {item: 'txt_stft_b1_combustible_gnv', value: data.stft_b1_gnv},
+                {item: 'txt_ltft_b1_combustible_gnv', value: data.ltft_b1_gnv},
+                {item: 'txt_analisis_gas_ralenti_gasolinaco', value: data.gases_ralenti_gasolina_co},
+                {item: 'txt_analisis_gas_ralenti_gasolinahc', value: data.gases_ralenti_gasolina_hc},
+                {item: 'txt_hanalisis_gas_ralenti_gasolinaco2', value: data.gases_ralenti_gasolina_co2},
+                {item: 'txt_analisis_gas_ralenti_gasolinao2', value: data.gases_ralenti_gasolina_o2},
+                {item: 'txt_analisis_gas_rpm_gasolinaco', value: data.gases_rpm_gasolina_co},
+                {item: 'txt_analisis_gas_rpm_gasolinahc', value: data.gases_rpm_gasolina_hc},
+                {item: 'txt_wanalisis_gas_rpm_gasolinaco2', value: data.gases_rpm_gasolina_co2},
+                {item: 'txt_analisis_gas_rpm_gasolinao2', value: data.gases_rpm_gasolina_o2},
+                {item: 'txt_analisis_gas_ralenti_gnvco', value: data.gases_ralenti_gnv_co},
+                {item: 'txt_analisis_gas_ralenti_gnvhc', value: data.gases_ralenti_gnv_hc},
+                {item: 'txt_vanalisis_gas_ralenti_gnvco2', value: data.gases_ralenti_gnv_co2},
+                {item: 'txt_analisis_gas_ralenti_gnvo2', value: data.gases_ralenti_gnv_o2},
+                {item: 'txt_analisis_gas_rpm_gnvco', value: data.gases_rpm_gnv_co},
+                {item: 'txt_analisis_gas_rpm_gnvhc', value: data.gases_rpm_gnv_hc},
+                {item: 'txt_ianalisis_gas_rpm_gnvco2', value: data.gases_rpm_gnv_co2},
+                {item: 'txt_analisis_gas_rpm_gnvo2', value: data.gases_rpm_gnv_o2},
+                {item: 'lst_estado_funcionamiento_gnv_texto', value: data.estado_funcionamiento_texto, type: 'select'}
+            ]
+        });
+
+        if (viewVideos) {
+            $(`#${this._alias}va_varios`).attr('href', `files/videos/${data.video_varios}`);
+            $(`#${this._alias}va_estado_funcionamiento`).attr('href', `files/videos/${data.video_estado_funcionamiento}`);
+        }
+    }
+
 };

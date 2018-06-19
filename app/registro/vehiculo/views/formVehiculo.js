@@ -166,6 +166,16 @@
                                     </div>
                                 </div>
                             </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                        <label id="btn_cons" class="control-label"></label>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
 
                         </div>
 

@@ -17,13 +17,13 @@ class VehiculoModel extends \Vendor\DataBase {
     protected $_file;
     protected $_tableDB;
     protected $_columnDB;
-    private $_usuario;
+    protected $_usuario;
     private $_navegador;
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
     private $_idTaller;
-    private $_idRol;
+    protected $_idRol;
 
     public function __construct() {
         parent::__construct();
@@ -77,6 +77,9 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":imgRevisionTecnica,"
                 . ":imgSoat,"
                 . ":imgTarjetaPropiedad,"
+                . ":consentimiento_1,"
+                . ":consentimiento_2,"
+                . ":consentimiento_3,"
                 . ":idTaller,"
                 . ":usuario,"
                 . ":ipPublica,"
@@ -122,6 +125,9 @@ class VehiculoModel extends \Vendor\DataBase {
             ':imgRevisionTecnica' => @$this->_form->_imgRevisionTecnica,
             ':imgSoat' => @$this->_form->_imgSoat,
             ':imgTarjetaPropiedad' => @$this->_form->_imgTarjetaPropiedad,
+            ':consentimiento_1' => @$this->_form->_consentimiento_1,
+            ':consentimiento_2' => @$this->_form->_consentimiento_2,
+            ':consentimiento_3' => @$this->_form->_consentimiento_3,
             ':idTaller' => $this->_idTaller,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
@@ -132,8 +138,8 @@ class VehiculoModel extends \Vendor\DataBase {
 
         return $this->getRow($query, $parms);
     }
-    
-    protected function spMantenimientoPreConversion() {        
+
+    protected function spMantenimientoPreConversion() {
 
         $query = "CALL sp_registro_vehiculo_mantenimiento_preconversion ("
                 . ":flag,"
@@ -176,13 +182,14 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":videoCilindros,"
                 . ":grabaAprueba,"
                 . ":observacion,"
+                . ":conformeAll,"
                 . ":usuario,"
                 . ":ipPublica,"
                 . ":ipLocal,"
                 . ":navegador,"
                 . ":hostname"
                 . ");";
-        
+
         $parms = [
             ':flag' => $this->_form->_flag,
             ':keyPropietario' => @$this->_form->_keyPropietario,
@@ -224,16 +231,17 @@ class VehiculoModel extends \Vendor\DataBase {
             ':videoCilindros' => @$this->_form->_videoCilindros,
             ':grabaAprueba' => @$this->_form->_grabaAprueba,
             ':observacion' => @$this->_form->_observacion,
+            ':conformeAll' => @$this->_form->_conformeAll,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
             ':navegador' => $this->_navegador,
             ':hostname' => $this->_hostName
         ];
-       
+
         return $this->getRow($query, $parms);
     }
-    
+
     protected function spAtender() {
         $query = "CALL sp_registro_vehiculo_atender ("
                 . ":flag,"
@@ -264,48 +272,58 @@ class VehiculoModel extends \Vendor\DataBase {
     //vehiculoas en estado P=PENDIENTE
     protected function qGetVehiculos() {
         $sqlAll = '';
-        
-        if($this->_form->txt_nroexp){
-            $sqlAll .= "p.nro_expediente = '".$this->_form->txt_nroexp."' OR ";
+
+        if ($this->_form->txt_nroexp) {
+            $sqlAll .= "p.nro_expediente = '" . $this->_form->txt_nroexp . "' OR ";
         }
-        if($this->_form->txt_placa){
-            $sqlAll .= "REPLACE(v.placa,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_placa."',' ',''),'%') OR ";
+        if ($this->_form->txt_placa) {
+            $sqlAll .= "REPLACE(v.placa,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_placa . "',' ',''),'%') OR ";
         }
-        if($this->_form->txt_marca){
-            $sqlAll .= "REPLACE(v.marca,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_marca."',' ',''),'%') OR ";
+        if ($this->_form->txt_marca) {
+            $sqlAll .= "REPLACE(v.marca,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_marca . "',' ',''),'%') OR ";
         }
-        if($this->_form->txt_modelo){
-            $sqlAll .= "REPLACE(v.modelo,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_modelo."',' ',''),'%') OR ";
+        if ($this->_form->txt_modelo) {
+            $sqlAll .= "REPLACE(v.modelo,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_modelo . "',' ',''),'%') OR ";
         }
-        if($this->_form->txt_serie){
-            $sqlAll .= "REPLACE(v.serie,' ','') LIKE CONCAT('%',REPLACE('".$this->_form->txt_serie."',' ',''),'%') OR ";
-        }
+
         $sqlAll = substr($sqlAll, 0, strlen($sqlAll) - 4);
-        
-        if(empty($sqlAll)){
+
+        if (empty($sqlAll)) {
             $sqlAll = '';
-        }else{
+        } else {
             $sqlAll = "AND (${sqlAll})";
         }
-        
+
         switch ($this->_idRol) {
             case 3: //taller
-                $w = "AND p.id_taller = '".$this->_idTaller."' AND p.estado_taller = 'P' ";
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.id_taller = '" . $this->_idTaller . "' ";
+                }else{
+                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_taller = 'P' ";
+                }
                 break;
             case 5: //verifygas
-                $w = "AND p.estado_verifygas = 'P' AND p.estado_taller = 'A'";
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.estado_verifygas != 'P' ";
+                }else{
+                    $w = "AND p.estado_verifygas = 'P' AND p.estado_taller = 'A'";
+                }
                 break;
             case 6: //asesor comercial
-                $w = "AND p.id_taller = '".$this->_idTaller."' AND p.estado_taller = 'P' ";
+                $w = "AND p.id_taller = '" . $this->_idTaller . "' AND (p.estado_taller = 'P' OR p.estado_verifygas = 'P') ";
                 break;
             case 7: //calidda
-                $w = "AND p.estado_calidda = 'P' AND p.estado_taller = 'A' AND p.estado_verifygas = 'A'";
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.estado_calidda != 'P' ";
+                }else{
+                    $w = "AND p.estado_calidda = 'P' AND p.estado_taller = 'A' AND p.estado_verifygas = 'A'";
+                }
                 break;
             default:
                 $w = '';
                 break;
         }
-        
+
         $query = "
         SELECT 
             p.nro_expediente,
@@ -330,6 +348,8 @@ class VehiculoModel extends \Vendor\DataBase {
             v.imagen_servicio_publico,
             v.imagen_solicitud_cobranza,
             v.imagen_tarjeta_propiedad,
+            p.estado_taller,
+            p.estado_verifygas,
             (SELECT COUNT(*) FROM conv_pre_conversion a WHERE a.id_propietario = v.id_propietario) tiene_preconversion
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
@@ -343,13 +363,12 @@ class VehiculoModel extends \Vendor\DataBase {
         ) ${sqlAll};
         ";
         $parms = [
-            ':estado' => 'P',
             ':eliminado' => '0'
         ];
 
         return $this->getRows($query, $parms);
     }
-    
+
     protected function qFind() {
         $query = "
         SELECT
@@ -369,6 +388,9 @@ class VehiculoModel extends \Vendor\DataBase {
             p.imagen_documento_identidad,
             p.imagen_licencia_conducir,
             p.imagen_consentimiento,
+            p.consentimiento_1,
+            p.consentimiento_2,
+            p.consentimiento_3,
             v.imagen_tarjeta_propiedad,
             v.imagen_servicio_publico,
             v.imagen_revision_tecnica,
@@ -399,7 +421,7 @@ class VehiculoModel extends \Vendor\DataBase {
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qFindPropietario() {
         $query = "
         SELECT
@@ -415,7 +437,7 @@ class VehiculoModel extends \Vendor\DataBase {
             v.marca,
             v.modelo,
             v.serie,
-            v.cilindrada,
+            v.cilindrada,            
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATOFF') param_apagado,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATON') param_encendido,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATARRA') param_arranque,
@@ -447,7 +469,7 @@ class VehiculoModel extends \Vendor\DataBase {
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qGetPreConversion() {
         $query = "
         SELECT 
@@ -487,21 +509,22 @@ class VehiculoModel extends \Vendor\DataBase {
             cilindro_3,
             cilindro_4,
             video_cilindro,
-            observacion
+            observacion,
+            conformidad_todo
         FROM conv_pre_conversion
         WHERE id_propietario = :id;";
-        
+
         $parms = [
             ':id' => $this->_form->_keyPropietario
         ];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qUpdateImg($file) {
         $query = "
-        UPDATE ".$this->_tableDB." SET
-            ".$this->_columnDB." = :file
+        UPDATE " . $this->_tableDB . " SET
+            " . $this->_columnDB . " = :file
         WHERE id_propietario = :id ; 
         ";
         $parms = [
@@ -511,11 +534,11 @@ class VehiculoModel extends \Vendor\DataBase {
 
         $this->execute($query, $parms);
     }
-    
+
     protected function qUpdateVideo($file) {
         $query = "
         UPDATE conv_pre_conversion SET
-            ".$this->_columnDB." = :file
+            " . $this->_columnDB . " = :file
         WHERE id_propietario = :id ; 
         ";
         $parms = [
@@ -525,5 +548,5 @@ class VehiculoModel extends \Vendor\DataBase {
 
         $this->execute($query, $parms);
     }
-    
+
 }

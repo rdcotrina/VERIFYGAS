@@ -15,13 +15,13 @@ class ConversionModel extends \Vendor\DataBase {
 
     protected $_form;
     protected $_file;
-    private $_usuario;
+    protected $_usuario;
     private $_navegador;
     private $_ipPublica;
     private $_ipLocal;
     private $_hostName;
     private $_idTaller;
-    private $_idRol;
+    protected $_idRol;
 
     public function __construct() {
         parent::__construct();
@@ -52,9 +52,7 @@ class ConversionModel extends \Vendor\DataBase {
         if ($this->_form->txt_modelo) {
             $sqlAll .= "REPLACE(v.modelo,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_modelo . "',' ',''),'%') OR ";
         }
-        if ($this->_form->txt_serie) {
-            $sqlAll .= "REPLACE(v.serie,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_serie . "',' ',''),'%') OR ";
-        }
+
         $sqlAll = substr($sqlAll, 0, strlen($sqlAll) - 4);
 
         if (empty($sqlAll)) {
@@ -65,16 +63,31 @@ class ConversionModel extends \Vendor\DataBase {
 
         switch ($this->_idRol) {
             case 3: //taller
-                $w = "AND p.id_taller = '".$this->_idTaller."' AND p.estado_conversion_taller = 'P' ";
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_conversion_taller != 'P' ";
+                } else {
+                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_conversion_taller = 'P' ";
+                }
                 break;
             case 5: //verifygas
-                $w = "AND p.estado_conversion_verifygas = 'P' AND p.estado_conversion_taller = 'A'";
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.estado_conversion_verifygas != 'P' AND p.estado_conversion_taller = 'A'";
+                }else{
+                    $w = "AND p.estado_conversion_verifygas = 'P' AND p.estado_conversion_taller = 'A'";
+                }
+                break;
+            case 7: //calidda
+                if ($this->_form->lst_estado) {
+                    $w = "AND p.estado_conversion_calidda != 'P' AND p.estado_conversion_verifygas = 'A' AND p.estado_conversion_taller = 'A'";
+                }else{
+                    $w = "AND p.estado_conversion_calidda = 'P' AND p.estado_conversion_verifygas = 'A' AND p.estado_conversion_taller = 'A'";
+                }
                 break;
             default:
                 $w = '';
                 break;
         }
-        
+
         $query = "
         SELECT 
             p.nro_expediente,
@@ -121,9 +134,9 @@ class ConversionModel extends \Vendor\DataBase {
 
         return $this->getRows($query, $parms);
     }
-    
+
     protected function spAtender() {
-        $query = "CALL sp_conversion_vehiculo_atender ("
+        $query = "CALL sp_proceso_conversion_vehiculo_atender ("
                 . ":flag,"
                 . ":key,"
                 . ":usuario,"
@@ -197,9 +210,9 @@ class ConversionModel extends \Vendor\DataBase {
 
         return $this->getRow($query, $parms);
     }
-    
-    protected function spMantenimientoConversion() {       
-        
+
+    protected function spMantenimientoConversion() {
+
         $query = "CALL sp_proceso_conversion_mantenimiento("
                 . ":flag,"
                 . ":keyPropietario,"
@@ -253,31 +266,132 @@ class ConversionModel extends \Vendor\DataBase {
                 . ":navegador,"
                 . ":hostname"
                 . ")";
-        
+
         $parms = [
             ':flag' => $this->_form->_flag,
             ':keyPropietario' => @$this->_form->_keyPropietario,
-            ':ralentimotor' => @$this->_form->txt_ralentimotor,
-            ':ralentianalisisgasesco' => @$this->_form->txt_ralentianalisisgasesco,
-            ':ralentianalisisgaseshc' => @$this->_form->txt_ralentianalisisgaseshc,
-            ':ralentigasesco2' => @$this->_form->txt_ralentigasesco2,
-            ':ralentianalisisgaseso2' => @$this->_form->txt_ralentianalisisgaseso2,
-            ':analisisrpmco' => @$this->_form->txt_analisisrpmco,
-            ':analisisrpmhc' => @$this->_form->txt_analisisrpmhc,
-            ':rpmco2' => @$this->_form->txt_rpmco2,
-            ':analisisrpmo2' => @$this->_form->txt_analisisrpmo2,
-            ':sistema_refrigeracion_texto' => @$this->_form->lst_sistema_refrigeracion_texto,
-            ':sistema_lubricacion_texto' => @$this->_form->lst_sistema_lubricacion_texto,
-            ':apagado' => @$this->_form->txt_apagado,
-            ':arranque' => @$this->_form->txt_arranque,
+            ':marka_cilindro_gnv' => @$this->_form->txt_marka_cilindro_gnv,
+            ':xerie_cilindro_gnv' => @$this->_form->txt_xerie_cilindro_gnv,
+            ':capacidad_litros' => @$this->_form->txt_capacidad_litros,
+            ':fecha_fabricacion' => @isset($this->_form->txt_fecha_fabricacion) ? Obj()->Vendor->Tools->dateFormatServer($this->_form->txt_fecha_fabricacion) : '',
+            ':cilindro_gnv_texto' => @$this->_form->lst_cilindro_gnv_texto,
+            ':ubicacion_cuna_cilindro' => @$this->_form->txt_ubicacion_cuna_cilindro,
+            ':narca_valvula' => @$this->_form->txt_narca_valvula,
+            ':valvula_cilindro_texto' => @$this->_form->lst_valvula_cilindro_texto,
+            ':tuberia_alta_presion_texto' => @$this->_form->lst_tuberia_alta_presion_texto,
+            ':valvula_carga_texto' => @$this->_form->lst_valvula_carga_texto,
+            ':cerie_regulador_presion' => @$this->_form->txt_cerie_regulador_presion,
+            ':regulador_presion_texto' => @$this->_form->lst_regulador_presion_texto,
+            ':serhie_entrega_gas' => @$this->_form->txt_serhie_entrega_gas,
+            ':entrega_gas_texto' => @$this->_form->lst_entrega_gas_texto,
+            ':zerie_controlador_gas' => @$this->_form->txt_zerie_controlador_gas,
+            ':controlador_gas_texto' => @$this->_form->lst_controlador_gas_texto,
+            ':qerie_variador_avance' => @$this->_form->txt_qerie_variador_avance,
+            ':variador_avance_texto' => @$this->_form->lst_variador_avance_texto,
+            ':conmutador_texto' => @$this->_form->lst_conmutador_texto,
+            ':emulacion_inyectores_texto' => @$this->_form->lst_emulacion_inyectores_texto,
+            ':presion_salida_regulador' => @$this->_form->txt_presion_salida_regulador,
+            ':configuracion_temperatura_conmutacion' => @$this->_form->txt_configuracion_temperatura_conmutacion,
+            ':stft_b1_combustible_gnv' => @$this->_form->txt_stft_b1_combustible_gnv,
+            ':ltft_b1_combustible_gnv' => @$this->_form->txt_ltft_b1_combustible_gnv,
+            ':analisis_gas_ralenti_gasolinaco' => @$this->_form->txt_analisis_gas_ralenti_gasolinaco,
+            ':analisis_gas_ralenti_gasolinahc' => @$this->_form->txt_analisis_gas_ralenti_gasolinahc,
+            ':hanalisis_gas_ralenti_gasolinaco2' => @$this->_form->txt_hanalisis_gas_ralenti_gasolinaco2,
+            ':analisis_gas_ralenti_gasolinao2' => @$this->_form->txt_analisis_gas_ralenti_gasolinao2,
+            ':analisis_gas_rpm_gasolinaco' => @$this->_form->txt_analisis_gas_rpm_gasolinaco,
+            ':analisis_gas_rpm_gasolinahc' => @$this->_form->txt_analisis_gas_rpm_gasolinahc,
+            ':wanalisis_gas_rpm_gasolinaco2' => @$this->_form->txt_wanalisis_gas_rpm_gasolinaco2,
+            ':analisis_gas_rpm_gasolinao2' => @$this->_form->txt_analisis_gas_rpm_gasolinao2,
+            ':analisis_gas_ralenti_gnvco' => @$this->_form->txt_analisis_gas_ralenti_gnvco,
+            ':analisis_gas_ralenti_gnvhc' => @$this->_form->txt_analisis_gas_ralenti_gnvhc,
+            ':vanalisis_gas_ralenti_gnvco2' => @$this->_form->txt_vanalisis_gas_ralenti_gnvco2,
+            ':analisis_gas_ralenti_gnvo2' => @$this->_form->txt_analisis_gas_ralenti_gnvo2,
+            ':analisis_gas_rpm_gnvco' => @$this->_form->txt_analisis_gas_rpm_gnvco,
+            ':analisis_gas_rpm_gnvhc' => @$this->_form->txt_analisis_gas_rpm_gnvhc,
+            ':ianalisis_gas_rpm_gnvco2' => @$this->_form->txt_ianalisis_gas_rpm_gnvco2,
+            ':analisis_gas_rpm_gnvo2' => @$this->_form->txt_analisis_gas_rpm_gnvo2,
+            ':estado_funcionamiento_gnv_texto' => @$this->_form->lst_estado_funcionamiento_gnv_texto,
+            ':videoEstadoFUncionamientoGNV' => @$this->_form->_videoEstadoFUncionamientoGNV,
+            ':videoVarios' => @$this->_form->_videoVarios,
+            ':grabaAprueba' => @$this->_form->_grabaAprueba,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
             ':navegador' => $this->_navegador,
             ':hostname' => $this->_hostName
         ];
-        
+
         return $this->getRow($query, $parms);
     }
-    
+
+    protected function qUpdateVideo($file) {
+        $query = "
+        UPDATE conv_conversion SET
+            " . $this->_columnDB . " = :file
+        WHERE id_propietario = :id ; 
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario,
+            ':file' => $file
+        ];
+
+        $this->execute($query, $parms);
+    }
+
+    protected function qGetConversion() {
+        $query = "
+        SELECT 
+            marca_gnv,
+            serie_gnv,
+            capacidad_litros,
+            DATE_FORMAT(fecha_fabricacion,'%d-%m-%Y') fecha_fabricacion,
+            ubicacion_cuna_cilindro,
+            cilindro_gnv_texto,
+            marca_valvula_cilindro,
+            marca_valvula_cilindro_texto,
+            tuberia_alta_predion_texto,
+            valvula_carga_texto,
+            serie_regulador_presion,
+            regulador_presion_texto,
+            serie_entrega_gas,
+            entrega_gas_texto,
+            serie_controlador_gas,
+            controlador_gas_texto,
+            serie_variador_avance,
+            variador_avance_texto,
+            conmutador_texto,
+            emulacion_inyectores_texto,
+            video_varios,
+            presion_salida_regulador,
+            conf_temperatura_conmutacion,
+            stft_b1_gnv,
+            ltft_b1_gnv,
+            gases_ralenti_gasolina_co,
+            gases_ralenti_gasolina_hc,
+            gases_ralenti_gasolina_co2,
+            gases_ralenti_gasolina_o2,
+            gases_rpm_gasolina_co,
+            gases_rpm_gasolina_hc,
+            gases_rpm_gasolina_co2,
+            gases_rpm_gasolina_o2,
+            gases_ralenti_gnv_co,
+            gases_ralenti_gnv_hc,
+            gases_ralenti_gnv_co2,
+            gases_ralenti_gnv_o2,
+            gases_rpm_gnv_co,
+            gases_rpm_gnv_hc,
+            gases_rpm_gnv_co2,
+            gases_rpm_gnv_o2,
+            video_estado_funcionamiento,
+            estado_funcionamiento_texto
+        FROM conv_conversion 
+        WHERE id_propietario = :id;";
+
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+
 }
