@@ -10,12 +10,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -65,7 +59,7 @@
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="estado_civil"></label>
-                                            <span id="d_estadocivil"></span>
+                                            <span id="d_estadocivil"><select id="lst_estadocivil" name="lst_estadocivil"></select></span>
                                         </div>
                                     </div>
                                 </div>
@@ -89,21 +83,7 @@
                                 </div>
                             </fieldset>
                             
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="img_doc_identidad"></label>
-                                            <input type="file" class="form-control" name="file_docidentidad" id="file_docidentidad">
-                                        </div>
-                                        
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="img_licencia_conducir"></label>
-                                            <input type="file" class="form-control" name="file_licenciaconducir" id="file_licenciaconducir">
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
+                            
                             
                             <fieldset>
                                 <div class="form-group">
@@ -156,16 +136,7 @@
                                 </div>
                             </fieldset>
                             
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                        <label class="control-label"><span class="tr-language" data-tr="consentimiento"></span> <a href="files/consentimiento.docx" class="tr-language" data-tr="aqui"></a></label>
-                                            <input type="file" class="form-control" name="file_consentimiento" id="file_consentimiento">
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
+                            
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
@@ -196,12 +167,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -211,13 +176,12 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="tarjeta_propiedad"></label>
-                                            <input type="text" class="form-control" name="txt_tarjetapropiedad" id="txt_tarjetapropiedad">
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="placa"></label>
                                             <input type="text" class="form-control" name="txt_plaka" id="txt_plaka">
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 has-feedback">
+                                            <label class="control-label tr-language" data-tr="marca"></label>
+                                            <input type="text" class="form-control" name="txt_marka" id="txt_marka">
                                         </div>
                                     </div>
                                 </div>
@@ -226,11 +190,11 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
+                                        
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="marca"></label>
-                                            <input type="text" class="form-control" name="txt_marka" id="txt_marka">
+                                            <label class="control-label tr-language" data-tr="nro_serie"></label>
+                                            <input type="text" class="form-control" name="txt_serye" id="txt_serye">
                                         </div>
-
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="modelo"></label>
                                             <input type="text" class="form-control" name="txt_model" id="txt_model">
@@ -248,8 +212,8 @@
                                         </div>
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nro_serie"></label>
-                                            <input type="text" class="form-control" name="txt_serye" id="txt_serye">
+                                            <label class="control-label tr-language" data-tr="cilindrada"></label>
+                                            <input type="text" class="form-control" name="txt_cilindrada" id="txt_cilindrada">
                                         </div>
                                     </div>
                                 </div>
@@ -264,24 +228,14 @@
                                         </div>
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="cilindrada"></label>
-                                            <input type="text" class="form-control" name="txt_cilindrada" id="txt_cilindrada">
+                                            <label class="control-label tr-language" data-tr="tarjeta_propiedad"></label>
+                                            <input type="text" class="form-control" name="txt_tarjetapropiedad" id="txt_tarjetapropiedad">
                                         </div>
                                     </div>
                                 </div>
                             </fieldset>
                             
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="img_tarjeta_propiedad"></label>
-                                            <input type="file" class="form-control" name="file_tarjetapropiedadimg" id="file_tarjetapropiedadimg">
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-
+  
                         </div>
 
                     </div>
@@ -292,7 +246,7 @@
             <!-- end widget -->
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6 hide">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
                 <header role="heading">
@@ -301,12 +255,6 @@
                 </header>
                 <!-- widget div-->
                 <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body">
 
@@ -315,20 +263,31 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
+                                            <label class="control-label tr-language" data-tr="img_doc_identidad"></label>
+                                            <input type="file" class="form-control" name="file_docidentidad" id="file_docidentidad">
+                                        </div>
+                                        
+                                        <div class="col-sm-12 col-md-6 has-feedback">
+                                            <label class="control-label tr-language" data-tr="img_licencia_conducir"></label>
+                                            <input type="file" class="form-control" name="file_licenciaconducir" id="file_licenciaconducir">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="recibo_agua_luz_gas"></label>
                                             <input type="file" class="form-control" name="file_recibo" id="file_recibo">
                                         </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nro_revision_tecnica"></label>
-                                            <input type="text" class="form-control" name="txt_nrorevisiontecnica" id="txt_nrorevisiontecnica">
-                                        </div>
-                                        
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fecha_prox_inspeccion"></label>
-                                            <input type="text" class="form-control date" name="txt_fechainspeccion" id="txt_fechainspeccion">
-                                        </div>
+                                  
+                                        <div class="col-sm-12 col-md-6 has-feedback">
+                                            <label class="control-label tr-language" data-tr="img_soat"></label>
+                                            <input type="file" class="form-control" name="file_soat" id="file_soat">
+                                        </div> 
+                          
                                         
                                     </div>
                                 </div>
@@ -338,12 +297,12 @@
                                 <div class="form-group">
                                     <div class="row">
                                     
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="inscripcion_app_movil"></label>
                                             <input type="file" class="form-control" name="file_inscripcionmovil" id="file_inscripcionmovil">
                                         </div>
                                         
-                                        <div class="col-sm-12 col-md-8 has-feedback">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="img_revision_tecnica"></label>
                                             <input type="file" class="form-control" name="file_revisiontecnica" id="file_revisiontecnica">
                                         </div>
@@ -355,33 +314,13 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="soat"></label>
-                                            <input type="text" class="form-control" name="txt_soat" id="txt_soat">
-                                        </div>
-                                        
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fecha_soat"></label>
-                                            <input type="text" class="form-control date" name="txt_fechavigenciasoat" id="txt_fechavigenciasoat">
-                                        </div>                                        
-                                        
-                                    </div>
-                                </div>
-                            </fieldset>
-                            
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
                                     
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label tr-language" data-tr="img_soat"></label>
-                                            <input type="file" class="form-control" name="file_soat" id="file_soat">
-                                        </div>  
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                         
+                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label"><span class="tr-language" data-tr="formato_solicitud_cobranza"></span> <a href="files/formato_solicitud_cobranza.docx" class="tr-language" data-tr="aqui"></a></label>
                                             <input type="file" class="form-control" name="file_formatosolicitud" id="file_formatosolicitud">
                                         </div>   
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label"><span class="tr-language" data-tr="hoja_unica_datos"></span> <a href="files/formato_calidda.xlsx" class="tr-language" data-tr="aqui"></a></label>
                                             <input type="file" class="form-control" name="file_hojacalidda" id="file_hojacalidda">
                                         </div> 
@@ -389,6 +328,42 @@
                                     </div>
                                 </div>
                             </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label tr-language" data-tr="img_tarjeta_propiedad"></label>
+                                            <input type="file" class="form-control" name="file_tarjetapropiedadimg" id="file_tarjetapropiedadimg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                    
+                                         
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                            <label class="control-label"><span class="tr-language" data-tr="contrato_financiamiento_calidda"></span> <a href="files/formato_contrato_financiamiento_calidda.docx" class="tr-language" data-tr="aqui"></a></label>
+                                            <input type="file" class="form-control" name="file_contrato_financiamiento_calidda" id="file_contrato_financiamiento_calidda">
+                                        </div>   
+                                        
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 has-feedback">
+                                        <label class="control-label"><span class="tr-language" data-tr="consentimiento"></span> <a href="files/check_list_preevaluacion.xlsx" class="tr-language" data-tr="aqui"></a></label>
+                                            <input type="file" class="form-control" name="file_consentimiento" id="file_consentimiento">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
+                            
                             
                         </div>
 
@@ -405,6 +380,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <span id="actions" class="btn-toolbar"></span>
+                    <div class="lv-requided-require"></div>
                 </div>
             </div>
         </div>
@@ -435,12 +411,6 @@
                     lst_tipodocumentoidentidad: {
                         required: true
                     },
-                    file_docidentidad: {
-                        required: true
-                    },
-                    file_licenciaconducir: {
-                        required: true
-                    },
                     txt_celular: {
                         required: true,
                         number: true
@@ -449,25 +419,20 @@
                         required: true,
                         minlength: 10
                     },
-                    txt_aniofabricacion: {
-                        number: true
-                    },
-                    file_tarjetapropiedadimg: {
+                    lst_estadocivil: {
                         required: true
                     },
-                    txt_cilindrada: {
-                        required: true
-                    },
-                    txt_serye: {
-                        required: true
-                    },
-                    txt_nromotor: {
+                    txt_marka: {
                         required: true
                     },
                     txt_model: {
                         required: true
                     },
-                    txt_marka: {
+                    txt_aniofabricacion: {
+                        required: true,
+                        number: true
+                    },
+                    txt_cilindrada: {
                         required: true
                     },
                     txt_plaka: {
@@ -475,48 +440,7 @@
                     },
                     txt_tarjetapropiedad: {
                         required: true
-                    },
-                    file_formatosolicitud:{
-                        required: true
-                    },
-                    file_consentimiento:{
-                        required: true
-                    },
-                    file_hojacalidda:{
-                        required: true
-                    },
-                    file_recibo:{
-                        required: true
-                    },
-                    txt_nrorevisiontecnica:{
-                        required: true
-                    },
-                    txt_fechainspeccion:{
-                        required: true,
-                        date: true
-                    },
-                    file_inscripcionmovil:{
-                        required: true
-                    },
-                    file_revisiontecnica:{
-                        required: true
-                    },
-                    txt_soat:{
-                        required: true
-                    },
-                    txt_fechavigenciasoat:{
-                        required: true,
-                        date: true
-                    },
-                    file_soat:{
-                        required: true
-                    },
-                    file_formatosolicitud:{
-                        required: true
-                    },
-                    file_hojacalidda:{
-                        required: true
-                    }
+                    }                
                 },
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());

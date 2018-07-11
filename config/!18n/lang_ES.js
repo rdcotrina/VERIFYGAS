@@ -81,6 +81,7 @@ var lang_ES = {
         productos: 'Productos',
         documentos: 'Documentos',
         expediente: 'Expediente',
+        expedientes: 'Expedientes',
         principal: 'Principal',
         modo_vista: 'Modo vista',
         categoria: 'Categoría',
@@ -104,12 +105,12 @@ var lang_ES = {
         ingrese_valor_caracteristia: 'Ingrese el valor de la característica.',
         seleccione_caracteristica: 'Seleccione una característica.',
         registrar_vehiculo: 'Registrar Vehículo',
-        duenio_vehiculo: 'Propietario del Vehiculo',
+        duenio_vehiculo: 'Datos Básicos del Propietario',
         apellido_paterno: 'Apellido Paterno',
         apellido_materno: 'Apellido Materno',
         primer_nombre: 'Primer Nombre',
         segundo_nombre: 'Segundo Nombre',
-        datos_vehiculo: 'Datos del Vehículo',
+        datos_vehiculo: 'Datos Básicos del Vehículo',
         pais: 'País (Nacionalidad)',
         estado_civil: 'Estado Civil',
         telefono_casa: 'Telefono Casa',
@@ -119,35 +120,36 @@ var lang_ES = {
         direccion_trabajo: 'Dirección de Trabajo',
         tipo_doc: 'Tipo Documento',
         nro_documento_identidad: 'Número de Documento de Identidad',
-        img_doc_identidad: 'Documento de Identidad (imagen)',
-        img_licencia_conducir: 'Licencia de Conducir (imagen)',
-        tarjeta_propiedad: 'Tarjeta de Propiedad',
+        img_doc_identidad: 'Documento de Identidad (Imagen)',
+        img_licencia_conducir: 'Licencia de Conducir (Imagen)',
+        tarjeta_propiedad: 'Tarjeta de Propiedad (Número de Partida Registral)',
         placa: 'Placa',
         marca: 'Marca',
         modelo: 'Modelo',
         nro_motor: 'Número de Motor',
         nro_serie: 'Número Serie',
-        anio_fabricacion: 'Año de Fabricación',
+        anio_fabricacion: 'Año de Fabricación (10 años de antiguedad como máximo)',
         cilindrada: 'Cilindrada',
-        img_tarjeta_propiedad: 'Tarjeta de Propiedad (imagen)',
+        img_tarjeta_propiedad: 'Tarjeta de Propiedad (Imagen)',
         recibo_agua_luz_gas: 'Recibo de Agua/Luz/Gas Natural',
         nro_revision_tecnica: 'Número Revisión Técnica',
         fecha_prox_inspeccion: 'Fecha de Próxima Inspección',
-        img_revision_tecnica: 'Revisión Técnica (imagen)',
+        img_revision_tecnica: 'Revisión Técnica (Imagen)',
         soat: 'SOAT (número de póliza)',
         fecha_soat: 'Fecha de vigencia de póliza',
-        inscripcion_app_movil: 'Inscripcion de app movil (Uber, Easy Taxi)',
-        img_soat: 'SOAT (imagen)',
-        consentimiento: 'Principio de consentimiento al tratamiento de datos personales del cliente',
+        inscripcion_app_movil: 'Inscripcion de app movil (Uber, Easy Taxi, SETAME/Setaca, Taxi Beat, Cabify)',
+        img_soat: 'SOAT (Imagen)',
+        consentimiento: 'Consentimiento (check list de pre evaluación)',
         consentimiento_form: 'Consentimiento',
-        otros_datos: 'Otros Datos',
+        otros_datos: 'Documentos',
         aqui: '(descargar)',
         formato_solicitud_cobranza: 'Formato de Solicitud de Cobranza',
         hoja_unica_datos: 'Hoja Única de Datos - Calidda',
-        img_consentimiento: 'Consentimiento (imagen)',
+        img_consentimiento: 'Consentimiento (Imagen)',
         nro_exp: 'Número Exp.',
         pre_conversion: 'Pre Conversión',
         conversion: 'Conversión',
+        gestion_conversiones: 'Gestión de Conversiones',
         apellidos_nombres: 'Apellidos y Nombres',
         apellidos: 'Apellidos',
         direccion: 'Dirección',
@@ -192,13 +194,14 @@ var lang_ES = {
         varios: 'Varios',
         prueba_vacio_motor: 'Prueba de Vacio de Motor',
         inhg: 'InHg',
-        video_noconformidad: 'Video de conformidad',
+        video_noconformidad: 'Video de conformidad (1 min. como máximo)',
+        video_noconformidad2: 'Video de conformidad (1 min. como máximo) o imagen',
         analisis_gases: 'Análisis de Gases',
         co: 'CO%',
         hc: 'HC ppm',
         co2: 'CO2%',
         o2: 'O2%',
-        _2500_300_rpm: '2500/300&nbsp;RPM',
+        _2500_300_rpm: '2500/3000&nbsp;RPM',
         sistema_refrigeracion: 'Sistema de Refrigeración',
         existe_fugas_radiador: 'Existen fugas de refrigerante  por el radiador<br/><br/>',
         existe_fugas_mangueras: 'Existen fugas de refrigerante por las mangueras de refrigeracion',
@@ -271,137 +274,174 @@ var lang_ES = {
         manometro_bar_teflon_alta_presion: 'Manómetro de 0 - 200 Bar que este conectado/Utilización de teflón para gas alta presión (color amarillo)',
         existencia_fugas_gas_refrigerante: 'Existencia de fugas de gas y refrigerante',
         sistema_refrigeracion_texto: `
-        Existen fugas de refrigerante por el radiador<br>
-        Existen fugas de refrigerante por las mangueras de refrigeracion<br>
-        Funcionamiento indicador (Testigo) de temperatura en el panel de instrumentos<br>
-        Ciclado de funcionamiento del electroventilador<br>
-        Nivel de refrigerante de motor`,
+        <ol class="alert alert-success ol_texto">
+            <li>Existen fugas de refrigerante por el radiador</li>
+            <li>Existen fugas de refrigerante por las mangueras de refrigeracion</li>
+            <li>Funcionamiento indicador (Testigo) de temperatura en el panel de instrumentos</li>
+            <li>Ciclado de funcionamiento del electroventilador</li>
+            <li>Nivel de refrigerante de motor</li>
+        </ol>`,
         sistema_lubricacion_texto: `
-        Fuga de aceite por retenedores o sellos<br>
-        Fuga de aceite por empaque de carter<br>
-        Fuga de aceite por empaque tapa valvulas<br>
-        Estado del indicador nivel de aceite en el panel de instrumentos<br>
-        Nivel de aceite de motor`,
+        <ol class="alert alert-success ol_texto">
+            <li>Fuga de aceite por retenedores o sellos</li>
+            <li>Fuga de aceite por empaque de carter</li>
+            <li>Fuga de aceite por empaque tapa valvulas</li>
+            <li>Estado del indicador nivel de aceite en el panel de instrumentos</li>
+            <li>Nivel de aceite de motor</li>
+        </ol>`,
         estado_carga_sistema_texto: `
-        Verificar estado bornes de bateria<br>
-        Verificar estado anclaje de bateria<br>
-        Verificar estado de la bateria (Si es de electrolito verifique el nivel de cada celda)<br>
-        Verificar estado masa motor<br>
-        Verificar estado masa chasis<br>
-        Verificar estado arrancador<br>
-        Verificar estado Alternador<br>
-        Verificar estado de correas en general`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verificar estado bornes de bateria</li>
+            <li>Verificar estado anclaje de bateria</li>
+            <li>Verificar estado de la bateria (Si es de electrolito verifique el nivel de cada celda)</li>
+            <li>Verificar estado masa motor</li>
+            <li>Verificar estado masa chasis</li>
+            <li>Verificar estado arrancador</li>
+            <li>Verificar estado Alternador</li>
+            <li>Verificar estado de correas en general</li>
+        </ol>`,
         sistema_electronico_combustible_texto: `
-        Verifique el parametro de la valvula EGR<br>
-        Verifique el parametro de la valvula IAC<br>
-        Verifique el parametro del sensor THW/ECT<br>
-        Verifique el parametro del sensor de presion (Baro Pressure)<br>
-        Verifique los codigos de falla actuales y almacenados<br>
-        Verifique el parametro del sensor IAT<br>
-        Verifique el parametro de Ignition Voltage<br> 
-        Verifique el parametro del sensor CKP<br>
-        Verifique el parametro con motor en ralenti del sensor MAP,Vacuum<br>
-        Verifique el parametro del sensor O2 S1B1<br>
-        Verifique el parametro del sensor O2 S1B2<br>
-        Verifique el Ancho de pulso de inyectores<br>
-        Registre el parametro de angulo de avance en ralenti<br>
-        Registre el parametro de angulo de avance 2500 rpm`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verifique el parametro de la valvula EGR</li>
+            <li>Verifique el parametro de la valvula IAC</li>
+            <li>Verifique el parametro del sensor THW/ECT</li>
+            <li>Verifique el parametro del sensor de presion (Baro Pressure)</li>
+            <li>Verifique los codigos de falla actuales y almacenados</li>
+            <li>Verifique el parametro del sensor IAT</li>
+            <li>Verifique el parametro de Ignition Voltage</li> 
+            <li>Verifique el parametro del sensor CKP</li>
+            <li>Verifique el parametro con motor en ralenti del sensor MAP,Vacuum</li>
+            <li>Verifique el parametro del sensor O2 S1B1</li>
+            <li>Verifique el parametro del sensor O2 S1B2</li>
+            <li>Verifique el Ancho de pulso de inyectores</li>
+            <li>Registre el parametro de angulo de avance en ralenti</li>
+            <li>Registre el parametro de angulo de avance 2500rpm</li>
+        </ol>`,
         sistema_encendido_texto: `
-        Verifique la resistencia interna de las bujias<br>
-        Verifique el codigo de las bujias (Las 4 bujias deberan ser iguales)`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verifique la resistencia interna de las bujias</li>
+            <li>Verifique el codigo de las bujias (Las 4 bujias deberan ser iguales)</li>
+        </ol>`,
         estado_admision_aire_texto: `
-        Verificar estado de la toma de aire despues del sensor<br>
-        Verificar estado del filtro de aire`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verificar estado de la toma de aire despues del sensor</li>
+            <li>Verificar estado del filtro de aire</li>
+        </ol>`,
         inspecciones_visuales_texto: `
-        Verificar estado del chasis<br>
-        Verificar estado del piso del vehiculo`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verificar estado del chasis</li>
+            <li>Verificar estado del piso del vehiculo</li>
+        </ol>`,
         cilindro_gnv_texto: `
-        Sujeccion de la cuna con pernos grado 8<br>
-        Verificar existencia de cinta de caucho como aislante de friccion`,
+        <ol class="alert alert-success ol_texto">
+            <li>Sujeccion de la cuna con pernos grado 8</li>
+            <li>Verificar existencia de cinta de caucho como aislante de friccion</li>
+        </ol>`,
         valvula_cilindro_texto: `
-        Ajuste a 125 Libras<br>
-        Utilizacion de teflon para gas alta presion (Color amarillo)<br>
-        Presencia de bolsa de venteo/Corrugado/Pipeta de venteo<br>
-        Verificar ajuste del tapon de la valvula<br>
-        Verificar existencia de fugas`,
+        <ol class="alert alert-success ol_texto">
+            <li>Ajuste a 125 Libras</li>
+            <li>Utilizacion de teflon para gas alta presion (Color amarillo)</li>
+            <li>Presencia de bolsa de venteo/Corrugado/Pipeta de venteo</li>
+            <li>Verificar ajuste del tapon de la valvula</li>
+            <li>Verificar existencia de fugas</li>
+        </ol>`,
         tuberia_alta_presion_texto: `
-        Verificar Sujeccion cada 60cm y por grampas metalicas<br>
-        Distancia con tubo de escape a 5cm<br>
-        No debe pasar por guardabarros<br>
-        Protegida de friccion y golpes<br>
-        Verificar existencia de fugas`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verificar Sujeccion cada 60cm y por grampas metalicas</li>
+            <li>Distancia con tubo de escape a 5cm</li>
+            <li>No debe pasar por guardabarros</li>
+            <li>Protegida de friccion y golpes</li>
+            <li>Verificar existencia de fugas</li>
+        </ol>`,
         valvula_carga_texto: `
-        Facil Acceso/Orientacion de la valvula para facil abastecimiento<br>
-        Verificar ubicación a 20 cm de longitud de la bateria como minimo<br>
-        Verificar ubicación a 20 cm de longitud de fuentes de ignicion<br>
-        Verificar ubicación a 5 cm minimo del escape<br>
-        Verificar ubicación de soporte metalico de 3mm de espesor como minimo<br>
-        Verificar existencia de fugas`,
+        <ol class="alert alert-success ol_texto">
+            <li>Facil Acceso/Orientacion de la valvula para facil abastecimiento</li>
+            <li>Verificar ubicación a 20 cm de longitud de la bateria como minimo</li>
+            <li>Verificar ubicación a 20 cm de longitud de fuentes de ignicion</li>
+            <li>Verificar ubicación a 5 cm minimo del escape</li>
+            <li>Verificar ubicación de soporte metalico de 3mm de espesor como minimo</li>
+            <li>Verificar existencia de fugas</li>
+        </ol>`,
         regulador_presion_texto: `
-        Verificar ubicación a 20cm de longitud de la bateria como minimo<br>
-        Verificar ubicación a 20cm de longitud de fuentes de ignicion/Escape<br>
-        Verificar ubicación de soporte metalico de 3mm de espesor como minimo (Montaje a elementos fijos del vehiculo, facil acceso para su regulacion)<br>
-        Verificar montaje por debajo del sistema de compensacion de refrigerante<br>
-        Verificar manometro de 0 - 200 Bar que este conectado/Utilizacion de teflon para gas alta presion (Color amarillo)<br>
-        Verificar existencia de fugas de gas y refrigerante`,
+        <ol class="alert alert-success ol_texto">
+            <li>Verificar ubicación a 20cm de longitud de la bateria como minimo</li>
+            <li>Verificar ubicación a 20cm de longitud de fuentes de ignicion/Escape</li>
+            <li>Verificar ubicación de soporte metalico de 3mm de espesor como minimo (Montaje a elementos fijos del vehiculo, facil acceso para su regulacion)</li>
+            <li>Verificar montaje por debajo del sistema de compensacion de refrigerante</li>
+            <li>Verificar manometro de 0 - 200 Bar que este conectado/Utilizacion de teflon para gas alta presion (Color amarillo)</li>
+            <li>Verificar existencia de fugas de gas y refrigerante</li>
+        </ol>`,
         entrega_gas: 'Riel de Inyectores de Gas',
         entrega_gas_texto: `
-        Montado en forma vertical y maximo a 45 grados de inclinacion<br>
-        Instalar utilizando bases de acero con amortiguadores de vibracion (Goma)<br>
-        Longitud de manguera - Inyector boquilla maximo 15 cm de longitud<br>
-        Verificar diametro interno de mangueras (Todas iguales)<br>
-        Verificar diametro de boquillas (Todas iguales, las que recomiende el fabricante de acuerdo a la cilindrada del motor)<br>
-        Verificar montaje de inyectores aislados de fuentes de calor<br>
-        Ubicación del sensor MAP (Lo mas cerca del inyector de gas, maximo 7cm de longitud)<br>
-        Verificar montaje aislados de fuentes de calor`,
+        <ol class="alert alert-success ol_texto">
+            <li>Montado en forma vertical y maximo a 45 grados de inclinacion</li>
+            <li>Instalar utilizando bases de acero con amortiguadores de vibracion (Goma)</li>
+            <li>Longitud de manguera - Inyector boquilla maximo 15 cm de longitud</li>
+            <li>Verificar diametro interno de mangueras (Todas iguales)</li>
+            <li>Verificar diametro de boquillas (Todas iguales, las que recomiende el fabricante de acuerdo a la cilindrada del motor)</li>
+            <li>Verificar montaje de inyectores aislados de fuentes de calor</li>
+            <li>Ubicación del sensor MAP (Lo mas cerca del inyector de gas, maximo 7cm de longitud)</li>
+            <li>Verificar montaje aislados de fuentes de calor</li>
+        </ol>`,
         controlador_gas: 'ECU/Centralita/Controlador de Gas',
         controlador_gas_texto: `
-        Todas las conexiones aisladas y soldadas (OBD/Chapa/Emulacion)<br>
-        Instalada mediante un soporte metalico a un punto fijo del vehiculo<br>
-        Verificar ubicación a 50 cm de longitud de la bateria<br>
-        Verificar ubicación a 20 cm de longitud de fuentes de ignicion<br>
-        Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica<br>
-        Verificar Instalacion fuera del alcance de humedad`,
+        <ol class="alert alert-success ol_texto">
+            <li>Todas las conexiones aisladas y soldadas (OBD/Chapa/Emulacion)</li>
+            <li>Instalada mediante un soporte metalico a un punto fijo del vehiculo</li>
+            <li>Verificar ubicación a 50 cm de longitud de la bateria</li>
+            <li>Verificar ubicación a 20 cm de longitud de fuentes de ignicion</li>
+            <li>Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica</li>
+            <li>Verificar Instalacion fuera del alcance de humedad</li>
+        </ol>`,
         conmutador: 'Conmutador',
         conmutador_texto: `
-        Fijacion estable al interior del habitaculo del conductor<br>
-        Conmutacion a gas<br>
-        Conmutacion a gasolina<br>
-        Verificar que señale de manera adecuada el nivel de gas<br>
-        Verificar rpm de cambio de combustible gasolina a GNV<br>
-        Verificar temperatura de cambio de combustible gasolina a GNV`,
+        <ol class="alert alert-success ol_texto">
+            <li>Fijacion estable al interior del habitaculo del conductor</li>
+            <li>Conmutacion a gas</li>
+            <li>Conmutacion a gasolina</li>
+            <li>Verificar que señale de manera adecuada el nivel de gas</li>
+            <li>Verificar rpm de cambio de combustible gasolina a GNV</li>
+            <li>Verificar temperatura de cambio de combustible gasolina a GNV</li>
+        </ol>`,
         variador_avance: 'Variador de Avance',
         variador_avance_texto: `
-        Aplica/No aplica<br>
-        Tipo de variador (Inductivo/Reluctancia variable, Hall, Optico)<br>
-        Verificar ubicación a 50 cm de longitud de la bateria<br>
-        Verificar ubicación a 50 cm de longitud de fuentes de ignicion/Escape<br>
-        Verificar Instalacion fuera del alcance de humedad<br>
-        Verificar ubicación a 20 cm de longitud de fuentes de calor<br>
-        Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica<br>
-        Verificar tipo de onda (Onda del sistema de ignicion en gasolina y onda del sistema de ignicion en GNV)<br> 
-        Verifique el parametro de angulo de avance en ralenti en combustible gasolina<br>
-        Verifique el parametro de angulo de avance 2500 rpm en combustible gasolina<br>
-        Registrar el parametro de angulo de avance en ralenti en combustible GNV<br>
-        Registrar el parametro de angulo de avance 2500 rpm en combustible GNV<br>
-        Verifique si el dispositivo se encuentra incertado en ralenti`,
+        <ol class="alert alert-success ol_texto">
+            <li>Aplica/No aplica</li>
+            <li>Tipo de variador (Inductivo/Reluctancia variable, Hall, Optico)</li>
+            <li>Verificar ubicación a 50 cm de longitud de la bateria</li>
+            <li>Verificar ubicación a 50 cm de longitud de fuentes de ignicion/Escape</li>
+            <li>Verificar Instalacion fuera del alcance de humedad</li>
+            <li>Verificar ubicación a 20 cm de longitud de fuentes de calor</li>
+            <li>Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica</li>
+            <li>Verificar tipo de onda (Onda del sistema de ignicion en gasolina y onda del sistema de ignicion en GNV)</li> 
+            <li>Verifique el parametro de angulo de avance en ralenti en combustible gasolina</li>
+            <li>Verifique el parametro de angulo de avance 2500 rpm en combustible gasolina</li>
+            <li>Registrar el parametro de angulo de avance en ralenti en combustible GNV</li>
+            <li>Registrar el parametro de angulo de avance 2500 rpm en combustible GNV</li>
+            <li>Verifique si el dispositivo se encuentra incertado en ralenti</li>
+        </ol>`,
         emulacion_inyectores: 'Emulación de Inyectores',
         emulacion_inyectores_texto: `
-        Se corto cable de inyectores y se realizo soldadura<br>
-        Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica<br>
-        Verificar ubicación a 50 cm de longitud de la bateria`,
+        <ol class="alert alert-success ol_texto">
+            <li>Se corto cable de inyectores y se realizo soldadura</li>
+            <li>Verificar ubicación del cableado a 50 cm de longitud de fuentes de ignicion, recubierto con coraza termica</li>
+            <li>Verificar ubicación a 50 cm de longitud de la bateria</li>
+        </ol>`,
         video: 'Video',
-        video_texto: `Realice un video de los siguientes items:<br>
-        Cilindro de GNV<br>
-        Válvula de Cilindro<br>
-        Tubería de Alta Presión<br>
-        Válvula de Carga<br>
-        Regulador de Presión<br>
-        Riel de Inyectores de Gas<br>
-        ECU/Centralita/Controlador de Gas<br>
-        Variador de Avance<br>
-        Conmutador <br>
-        Emulación de Inyectores`,
+        video_texto: `
+        Realice un video de los siguientes items:<br><br>
+        <ol class="alert alert-success ol_texto">
+            <li>Cilindro de GNV</li>
+            <li>Válvula de Cilindro</li>
+            <li>Tubería de Alta Presión</li>
+            <li>Válvula de Carga</li>
+            <li>Regulador de Presión</li>
+            <li>Riel de Inyectores de Gas</li>
+            <li>ECU/Centralita/Controlador de Gas</li>
+            <li>Variador de Avance</li>
+            <li>Conmutador </li>
+            <li>Emulación de Inyectores</li>
+        </ol>`,
         estado_funcionamiento_gnv: 'Estado y Funcionamiento de GNV',
         presion_salida_regulador: 'Presión de salida del regulador',
         bar: 'Bar',
@@ -415,32 +455,35 @@ var lang_ES = {
         analisis_gas_rpm_gnv: 'Analisis de gases 2500/3000 rpm en GNV',
         video_estado_funcionamiento_gnv: 'Realice un video para el Estado y Fumcionamiento de GNV',
         estado_funcionamiento_gnv_texto: `
-        Estabilidad en ralenti<br>
-        Estabilidad con maxima carga electrica y A/C<br>
-        Estabilidad en aceleracion sin carga del motor<br>
-        Verificar vacio de motor<br>
-        Verificar tiempo de inyeccion en gasolina<br>
-        Verificar tiempo de inyeccion en GNV<br>
-        Verificar temperatura de gas<br>
-        Verificar temperatura de reductor<br>
-        Verificar rpm<br>
-        Verificar correcta configuracion de numero de cilindros<br>
-        Verificar correcta configuracion de fuente de revoluciones<br>
-        Verificar correcta configuracion de tipo de motor<br>
-        Verificar correcta configuracion de tipo de combustible<br>
-        Verificar correcta configuracion de tipo de inyector de gas<br>
-        Verificar correcta configuracion de indicador de nivel<br>
-        Verificar luego de autocalibracion en minimo que el tiempo de inyeccion a gasolina no se distorsione cuando pase a gas<br>
-        Registrar luego de autocalibracion en minimo que la diferencia entre el tiempo de inyeccion de gasolina y el tiempo de inyeccion de gas, no supere los 2.5ms<br>
-        Verificar en calibracion en ruta que la conmutacion es estable<br>
-        Verificar luego de calibracion en ruta, realizar activacion de auto-adaptacion (Si aplica)<br>
-        Verificar luego de calibracion en ruta si existen codigos de falla (Si existe revision, correccion, desviacion)`,
+        <ol class="alert alert-success ol_texto">
+            <li>Estabilidad en ralenti</li>
+            <li>Estabilidad con maxima carga electrica y A/C</li>
+            <li>Estabilidad en aceleracion sin carga del motor</li>
+            <li>Verificar vacio de motor</li>
+            <li>Verificar tiempo de inyeccion en gasolina</li>
+            <li>Verificar tiempo de inyeccion en GNV</li>
+            <li>Verificar temperatura de gas</li>
+            <li>Verificar temperatura de reductor</li>
+            <li>Verificar rpm</li>
+            <li>Verificar correcta configuracion de numero de cilindros</li>
+            <li>Verificar correcta configuracion de fuente de revoluciones</li>
+            <li>Verificar correcta configuracion de tipo de motor</li>
+            <li>Verificar correcta configuracion de tipo de combustible</li>
+            <li>Verificar correcta configuracion de tipo de inyector de gas</li>
+            <li>Verificar correcta configuracion de indicador de nivel</li>
+            <li>Verificar luego de autocalibracion en minimo que el tiempo de inyeccion a gasolina no se distorsione cuando pase a gas</li>
+            <li>Registrar luego de autocalibracion en minimo que la diferencia entre el tiempo de inyeccion de gasolina y el tiempo de inyeccion de gas, no supere los 2.5ms</li>
+            <li>Verificar en calibracion en ruta que la conmutacion es estable</li>
+            <li>Verificar luego de calibracion en ruta, realizar activacion de auto-adaptacion (Si aplica)</li>
+            <li>Verificar luego de calibracion en ruta si existen codigos de falla (Si existe revision, correccion, desviacion)</li>
+        </ol>`,
         ver_video: 'Ver Video',
         entrega: 'Documentos de Entrega',
+        entrega2: 'Entrega',
         escanear_documentos: 'Escanear Documentos de Engrega',
         escaneo_1: 'Cartilla informativa cofide para el cliente',
         escaneo_2: 'Manual del usuario y garantia',
-        escaneo_3: 'Contrato de financiamiento Calidda',
+        contrato_financiamiento_calidda: 'Contrato de financiamiento Calidda',
         escaneo_4: 'Acta de entrega señalando conformidad del cliente y firmada por el cliente',
         escaneo_5: 'Stickers y material comercial publicitario del PEC y de Calidda',
         escaneo_6: 'Impresión file de la converison ejecutada',
@@ -449,8 +492,8 @@ var lang_ES = {
         escaneo_9: 'Registro Produce',
         escaneo_10: 'Carta de responsabilidad del PEC',
         escaneo_11: 'Factura y/o Boleta entregada al cliente',
-        escaneo_12: 'Registrar nombre de la entidad certificadora',
-        escaneo_13: 'Registrar numero del certificado de conformidad del vehiculo a GNV',
+        entidad_financiera: 'Nombre de la entidad certificadora',
+        escaneo_13: 'Certificado de conformidad del vehiculo a GNV',
         escaneo_14: 'Capacitacion al cliente final en la utilizacion del GNV y evidenciar cada parte del Kit instalado en la conversion',
         consentimiento_1: `A que mis datos personales sean procesados por VerifyGas para actividades de marketing por copia impresa, por medios automáticos
         o electrónicos, incluidos por correo postal o electrónico, telefono, fax y cualquier otro medio(por ejemplo: sitios web, aplicaciones moviles)`,
@@ -462,7 +505,44 @@ var lang_ES = {
         acepto: 'Acepto',
         filtros_busqueda: 'Filtros de Busqueda',
         por_atender: 'Por Atender',
-        atendidos: 'Atendidos'
+        atendidos: 'Atendidos',
+        taller: 'Taller',
+        verifygas: 'VerifyGas',
+        calidda: 'Calidda',
+        finalizados: 'Finalizados',
+        total_clientes: 'Total de Clientes',
+        clienets_en: 'Clientes en',
+        clientes: 'Clientes',
+        aprobado: 'Aprobado',
+        rechazado: 'Rechazado',
+        pendiente: 'Pendiente',
+        finalizado: 'Finalizado',
+        desde: 'Desde',
+        hasta: 'Hasta',
+        visualizacion: 'Visualización',
+        fecha: 'Fecha',
+        mes: 'Mes',
+        enero: 'Enero',
+        febrero: 'Febrero',
+        marzo: 'Marzo',
+        abril: 'Abril',
+        mayo: 'Mayo',
+        junio: 'Junio',
+        julio: 'Julio',
+        agosto: 'Agosto',
+        setiembre: 'Setiembre',
+        octubre: 'Octubre',
+        noviembre: 'Noviembre',
+        diciembre: 'Diciembre',
+        talleres: 'Talleres',
+        kpi: 'KPI',
+        total: 'Total',
+        consolidado_mes: 'Consolidado Mes',
+        preconversiones_rechazadas_tecnicamente: 'Pre conversiones Rechazadas Técnicamente',
+        conversiones_recibidas: 'Conversiones Recibidas',
+        conversiones_rechazadas: 'Conversiones Rechazadas',
+        conversiones_aprobadas: 'Conversiones Aprobadas',
+        conversiones_financiadas: 'Conversiones Financiadas'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',
@@ -490,6 +570,14 @@ var lang_ES = {
         no_puede_grabar_enviar_conversion: 'No puede Grabar y Aprobar mientras la Conversion no este CONFORME en su totalidad. Puede presionar el boton Grabar',
         entrega: '¿Está seguro de grabar y aprobar la documentacion de la entrega?',
         finalizar: '¿Está seguro que la ENTREGA se realizó correctamente?',
-        no_conforme: 'No puede aprobar mientras la Pre Conversión no este CONFORME en su totalidad.'
+        no_conforme: 'No puede aprobar mientras la Pre Conversión no este CONFORME en su totalidad.',
+        ingrese_parametro: 'Ingrese un parametro de busqueda.',
+        comuniquese: 'Sucedió un error inesperado, comuníquese con el Administrador del Sistema.',
+        no_informacion: 'No tiene información',
+        error_horario: 'El acceso al Sistema es de Lunes a Sabado de 7:00 AM a 7:00 PM.',
+        antiguedad_10_anios: 'No se permiten vehículos con mas de 10 años de antiguedad. Verifique el año de fabricación.',
+        video_grande: 'El video supera el límite máximo permitido de 132 MB',
+        no_conforme2: 'No puede aprobar mientras la Conversión no este CONFORME en su totalidad.',
+        no_tiene_registros: 'No tiene registros.'
     }
 };

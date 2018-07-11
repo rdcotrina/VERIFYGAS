@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -448,12 +448,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="video_noconformidad"></label>
-                                        <div class="col-md-7">
-                                            <input class="form-control" type="file" id="file_videostftb1" name="file_videostftb1">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label class="col-md-5 control-label tr-language" data-tr="ltftb1"></label>
                                         <div class="col-md-4">
                                             <input class="form-control tr-language-ph" type="text" id="txt_ltftb1" name="txt_ltftb1" data-trph="porcentaje_abr" maxlength="6">
@@ -463,40 +457,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="video_noconformidad"></label>
+                                        <label class="col-md-5 control-label tr-language" data-tr="video_noconformidad2"></label>
                                         <div class="col-md-7">
                                             <input class="form-control" type="file" id="file_videoltftb1" name="file_videoltftb1">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_cmp"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_cmp" name="txt_sensor_cmp" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_map"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_map" name="txt_sensor_map" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_tps"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_tps" name="txt_sensor_tps" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-
-
+                                    
                                 </div>
 
                                 <div class="col-md-6">
@@ -739,6 +705,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <span id="actions_prec" class="btn-toolbar"></span>
+                    <div class="lv-requided-require"></div>
                 </div>
             </div>
         </div>
@@ -809,18 +776,6 @@
                         required: true
                     },
                     txt_stftb1: {
-                        required: true,
-                        number: true
-                    },
-                    txt_sensor_cmp: {
-                        required: true,
-                        number: true
-                    },
-                    txt_sensor_map: {
-                        required: true,
-                        number: true
-                    },
-                    txt_sensor_tps: {
                         required: true,
                         number: true
                     },

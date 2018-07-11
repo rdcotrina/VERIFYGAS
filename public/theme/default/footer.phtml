@@ -94,7 +94,9 @@
 
     </script>
 <?php else: ?>
-
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/amcharts/amcharts.js" ></script> 
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/amcharts/serial.js" ></script> 
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/sparkline/jquery.sparkline.min.js" ></script>
     <script src="<?php echo $rutaLayout['js']; ?>app.config.js"></script>
     <script src="<?php echo $rutaLayout['js']; ?>demo.min.js"></script>
     <script src="<?php echo $rutaLayout['js']; ?>app.min.js"></script>
@@ -118,6 +120,10 @@
         $('.arol').click(function () {
             Obj.System.InitAx.postChangeRol($(this).data('k'));
         });
+        //si tiene mas de un rol se activa la lista
+        if($('.arol').length > 1){
+            $('#ulRol').removeClass('hide');
+        }
         //cuando el menu es top, estos eventos son para cerrar sesion y cambiar pass
         $('.lv-out').click(function () {
             let u = $(this).data('user');
@@ -141,6 +147,12 @@
                 eval(e);
             }
         });
+        
+        //el configurador del theme solo esta activo para danilo y YO
+        let idUsuario = parseInt('<?php echo Obj()->Vendor->Session->get('app_idUsuario') ?>');
+        if([1,2].includes(idUsuario)){
+            $('#demo-setting').parent('div.demo').removeClass('hide');
+        }
 
     }, 2000);
 
@@ -160,7 +172,7 @@
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/ckeditor/ckeditor.js" ></script> 
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/chosen/chosen.jquery.js" ></script> 
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/dropzone/dropzone.js" ></script> 
-
+     
 <?php endif; ?>  
 
 <script src="<?php echo BASE_URL; ?>public/js/pace/pace.min.js"></script>

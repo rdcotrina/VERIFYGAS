@@ -19,6 +19,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         this._idFormIndex = `#${this._alias}formIndex`;
         this._ifFormObservacionRechazar = `#${this._alias}formObservacionRechazar`;
         this._idFormEntrega = `#${this._alias}formEntrega`;
+        this._idFormEntregaEdit = `#${this._alias}formEntregaEdit`;
         this._idFormViewEntrega = `#${this._alias}formViewEntrega`;
         this._keyPropietario = null;
         this._documentoEscaneado_1 = null;
@@ -34,7 +35,8 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         this._documentoEscaneado_11 = null;
         this._documentoEscaneado_12 = null;
         this._documentoEscaneado_13 = null;
-        this._documentoEscaneado_14 = null;
+        this._tieneEntrega = 0;
+        this._grabaAprueba = 0;
 
         this._formIndex = (tk) => {
             this.send({
@@ -103,8 +105,8 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 }
             });
         };
-        
-        this._postFinalizar= (btn, tk) => {
+
+        this._postFinalizar = (btn, tk) => {
             this._keyPropietario = $(btn).parent('div').data('propietario');
             this.send({
                 flag: 1,
@@ -122,7 +124,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 }
             });
         };
-        
+
         this._formEntrega = (tk) => {
             this.send({
                 token: tk,
@@ -133,7 +135,23 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 },
                 finally: (data) => {
                     this.addBtnSave();
-                    this._findPropietario(tk,this._idFormEntrega);
+                    this._findPropietario(tk, this._idFormEntrega);
+                    this.setEvents(tk);
+                }
+            });
+        };
+
+        this._formEntregaEdit = (tk) => {
+            this.send({
+                token: tk,
+                context: this,
+                dataType: 'text',
+                response: (data) => {
+                    $(`#${this._alias}-TENT${APP_CONTAINER_TABS}`).html(data);
+                },
+                finally: (data) => {
+                    this.addBtnSave();
+                    this._findPropietario(tk, this._idFormEntregaEdit);
                     this.setEvents(tk);
                 }
             });
@@ -149,13 +167,13 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 },
                 finally: (data) => {
                     this.addBtnClose();
-                    this._findPropietario(tk,this._idFormViewEntrega);
+                    this._findPropietario(tk, this._idFormViewEntrega);
                     this._getEntrega(tk);
                 }
             });
         };
-        
-        this._findPropietario = (tk,form) => {
+
+        this._findPropietario = (tk, form) => { 
             return this.send({
                 token: tk,
                 gifProcess: true,
@@ -164,11 +182,11 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                 },
                 response: (data) => {
-                    this.setPropietario(data,form);
+                    this.setPropietario(data, form);
                 }
             });
         };
-        
+
         this._getEntrega = (tk) => {
             return this.send({
                 token: tk,
@@ -182,31 +200,24 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 }
             });
         };
-        
-        this._postEntrega = (tk) => {
+
+        this._postEntrega = (tk) => { 
             this.send({
                 flag: 1,
                 token: tk,
                 gifProcess: true,
-                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`,
+                element: (this._grabaAprueba == 1) ? `#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}` : `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
                 context: this,
-                form: this._idFormEntrega ,
+                form: (this._tieneEntrega == 0) ? this._idFormEntrega : this._idFormEntregaEdit,
                 serverParams: (sData, obj) => {
                     sData.push({name: '_documentoEscaneado_1', value: this._documentoEscaneado_1});
                     sData.push({name: '_documentoEscaneado_2', value: this._documentoEscaneado_2});
-                    sData.push({name: '_documentoEscaneado_3', value: this._documentoEscaneado_3});
                     sData.push({name: '_documentoEscaneado_4', value: this._documentoEscaneado_4});
                     sData.push({name: '_documentoEscaneado_5', value: this._documentoEscaneado_5});
-                    sData.push({name: '_documentoEscaneado_6', value: this._documentoEscaneado_6});
-                    sData.push({name: '_documentoEscaneado_7', value: this._documentoEscaneado_7});
-                    sData.push({name: '_documentoEscaneado_8', value: this._documentoEscaneado_8});
-                    sData.push({name: '_documentoEscaneado_9', value: this._documentoEscaneado_9});
-                    sData.push({name: '_documentoEscaneado_10', value: this._documentoEscaneado_10});
                     sData.push({name: '_documentoEscaneado_11', value: this._documentoEscaneado_11});
-                    sData.push({name: '_documentoEscaneado_12', value: this._documentoEscaneado_12});
                     sData.push({name: '_documentoEscaneado_13', value: this._documentoEscaneado_13});
-                    sData.push({name: '_documentoEscaneado_14', value: this._documentoEscaneado_14});
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
                 },
                 response: (data) => {
                     Tools.execMessage(data);
@@ -240,8 +251,8 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
             }
         });
     }
-    
-    postFinalizar(btn, tk){
+
+    postFinalizar(btn, tk) {
         Tools.notify().confirm({
             content: APP_MSN.finalizar,
             yes: () => {
@@ -265,19 +276,25 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
     }
 
     formEntrega(btn, tk) {
+        this._grabaAprueba = 0;
         this._keyPropietario = $(btn).parent('div').data('propietario');
+        this._tieneEntrega = $(btn).parent('div').data('tiene_entrega');
 
         Tools.addTab({
             context: this,
             id: `${this._alias}-TENT`,
             label: APP_ETIQUET.entrega,
             fnCallback: () => {
-                this._formEntrega(tk);
+                if (this._tieneEntrega == 0) {
+                    this._formEntrega(tk);
+                } else {
+                    this._formEntregaEdit(tk);
+                }
             }
         });
     }
 
-    formViewEntrega(btn, tk){
+    formViewEntrega(btn, tk) {
         this._keyPropietario = $(btn).parent('div').data('propietario');
 
         Tools.addTab({
@@ -289,14 +306,18 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
             }
         });
     }
-    
+
     postEntrega(tk) {
-        Tools.notify().confirm({
-            content: APP_MSN.entrega,
-            yes: () => {
-                this._postEntrega(tk);
-            }
-        });
+        if (this._grabaAprueba == 1) {
+            Tools.notify().confirm({
+                content: APP_MSN.entrega,
+                yes: () => {
+                    this._postEntrega(tk);
+                }
+            });
+        } else {
+            this._postEntrega(tk);
+        }
     }
 
     postUpload(tk, load) {
@@ -304,11 +325,12 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
             token: tk,
             gifProcess: true,
             context: this,
-            form: this._idFormEntrega,
+            form: (this._tieneEntrega == 0) ? this._idFormEntrega : this._idFormEntregaEdit,
             formData: true,
             serverParams: (sData, obj) => {
                 sData.push({name: '_load', value: load});
                 sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                sData.push({name: '_tieneEntrega', value: this._tieneEntrega});
             },
             complete: (data) => {
                 if (data.result == 1) {
@@ -327,6 +349,10 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
 
     closeEntrega(btn, tk) {
         Tools.closeTab(`${this._alias}-TENT`);
+    }
+    
+    postSearch(btn, tk) {
+        this._getVehiculos(tk);
     }
 
 };

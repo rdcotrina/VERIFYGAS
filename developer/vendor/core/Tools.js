@@ -181,7 +181,7 @@ class Tools_ {
 
         $(data).find('input,div,span,select,label,button,js,a,ul,li').each(function (i, v) {
             if ($(v).attr('href') != undefined && /#/.test($(v).attr('href'))) {
-                $(`#${alias}${formName}`).find(`a[href="${$(v).attr('href')}"]`).attr('href', `#${alias}${$(v).attr('href').replace('#','')}`);
+                $(`#${alias}${formName}`).find(`a[href="${$(v).attr('href')}"]`).attr('href', `#${alias}${$(v).attr('href').replace('#', '')}`);
             }
             if ($(v).attr('name') != undefined) {
                 $(`#${v.id}`).attr('name', alias + $(v).attr('id'));
@@ -753,6 +753,16 @@ class Tools_ {
                     }`
             }
         });
+    }
+
+    forceDownload(params) {
+        let a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = params.path;
+        a.download = params.name;
+        a.click();
+        document.body.removeChild(a);
     }
 
 }

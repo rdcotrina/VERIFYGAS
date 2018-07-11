@@ -13,7 +13,7 @@ div.main{
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a',GradientType=1 );  IE6-9 fallback on horizontal gradient */
     height:calc(100vh);
     width:100%;
-    background: url(../../public/img/back_login.jpg);
+    background: #f1f1f1; /*url(../../public/img/back_login.jpg);*/
     background-size: 100% 100%;
 }
 .spor{
@@ -100,19 +100,19 @@ p {
 }
 .logo{
     color:#fff;
-    width: 100px;
+    width: 350px;
     height: 100px;
     border-radius: 50px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border: 6px solid rgba(221, 218, 215, 0.7);
+    /*border: 6px solid rgba(221, 218, 215, 0.7);*/
     margin-bottom: 10px;
-    background: url(../../public/img/logo_login.fw.png)
+    background:  url(../../public/img/logo.png) no-repeat 28px;
 }
 
 .foot{
     padding: 10px;
-    color: #fff;
+    color: #333;
     margin-top: 10px;
 }
 #login form span.fa {

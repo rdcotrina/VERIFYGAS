@@ -3,6 +3,12 @@
 define('DEFAULT_LAYOUT','default');
 define('APP_COMPANY','VerifyGas');
 
+define('MAIL_VERIFYGAS','danilod_7@hotmail.com');
+define('MAIL_TECNICO_VERIFYGAS','roger.cotrina.c@gmail.com');
+define('MAIL_CALIDDA','victor.luperdi@calidda.com.pe');
+define('MAIL_DESARROLLADOR','roger.cotrina.c@gmail.com');
+
+
 //configurar llamada de SPs
 switch (DB_MOTOR) {
     case 'mysql':
@@ -19,6 +25,9 @@ switch (DB_MOTOR) {
 
 require_once ROOT . 'config' . DS . 'loads' . DS . 'LoadVendor.php';
 require_once ROOT . 'config' . DS . 'loads' . DS . 'LoadLibs.php';
+require_once ROOT . 'libs' . DS . 'DomPdf' . DS . 'lib' . DS . 'html5lib' . DS . 'Parser.php';
+require_once ROOT . 'libs' . DS . 'DomPdf' . DS . 'src' . DS . 'Autoloader.php';
+\Dompdf\Autoloader::register();
 
 use Vendor\Obj;
 use Vendor\Registry;
@@ -79,5 +88,4 @@ Registry::addClass('View', '\\Vendor\\View');
 Registry::addClass('Tools', '\\Vendor\\Tools');
 Registry::addClass('Upload', '\\Libs\\Upload');
 Registry::addClass('PHPMailer', '\\Libs\\PHPMailer');
-
 

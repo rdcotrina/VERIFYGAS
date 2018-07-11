@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -105,7 +105,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget jarviswidget-color-blueDark">
@@ -121,90 +121,21 @@
                         <div class="bv-form">
 
                             <fieldset>
+                                 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_1" class="tr-language" data-tr="escaneo_1" target="_blank"></a></label>
+                                            <ol class="ol_texto alert alert-success">
+                                                <li><a id="va_escaneo_1" class="tr-language" data-tr="escaneo_1" target="_blank"></a></li>
+                                                <li><a id="va_escaneo_2" class="tr-language" data-tr="escaneo_2" target="_blank"></a></li>
+                                                <li><a id="va_escaneo_4" class="tr-language" data-tr="escaneo_4" target="_blank"></a></li>
+                                                <li><a id="va_escaneo_5" class="tr-language" data-tr="escaneo_5" target="_blank"></a></li>
+                                                <li><a id="va_escaneo_11" class="tr-language" data-tr="escaneo_11" target="_blank"></a></li>
+                                                <li><a id="va_escaneo_13" class="tr-language" data-tr="escaneo_13" target="_blank"></a></li>
+                                            </ol>
                                         </div>
                                     </div>
-                                
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_2" class="tr-language" data-tr="escaneo_2" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                               
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_3" class="tr-language" data-tr="escaneo_3" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                               
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_4" class="tr-language" data-tr="escaneo_4" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                              
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback"
-                                            <label class="control-label"><a id="va_escaneo_5" class="tr-language" data-tr="escaneo_5" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                              
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_6" class="tr-language" data-tr="escaneo_6" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_7" class="tr-language" data-tr="escaneo_7" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                             
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_8" class="tr-language" data-tr="escaneo_8" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_9" class="tr-language" data-tr="escaneo_9" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                               
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_10" class="tr-language" data-tr="escaneo_10" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                              
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_11" class="tr-language" data-tr="escaneo_11" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_12" class="tr-language" data-tr="escaneo_12" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                               
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_13" class="tr-language" data-tr="escaneo_13" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="va_escaneo_14" class="tr-language" data-tr="escaneo_14" target="_blank"></a></label>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </fieldset>
                         </div>
@@ -223,6 +154,6 @@
                 </div>
             </div>
         </div>
-        
+
     </form>
 </div>

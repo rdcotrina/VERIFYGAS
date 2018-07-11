@@ -1,58 +1,93 @@
 <div>
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th width="50%">Classes</th>
-                        <th width="50%">Labels</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-default
-                            </code></td>
-                        <td><span class="label label-default">Default</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-primary
-                            </code></td>
-                        <td><span class="label label-primary">Primary</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-success
-                            </code></td>
-                        <td><span class="label label-success">Success</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-info
-                            </code></td>
-                        <td><span class="label label-info">Info</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-warning
-                            </code></td>
-                        <td><span class="label label-warning">Warning</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <code>
-                                .label-danger
-                            </code></td>
-                        <td><span class="label label-danger">Danger</span></td>
-                    </tr>
-                </tbody>
-            </table>
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark">
+                    <header role="heading">
+                        <span class="widget-icon"> <i class="fa fa-gear txt-color-blueLight"></i> </span>		
+                        <h2 class="tr-language" data-tr="gestion_conversiones"> </h2>
+                    </header>
+                    <!-- widget div-->
+                    <div role="content">
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div class="bv-form">
+                                <div class="col-md-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blueDark">
+                                        <header role="heading">
+                                            <span class="widget-icon"> <i class="fa fa-history txt-color-blueLight"></i> </span>		
+                                            <h2 class="tr-language" data-tr="pre_conversion"> </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div role="content">
+
+                                            <!-- widget content -->
+                                            <div class="widget-body">
+
+                                                <div class="bv-form">
+                                                    <div class="col-md-8">
+                                                        <div id="panelPreconversion"></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div id="graficaPreConversion" style="width: 100%; height: 220px"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="clearfix"></div>
+
+
+
+
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div class="bv-form">
+                                <div class="col-md-12">
+                                    <!-- Widget ID (each widget will need unique ID)-->
+                                    <div class="jarviswidget jarviswidget-color-blueDark">
+                                        <header role="heading">
+                                            <span class="widget-icon"> <i class="fa fa-refresh txt-color-blueLight"></i> </span>		
+                                            <h2 class="tr-language" data-tr="conversion"> </h2>
+                                        </header>
+                                        <!-- widget div-->
+                                        <div role="content">
+
+                                            <!-- widget content -->
+                                            <div class="widget-body">
+
+                                                <div class="bv-form">
+                                                    <div class="col-md-8">
+                                                        <div id="panelConversion"></div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div id="graficaConversion" style="width: 100%; height: 220px"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>

@@ -299,7 +299,7 @@
                     <ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
                         <li class="">
                             <a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown"> 
-                                <img src="<?php echo $rutaLayout['img']; ?>/avatars/male.png" alt="<?php echo Obj()->Vendor->Session->get('app_nameUser') ?>" class="online" />
+                                <img src="<?php echo $rutaLayout['img']; ?>/avatars/male.png" title="<?php echo Obj()->Vendor->Session->get('app_nameUser') ?>" class="online" />
                             </a>
                             <ul class="dropdown-menu pull-right">
                                 <li>
@@ -373,7 +373,7 @@
 
 
 
-                    <ul id="ulRol" class="header-dropdown-list" >
+                    <ul id="ulRol" class="header-dropdown-list hide" >
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
                                 <i class="fa fa-bars"></i> <span id="sp-defaut-rol" class="hidden-xs"></span> <i class="fa fa-angle-down"></i> 
@@ -495,7 +495,7 @@
                 <!-- END MAIN CONTENT -->
 
                 <!-- INI CONFIG THEME -->
-                <div class="demo">
+                <div class="demo hide">
                     <span id="demo-setting" style="padding-top: 6px;"><i class="fa fa-cogs fa-spin txt-color-blueDark"></i></span> 
                     <form>
                         <legend class="no-padding margin-bottom-10" style="font-size: 13px;"><b class="tr-language" data-tr="option_ap"></b></legend>

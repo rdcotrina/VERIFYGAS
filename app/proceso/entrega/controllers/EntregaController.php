@@ -60,19 +60,18 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         
         if ($this->_file) {
             
+            $this->_columnDB = 'escaneo_'.$this->_form->_load;
+            
             switch ($this->_form->_load) {
                 case 1:  
-                    $inputFile = $this->_file->file_escaneo_1;
+                    $inputFile = $this->_file->file_escaneo_1;                    
                     $nameElement = '_documentoEscaneado_1';
                     break;
                 case 2:  
                     $inputFile = $this->_file->file_escaneo_2;
                     $nameElement = '_documentoEscaneado_2';
                     break;
-                case 3:  
-                    $inputFile = $this->_file->file_escaneo_3;
-                    $nameElement = '_documentoEscaneado_3';
-                    break;
+                
                 case 4:  
                     $inputFile = $this->_file->file_escaneo_4;
                     $nameElement = '_documentoEscaneado_4';
@@ -123,13 +122,26 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
             
             $ext = explode('.', $inputFile['name'])[1];
             
-            $nvoNom = $this->_usuario.$nameElement.'_'.uniqid('vg').'.'.$ext;
+            $nvoNom = $this->_usuario.$nameElement.'_'.uniqid('vg').'.'.strtolower($ext);
 
             Obj()->Vendor->Tools->deleteFile($root . $nvoNom);
 
             Obj()->Libs->Upload->upload($inputFile);
             
-            Obj()->Libs->Upload->allowed = ['image/jpg', 'image/jpeg', 'image/png'];
+            Obj()->Libs->Upload->allowed = [
+                'image/jpg',
+                'image/jpeg',
+                'image/png',
+                'application/msword',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/excel',
+                'application/pdf',
+                'application/zip',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/x-rar',
+                'application/x-rar-compressed',
+            ];
 
             if (Obj()->Libs->Upload->uploaded) {
                 Obj()->Libs->Upload->file_new_name_body = explode('.', $nvoNom)[0]; //se quita la extension
@@ -139,6 +151,11 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
                 if (Obj()->Libs->Upload->processed) {
 
                     Obj()->Libs->Upload->Clean();
+                    
+                    //funciona desde el formulario editar
+                    if ($this->_form->_tieneEntrega) {
+                        $this->qUpdateFile($nvoNom);
+                    }
 
                     $data = ['result' => 1, 'archivo' => $nvoNom, 'element' => $nameElement];
                 } else {
@@ -161,8 +178,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         $body = str_replace("{MARCA}", $data['marca'], $body);
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
+        $body = str_replace("{TALLER}", $data['taller'], $body);
         
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Entrega Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -171,8 +189,8 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
 
         /* realizando el envio a los correos del postulante */
         //correos y nombres de destinatario
-        Obj()->Libs->PHPMailer->addAddress('danilod_7@hotmail.com', 'ENTREGA');#correo de verifygas
-        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'ENTREGA');
+        Obj()->Libs->PHPMailer->addAddress(MAIL_VERIFYGAS, 'ENTREGA');#correo de verifygas
+        Obj()->Libs->PHPMailer->addAddress(MAIL_DESARROLLADOR, 'ENTREGA');
         //enviando
         Obj()->Libs->PHPMailer->send();
     }
@@ -186,8 +204,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         $body = str_replace("{MARCA}", $data['marca'], $body);
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
+        $body = str_replace("{TALLER}", $data['taller'], $body);
         
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', 'VERIFYGAS');
+        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Entrega Finalizada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -196,9 +215,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
 
         /* realizando el envio a los correos del postulante */
         //correos y nombres de destinatario
-        //Obj()->Libs->PHPMailer->addAddress('victor.luperdi@calidda.com.pe', 'ENTREGA FINALIZADA');#correo de calidda
-        //Obj()->Libs->PHPMailer->addAddress('TALLER@calidda.com.pe', 'ENTREGA FINALIZADA');#correo de taller
-        Obj()->Libs->PHPMailer->addAddress('roger.cotrina.c@gmail.com', 'ENTREGA FINALIZADA');
+        Obj()->Libs->PHPMailer->addAddress(MAIL_CALIDDA, 'ENTREGA FINALIZADA');#correo de calidda
+        Obj()->Libs->PHPMailer->addAddress($data['mail_taller'], 'ENTREGA FINALIZADA');#correo de taller
+        Obj()->Libs->PHPMailer->addAddress(MAIL_DESARROLLADOR, 'ENTREGA FINALIZADA');
         //enviando
         Obj()->Libs->PHPMailer->send();
     }
@@ -206,7 +225,7 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
     public function postEntrega() {
         $data = $this->spMantenimiento();
         
-        if($this->_form->_flag == 1 && $data['ok_error'] == 'ok'){//se esta entregando, enviar correos segun rol
+        if($this->_form->_flag == 1 && $data['ok_error'] == 'ok' && $this->_form->_grabaAprueba == 1){//se esta entregando, enviar correos segun rol
             switch ($this->_idRol) {
                 case 3://el usuario que entrega es de rol TALLER, enviar mail a verifygas
                     $this->_sendMailEntregaAprobadaTaller($data);

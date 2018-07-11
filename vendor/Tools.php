@@ -235,15 +235,111 @@ final class Tools {
         $data_array = "";
 
         foreach ($d as $e => $f) {
-           
+
             foreach ($f as $g => $h) {
 
-                 $data_array.="$h^";
+                $data_array .= "$h^";
             }
-            $data_array.="@";
+            $data_array .= "@";
         }
 
         return $data_array;
+    }
+
+    public function headerPDF() {
+        return '<br>         
+                <table width="100%" cellpadding="7" cellspacing="7" border="0">
+                    <tr>
+                        <td rowspan="4" style="width:80%;"><img src="' . ROOT . 'public' . DS . 'img' . DS . 'logo.png' . '"></td>                    
+                    </tr>
+                    <tr>
+                        <td style="font-size: 10px;padding-bottom:5px;padding-top:10px;">' . APP_COMPANY . '</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 10px;padding-bottom:5px;">' . date('d-m-Y H:i:s') . '</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 10px;padding-bottom:5px;"></td>
+                    </tr>
+                </table>
+                <div style="margin-top:25px;border-bottom:1px solid black;"></div>';
+    }
+
+    public function footerPDF() {
+        return '    
+                <hr width=100% align="center">
+                <table style="vertical-align: bottom; font-family: serif; font-size: 8pt; color: #000000; font-weight: bold; font-style: italic;" width="100%">
+                    <tr><td>&nbsp;</td></tr>
+                    <tbody>
+			<tr>
+				<td width="33%"><span style="font-weight: bold; font-style: italic;">{DATE j-m-Y}</span></td>
+				<td style="font-weight: bold; font-style: italic;" align="center" width="33%">{PAGENO}/{nbpg}</td>
+				<td style="text-align: right;" width="33%"></td>
+			</tr>
+		</tbody>
+	</table>';
+    }
+
+    /*
+     * template para cabecera y footer de pdf
+     */
+
+    public function templateFHPdf($param) {
+        return '
+        <html>
+        <head>
+          <style>
+            @page { margin: 100px 80px; }
+            header { position: fixed; top: -60px; left: 0px; right: 0px; height: 50px; }
+            footer { position: fixed; bottom: -60px; left: 0px; right: 0px;  height: 50px; }
+            /*p { page-break-after: always; }*/
+            /*p:last-child { page-break-after: never; }*/
+            header img{width:139px;height:35px}
+          </style>
+        </head>
+        <body>
+          <header>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:-25px">
+                <tr>
+                    <td rowspan="4" style="width:80%;"><img src="' . ROOT . 'public' . DS . 'img' . DS . 'logo.png' . '"></td>                    
+                </tr>
+                <tr>
+                    <td style="font-size: 10px;padding-bottom:5px;padding-top:10px;text-align:right">' . APP_COMPANY . '</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 10px;padding-bottom:5px;text-align:right">' . date('d-m-Y H:i:s') . '</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 10px;padding-bottom:5px;text-align:right">' . Obj()->Vendor->Session->get('app_nameUser') . '</td>
+                </tr>
+            </table>
+          </header>
+          <footer></footer>
+          <main>
+            ' . $param . '
+          </main>
+        </body>
+        </html>';
+    }
+
+    public function dateSpanish($p = '') {
+        $dias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+        $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+
+        //return $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+        return date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+    }
+    
+    public function dateDaySpanish() {
+        $dias = array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado");
+
+        return $dias[date('w')];
+    }
+    
+    public function dateMonthSpanish($p = '') {
+        $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+
+        return $meses[date('n') - 1];
     }
 
 }

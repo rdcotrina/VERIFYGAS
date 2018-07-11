@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -874,6 +874,17 @@
                                                 <option value="1" class="tr-language" data-tr="conforme"></option>
                                                 <option value="0" class="tr-language" data-tr="no_conforme"></option>
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="col-md-12 form-horizontal">
+                                <legend></legend>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label tr-language" data-tr="entidad_financiera"></label>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" id="txt_entidad_financiera" name="txt_entidad_financiera">
                                         </div>
                                     </div>
                                 </div>

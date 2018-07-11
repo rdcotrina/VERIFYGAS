@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -140,14 +140,6 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_3"></label>
-                                            <input class="form-control" type="file" id="file_escaneo_3" name="file_escaneo_3">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
                                             <label class="control-label tr-language" data-tr="escaneo_4"></label>
                                             <input class="form-control" type="file" id="file_escaneo_4" name="file_escaneo_4">
                                         </div>
@@ -161,46 +153,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_6"></label>
-                                            <input class="form-control" type="file" id="file_escaneo_6" name="file_escaneo_6">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_7"></label>
-                                            <input class="form-control" type="file" id="file_escaneo_7" name="file_escaneo_7">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_8"></label>
-                                            <input class="form-control" type="file" id="file_escaneo_8" name="file_escaneo_8">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_9"></label>
-                                            <input class="form-control" type="file" id="file_escaneo_9" name="file_escaneo_9">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_10"></label>
-                                            <input class="form-control" type="file" id="aile_escaneo_10" name="aile_escaneo_10">
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
@@ -209,14 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_12"></label>
-                                            <input class="form-control" type="file" id="txt_escaneo_12" name="txt_escaneo_12">
-                                        </div>
-                                    </div>
-                                </div>
+                                 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
@@ -225,14 +171,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label tr-language" data-tr="escaneo_14"></label>
-                                            <input class="form-control" type="file" id="txt_escaneo_14" name="txt_escaneo_14">
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </fieldset>
                         </div>
 
@@ -261,40 +200,16 @@
                     file_escaneo_2:{
                         required: true 
                     },
-                    file_escaneo_3:{
-                        required: true 
-                    },
                     file_escaneo_4:{
                         required: true 
                     },
                     file_escaneo_5:{
                         required: true 
                     },
-                    file_escaneo_6:{
-                        required: true 
-                    },
-                    file_escaneo_7:{
-                        required: true 
-                    },
-                    file_escaneo_8:{
-                        required: true 
-                    },
-                    file_escaneo_9:{
-                        required: true 
-                    },
-                    aile_escaneo_10:{
-                        required: true 
-                    },
                     txt_escaneo_11:{
                         required: true 
                     },
                     txt_escaneo_12:{
-                        required: true 
-                    },
-                    txt_escaneo_13:{
-                        required: true 
-                    },
-                    txt_escaneo_14:{
                         required: true 
                     }
                 },

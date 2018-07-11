@@ -36,14 +36,6 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label class="col-md-4 control-label tr-language" data-tr="nro_serie"></label>
-                    <div class="col-md-7">
-                        <input class="form-control" type="text" id="txt_serie" name="txt_serie"/>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label class="col-md-4 control-label"></label>
                     <div class="col-md-7" id="btn_search">
                     </div>
                 </div>

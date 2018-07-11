@@ -148,6 +148,7 @@ class Resource {
                         if (v.type.toLowerCase() == 'file') {
                             if (!$.isEmptyObject($(v).val())) {
                                 formData.append(v.id, $(v)[0].files[0]);
+                                
                             }
                         } else {
                             if (v.type.toLowerCase() == 'text' || v.type.toLowerCase() == 'select-one' || v.type.toLowerCase() == 'select-multiple' || v.type.toLowerCase() == 'hidden' || v.type.toLowerCase() == 'password' || v.type.toLowerCase() == 'textarea') {

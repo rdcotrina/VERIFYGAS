@@ -77,6 +77,7 @@ class VehiculoModel extends \Vendor\DataBase {
                 . ":imgRevisionTecnica,"
                 . ":imgSoat,"
                 . ":imgTarjetaPropiedad,"
+                . ":imgContratoFinanciamitoCalidda,"
                 . ":consentimiento_1,"
                 . ":consentimiento_2,"
                 . ":consentimiento_3,"
@@ -125,6 +126,7 @@ class VehiculoModel extends \Vendor\DataBase {
             ':imgRevisionTecnica' => @$this->_form->_imgRevisionTecnica,
             ':imgSoat' => @$this->_form->_imgSoat,
             ':imgTarjetaPropiedad' => @$this->_form->_imgTarjetaPropiedad,
+            ':imgContratoFinanciamitoCalidda' => @$this->_form->_imgContratoFinanciamitoCalidda,
             ':consentimiento_1' => @$this->_form->_consentimiento_1,
             ':consentimiento_2' => @$this->_form->_consentimiento_2,
             ':consentimiento_3' => @$this->_form->_consentimiento_3,
@@ -296,28 +298,16 @@ class VehiculoModel extends \Vendor\DataBase {
 
         switch ($this->_idRol) {
             case 3: //taller
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.id_taller = '" . $this->_idTaller . "' ";
-                }else{
-                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_taller = 'P' ";
-                }
+                $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_taller = 'P' ";
                 break;
             case 5: //verifygas
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.estado_verifygas != 'P' ";
-                }else{
-                    $w = "AND p.estado_verifygas = 'P' AND p.estado_taller = 'A'";
-                }
+                $w = "AND p.estado_verifygas = 'P' AND p.estado_taller = 'A'";
                 break;
             case 6: //asesor comercial
                 $w = "AND p.id_taller = '" . $this->_idTaller . "' AND (p.estado_taller = 'P' OR p.estado_verifygas = 'P') ";
                 break;
             case 7: //calidda
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.estado_calidda != 'P' ";
-                }else{
-                    $w = "AND p.estado_calidda = 'P' AND p.estado_taller = 'A' AND p.estado_verifygas = 'A'";
-                }
+                $w = "AND p.estado_calidda = 'P' AND p.estado_taller = 'A' AND p.estado_verifygas = 'A'";
                 break;
             default:
                 $w = '';
@@ -348,9 +338,11 @@ class VehiculoModel extends \Vendor\DataBase {
             v.imagen_servicio_publico,
             v.imagen_solicitud_cobranza,
             v.imagen_tarjeta_propiedad,
+            v.img_contrato_financiamiento_calidda,
             p.estado_taller,
             p.estado_verifygas,
-            (SELECT COUNT(*) FROM conv_pre_conversion a WHERE a.id_propietario = v.id_propietario) tiene_preconversion
+            (SELECT COUNT(*) FROM conv_pre_conversion a WHERE a.id_propietario = v.id_propietario) tiene_preconversion,
+            (SELECT conformidad_todo FROM conv_pre_conversion a WHERE a.id_propietario = v.id_propietario) conformidad_todo
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
@@ -398,6 +390,7 @@ class VehiculoModel extends \Vendor\DataBase {
             v.imagen_poliza,
             v.imagen_solicitud_cobranza,
             v.imagen_formulario_calidda,
+            v.img_contrato_financiamiento_calidda,
             v.tarjeta,
             v.placa,
             v.marca,
@@ -425,19 +418,28 @@ class VehiculoModel extends \Vendor\DataBase {
     protected function qFindPropietario() {
         $query = "
         SELECT
+            e.nombre_completo,
+            p.nro_expediente,
             e.apellido_paterno,
             e.apellido_materno,
             e.primer_nombre,
             e.segundo_nombre,
+            e.email,
             p.celular,
+            p.id_estado_civil,
+            p.telefono_casa,
             p.direccion_domicilio,
             t.abreviatura tipo_doc,
             p.documento_identidad,
+            p.direccion_domicilio,
             v.placa,
             v.marca,
             v.modelo,
             v.serie,
-            v.cilindrada,            
+            v.cilindrada,   
+            v.anio_fabricacion,
+            ta.taller,
+            (SELECT w.pais FROM app_pais w WHERE w.id_pais = p.id_pais) npais,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATOFF') param_apagado,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATON') param_encendido,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECRAGVTBATARRA') param_arranque,
@@ -456,11 +458,18 @@ class VehiculoModel extends \Vendor\DataBase {
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORCMPRANGOS') param_sensor_cmp,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORMAPRANGOS') param_sensor_map,
             (SELECT valor FROM app_parametro WHERE codigo = 'PRECSENSORTPSRANGOS') param_sensor_tps,
-            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRANGOSCILINDROS') param_cilindros
+            (SELECT valor FROM app_parametro WHERE codigo = 'PRECRANGOSCILINDROS') param_cilindros,
+            (
+                SELECT
+                    nombre_completo
+                FROM app_persona 
+                WHERE id_persona = (SELECT valor FROM app_parametro WHERE codigo = 'FIRMANTECONTRATOS')
+            ) calidda
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_persona e ON e.id_persona = p.id_persona
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
+        INNER JOIN conv_taller ta ON ta.id_taller = p.id_taller
         WHERE p.id_propietario = :id;    
         ";
         $parms = [

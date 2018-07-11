@@ -138,13 +138,13 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            
+
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
-                                        <label id="btn_vcons" class="control-label"></label>
-                                            
+                                            <label id="btn_vcons" class="control-label"></label>
+
                                         </div>
                                     </div>
                                 </div>
@@ -183,11 +183,11 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
+                                        
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="tarjeta_propiedad"></label>
-                                            <input type="text" class="form-control" name="txt_tarjetapropiedad" id="txt_tarjetapropiedad">
+                                            <label class="control-label tr-language" data-tr="modelo"></label>
+                                            <input type="text" class="form-control" name="txt_model" id="txt_model">
                                         </div>
-
                                         <div class="col-sm-12 col-md-6 has-feedback">
                                             <label class="control-label tr-language" data-tr="placa"></label>
                                             <input type="text" class="form-control" name="txt_plaka" id="txt_plaka">
@@ -205,8 +205,8 @@
                                         </div>
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="modelo"></label>
-                                            <input type="text" class="form-control" name="txt_model" id="txt_model">
+                                            <label class="control-label tr-language" data-tr="nro_serie"></label>
+                                            <input type="text" class="form-control" name="txt_serye" id="txt_serye">
                                         </div>
                                     </div>
                                 </div>
@@ -221,8 +221,8 @@
                                         </div>
 
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nro_serie"></label>
-                                            <input type="text" class="form-control" name="txt_serye" id="txt_serye">
+                                            <label class="control-label tr-language" data-tr="cilindrada"></label>
+                                            <input type="text" class="form-control" name="txt_cilindrada" id="txt_cilindrada">
                                         </div>
                                     </div>
                                 </div>
@@ -235,11 +235,13 @@
                                             <label class="control-label tr-language" data-tr="anio_fabricacion"></label>
                                             <input type="text" class="form-control" name="txt_aniofabricacion" id="txt_aniofabricacion">
                                         </div>
-
+                                        
                                         <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="cilindrada"></label>
-                                            <input type="text" class="form-control" name="txt_cilindrada" id="txt_cilindrada">
+                                            <label class="control-label tr-language" data-tr="tarjeta_propiedad"></label>
+                                            <input type="text" class="form-control" name="txt_tarjetapropiedad" id="txt_tarjetapropiedad">
                                         </div>
+
+                                        
                                     </div>
                                 </div>
                             </fieldset>
@@ -278,57 +280,23 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label" data-tr=""><a id="a_soat" class="tr-language" data-tr="img_soat" target="_blank"></a></label>
-                                        </div>  
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_solicitud_cobranza" class="tr-language" data-tr="formato_solicitud_cobranza" target="_blank"></a></label>
-                                        </div>   
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_hoja_unica_datos" class="tr-language" data-tr="hoja_unica_datos" target="_blank"></a></label>
-                                        </div> 
-
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_doc_identidad" class="tr-language" data-tr="img_doc_identidad" target="_blank"></a></label>
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_licencia_conducir" class="tr-language" data-tr="img_licencia_conducir" target="_blank"></a></label>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_tarjeta_propiedad" class="tr-language" data-tr="img_tarjeta_propiedad" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_recibo_luz" class="tr-language" data-tr="recibo_agua_luz_gas" target="_blank"></a></label>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_app_movil" class="tr-language" data-tr="inscripcion_app_movil" target="_blank"></a></label> 
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 has-feedback">
-                                            <label class="control-label"><a id="a_revision" class="tr-language" data-tr="img_revision_tecnica" target="_blank"></a></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
                                         <div class="col-sm-12 col-md-12 has-feedback">
-                                            <label class="control-label"><a id="a_consentimiento" class="tr-language" data-tr="consentimiento" target="_blank"></a></label> 
-                                        </div>
+                                            <label class="control-label" data-tr="">
+                                                <ol class="alert alert-success ol_texto">
+                                                    <li><a class="tr-language" data-tr="img_soat" id="a_soat" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="formato_solicitud_cobranza" id="a_solicitud_cobranza" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="hoja_unica_datos" id="a_hoja_unica_datos" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="img_doc_identidad" id="a_doc_identidad" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="img_licencia_conducir" id="a_licencia_conducir" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="img_tarjeta_propiedad" id="a_tarjeta_propiedad" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="recibo_agua_luz_gas" id="a_recibo_luz" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="inscripcion_app_movil" id="a_app_movil" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="img_revision_tecnica" id="a_revision" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="consentimiento" id="a_consentimiento" target="_blank"></a></li>
+                                                    <li><a class="tr-language" data-tr="contrato_financiamiento_calidda" id="a_contrato_financiamiento_calidda" target="_blank"></a></li>
+                                                </ol>
+                                            </label>
+                                        </div>  
                                     </div>
                                 </div>
                             </fieldset>
@@ -339,70 +307,6 @@
         </div>
 
 
-        <div class="col-sm-6">
-            <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
-                <header role="heading">
-                    <span class="widget-icon"> <i class="fa fa-file-text txt-color-blueLight"></i> </span>		
-                    <h2 class="tr-language" data-tr="otros_datos"> </h2>
-                </header>
-                <!-- widget div-->
-                <div role="content">
-                    <!-- widget edit box -->
-                    <div class="jarviswidget-editbox">
-                        <!-- This area used as dropdown edit box -->
-                        <input class="form-control" type="text">
-                    </div>
-                    <!-- end widget edit box -->
-                    <!-- widget content -->
-                    <div class="widget-body">
-
-                        <div class="bv-form">
-
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="nro_revision_tecnica"></label>
-                                            <input type="text" class="form-control" name="txt_nrorevisiontecnica" id="txt_nrorevisiontecnica">
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fecha_prox_inspeccion"></label>
-                                            <input type="text" class="form-control date" name="txt_fechainspeccion" id="txt_fechainspeccion">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="soat"></label>
-                                            <input type="text" class="form-control" name="txt_soat" id="txt_soat">
-                                        </div>
-
-                                        <div class="col-sm-12 col-md-6 has-feedback">
-                                            <label class="control-label tr-language" data-tr="fecha_soat"></label>
-                                            <input type="text" class="form-control date" name="txt_fechavigenciasoat" id="txt_fechavigenciasoat">
-                                        </div>                                        
-
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                        </div>
-
-                    </div>
-                    <!-- end widget content -->
-                </div>
-                <!-- end widget div -->
-            </div>
-            <!-- end widget -->
-        </div>
-        
         <div class="clearfix"></div>
 
         <div class="form-actions">

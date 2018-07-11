@@ -35,6 +35,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._imgLicenciaConducir = null;
         this._imgRecibo = null;
         this._imgRevisionTecnica = null;
+        this._imgContratoFinanciamitoCalidda = null;
         this._imgSoat = null;
         this._imgTarjetaPropiedad = null;
         this._keyPropietario = null;
@@ -60,12 +61,12 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._maxSTFTB1 = 0;
         this._minLTFTB1 = 0;
         this._maxLTFTB1 = 0;
-        this._minSensorCMP = 0;
-        this._maxSensorCMP = 0;
-        this._minSensorMAP = 0;
-        this._maxSensorMAP = 0;
-        this._minSensorTPS = 0;
-        this._maxSensorTPS = 0;
+        /*this._minSensorCMP = 0;
+         this._maxSensorCMP = 0;
+         this._minSensorMAP = 0;
+         this._maxSensorMAP = 0;
+         this._minSensorTPS = 0;
+         this._maxSensorTPS = 0;*/
         this._minCilindros = 0;
         this._maxCilindros = 0;
         this._conformidadVoltiosApagado = 0;
@@ -137,6 +138,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     this.addBtnConsentimiento();
                     this.getListBoxs(this._idFormVehiculo);
                     this.setEventsUploads(tk);
+                    this.runLocalStorage(this._idFormVehiculo);
                 }
             });
         };
@@ -190,6 +192,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                         this.setEvents(tk);
                     });
                     this.getListBoxPreConversion(this._idFormPreConversion);
+                    this.runLocalStorage(this._idFormPreConversion);
                 }
             });
         };
@@ -387,6 +390,105 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                             Tools.closeModal(this._idFormObservacion);
                         }
                         this._getVehiculos(tk);
+                        //se desactiva la carga de localstorage, debido a q ya se guardaron los datos, para el siguiente nuevo, no 
+                        //deberia cargar los datos de un formulario que ya fure grabado
+                        Tools.stopDataLocalStorage();
+                    }
+                }
+            });
+        };
+
+        this._getFormatoHojaUnica = (btn, tk) => {
+            this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    if (data.result == 1) {
+                        Tools.forceDownload({
+                            path: 'files/temp/TmpFHU.pdf',
+                            name: 'TmpFHU.pdf'
+                        });
+                    } else {
+                        Tools.notify().error({
+                            content: APP_MSN.comuniquese
+                        });
+                    }
+                }
+            });
+        };
+
+        this._getFormatoSolicitudCobranza = (btn, tk) => {
+            this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    if (data.result == 1) {
+                        Tools.forceDownload({
+                            path: 'files/temp/TmpFSOLCOB.pdf',
+                            name: 'TmpFSOLCOB.pdf'
+                        });
+                    } else {
+                        Tools.notify().error({
+                            content: APP_MSN.comuniquese
+                        });
+                    }
+                }
+            });
+        };
+
+        this._getFormatoContrato = (btn, tk) => {
+            this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    if (data.result == 1) {
+                        Tools.forceDownload({
+                            path: 'files/temp/TmpFCONT.pdf',
+                            name: 'TmpFCONT.pdf'
+                        });
+                    } else {
+                        Tools.notify().error({
+                            content: APP_MSN.comuniquese
+                        });
+                    }
+                }
+            });
+        };
+
+        this._getFormatoConsentimiento = (btn, tk) => {
+            this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                },
+                response: (data) => {
+                    if (data.result == 1) {
+                        Tools.forceDownload({
+                            path: 'files/temp/TmpFCONSEN.pdf',
+                            name: 'TmpFCONSEN.pdf'
+                        });
+                    } else {
+                        Tools.notify().error({
+                            content: APP_MSN.comuniquese
+                        });
                     }
                 }
             });
@@ -445,6 +547,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     formNewVehiculo(btn, tk) {
+        this._keyPropietario = null;
         this.closeNewVehiculo(null, null);
         Tools.addTab({
             context: this,
@@ -517,35 +620,44 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     postNew(tk) {
-        this.send({
-            flag: 1,
-            token: tk,
-            element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
-            context: this,
-            form: this._idFormVehiculo,
-            serverParams: (sData, obj) => {
-                sData.push({name: '_imgConsentimiento', value: this._imgConsentimiento});
-                sData.push({name: '_imgDocIdentidad', value: this._imgDocIdentidad});
-                sData.push({name: '_imgFormatoSolicitud', value: this._imgFormatoSolicitud});
-                sData.push({name: '_imgHojaCalidda', value: this._imgHojaCalidda});
-                sData.push({name: '_imgInscripcionMovil', value: this._imgInscripcionMovil});
-                sData.push({name: '_imgLicenciaConducir', value: this._imgLicenciaConducir});
-                sData.push({name: '_imgRecibo', value: this._imgRecibo});
-                sData.push({name: '_imgRevisionTecnica', value: this._imgRevisionTecnica});
-                sData.push({name: '_imgSoat', value: this._imgSoat});
-                sData.push({name: '_imgTarjetaPropiedad', value: this._imgTarjetaPropiedad});
-                sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
-                sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
-                sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
-            },
-            response: (data) => {
-                Tools.execMessage(data);
-                if (data.ok_error != 'error') {
-                    this.closeNewVehiculo(null, null);
-                    this._getVehiculos(tk);
+        //validar antiguedad de vericulo
+        if (this.isOld()) {
+            Tools.notify().smallMsn({
+                content: APP_MSN.antiguedad_10_anios
+            });
+        } else {
+            this.send({
+                flag: 1,
+                token: tk,
+                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`,
+                context: this,
+                form: this._idFormVehiculo,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_imgConsentimiento', value: this._imgConsentimiento});
+                    sData.push({name: '_imgDocIdentidad', value: this._imgDocIdentidad});
+                    sData.push({name: '_imgFormatoSolicitud', value: this._imgFormatoSolicitud});
+                    sData.push({name: '_imgHojaCalidda', value: this._imgHojaCalidda});
+                    sData.push({name: '_imgInscripcionMovil', value: this._imgInscripcionMovil});
+                    sData.push({name: '_imgLicenciaConducir', value: this._imgLicenciaConducir});
+                    sData.push({name: '_imgRecibo', value: this._imgRecibo});
+                    sData.push({name: '_imgRevisionTecnica', value: this._imgRevisionTecnica});
+                    sData.push({name: '_imgSoat', value: this._imgSoat});
+                    sData.push({name: '_imgTarjetaPropiedad', value: this._imgTarjetaPropiedad});
+                    sData.push({name: '_imgContratoFinanciamitoCalidda', value: this._imgContratoFinanciamitoCalidda});
+                    sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
+                    sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
+                    sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
+                },
+                response: (data) => {
+                    Tools.execMessage(data);
+                    if (data.ok_error != 'error') {
+                        this.closeNewVehiculo(null, null);
+                        this._getVehiculos(tk);
+                        Tools.stopDataLocalStorage();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     postNewPreconversion(tk) {
@@ -587,37 +699,43 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
     }
 
     postEdit(tk) {
-        this.send({
-            flag: 2,
-            token: tk,
-            element: `#${PREBTNCTXT}${this._alias}${APP_BTN.UPD}`,
-            context: this,
-            form: this._idFormVehiculoEdit,
-            serverParams: (sData, obj) => {
-                sData.push({name: '_keyPropietario', value: this._keyPropietario});
-                sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
-                sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
-                sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
-            },
-            response: (data) => {
-                Tools.execMessage(data);
-                if (data.ok_error != 'error') {
-                    this._keyPropietario = null;
-                    this.closeNewVehiculo(null, null);
-                    this._getVehiculos(tk);
+        if (this.isOld()) {
+            Tools.notify().smallMsn({
+                content: APP_MSN.antiguedad_10_anios
+            });
+        } else {
+            this.send({
+                flag: 2,
+                token: tk,
+                element: `#${PREBTNCTXT}${this._alias}${APP_BTN.UPD}`,
+                context: this,
+                form: this._idFormVehiculoEdit,
+                serverParams: (sData, obj) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                    sData.push({name: '_consentimiento_1', value: this._consentimiento_1});
+                    sData.push({name: '_consentimiento_2', value: this._consentimiento_2});
+                    sData.push({name: '_consentimiento_3', value: this._consentimiento_3});
+                },
+                response: (data) => {
+                    Tools.execMessage(data);
+                    if (data.ok_error != 'error') {
+                        this._keyPropietario = null;
+                        this.closeNewVehiculo(null, null);
+                        this._getVehiculos(tk);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     postAprobar(btn, tk) {
-        //QUEDA PENDIENTE
-//        if (this._conformeAll == 0) {
-//            Tools.notify().smallMsn({
-//                content: APP_MSN.no_conforme,color:'#C79121'
-//            });
-//            return false;
-//        }
+
+        if ($(btn).parent().data('conformidadtodo') == 0 || $.isEmptyObject($(btn).parent().data('conformidadtodo'))) {
+            Tools.notify().smallMsn({
+                content: APP_MSN.no_conforme, color: '#C79121'
+            });
+            return false;
+        }
         Tools.notify().confirm({
             content: APP_MSN.aprobar,
             yes: () => {
@@ -676,7 +794,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    postUploadVideo(tk, load) {
+    postUploadVideo(tk, load, elf) {
         this.send({
             token: tk,
             gifProcess: true,
@@ -693,6 +811,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     eval(`this.${data.element} = '${data.archivo}';`);
                     Tools.notify().ok({
                         content: APP_MSN.upload_ok
+                    });
+                } else if (data.result == 2) {
+                    $(elf).val('');
+                    Tools.notify().smallMsn({
+                        content: APP_MSN.video_grande
                     });
                 } else {
                     Tools.notify().error({

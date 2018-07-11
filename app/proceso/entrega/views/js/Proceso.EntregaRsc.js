@@ -19,7 +19,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             container: `#${this._alias}btn_search`,
             keymnu: this._alias,
             btns: [
-                {keybtn: APP_BTN.BUS, evts: [{click: 'Obj.Proceso.ConversionAx.postSearch'}]}
+                {keybtn: APP_BTN.BUS, evts: [{click: 'Obj.Proceso.EntregaAx.postSearch'}]}
             ]
         });
     }
@@ -29,9 +29,20 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             container: `#${this._alias}actions`,
             keymnu: this._alias,
             btns: [
+                {keybtn: APP_BTN.GRB, type: 'submit'},
                 {keybtn: APP_BTN.GRBAPR, type: 'submit'},
                 {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Proceso.EntregaAx.closeEntrega'}]}
             ]
+        }, (oSettings) => {
+            $(`#${this._alias}actions`).find('button').mouseover((e) => {
+                if ($(e.currentTarget).hasClass('btn-success')) {
+                    this._grabaAprueba = 1;
+                } else {
+                    this._grabaAprueba = 0;
+                }
+                console.log(this._grabaAprueba);
+            });
+
         });
     }
     
@@ -63,13 +74,13 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
 
         $.each(data, (i, e) => {
             h += `
-            <div class="bigBox" style="background-color:#e2e2e2;height:200px;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
+            <div class="bigBox col-sm-12 col-md-4 alert alert-success" style="background:#f2f2f2; border-color:#206480;height:200px;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;color:#000">
                 <span>
                     <i class="fa fa-address-book"></i> ${e.nombre_completo}
                 </span>
                 <div class="smart-form">
                     <div class="row">
-                        <section class="col col-12">
+                        <section class="col col-12" style="width:100%">
                             <div>${APP_ETIQUET.nro_exp}: ${e.nro_expediente}</div>
                         </section>
                         <section class="col col-6">
@@ -92,7 +103,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
                     aliasBtn: '${i}',
                     container: '#${this._alias}${i}_tools',
                     keymnu: '${this._alias}',
-                    notext: true,
+                    //notext: true,
                     //forceBtnXs: true,
                     btns: [
                         {keybtn: APP_BTN.ENT, evts: [{click: 'Obj.Proceso.EntregaAx.formEntrega'}]},
@@ -101,6 +112,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
+                $('#${this._alias}${i}_tools').data('tiene_entrega',${e.tiene_entrega});
             `;
         });
 
@@ -120,8 +132,8 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             elements: [
                 {item: '_nombres', value: `${data.primer_nombre} ${data.segundo_nombre}`, type: 'html'},
                 {item: '_apellidos', value: `${data.apellido_paterno} ${data.apellido_materno}`, type: 'html'},
-                {item: '_celular', value: data.celurar, type: 'html'},
-                {item: '_direccion', value: data.direccion, type: 'html'},
+                {item: '_celular', value: data.celular, type: 'html'},
+                {item: '_direccion', value: data.direccion_domicilio, type: 'html'},
                 {item: '_tipodoc', value: data.tipo_doc, type: 'html'},
                 {item: '_num_doc', value: data.documento_identidad, type: 'html'},
                 {item: '_placa', value: data.placa, type: 'html'},
@@ -136,18 +148,10 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
     setEntrega(data){
         $(`#${this._alias}va_escaneo_1`).attr('href', `files/entrega/${data.escaneo_1}`);
         $(`#${this._alias}va_escaneo_2`).attr('href', `files/entrega/${data.escaneo_2}`);
-        $(`#${this._alias}va_escaneo_3`).attr('href', `files/entrega/${data.escaneo_3}`);
         $(`#${this._alias}va_escaneo_4`).attr('href', `files/entrega/${data.escaneo_4}`);
         $(`#${this._alias}va_escaneo_5`).attr('href', `files/entrega/${data.escaneo_5}`);
-        $(`#${this._alias}va_escaneo_6`).attr('href', `files/entrega/${data.escaneo_6}`);
-        $(`#${this._alias}va_escaneo_7`).attr('href', `files/entrega/${data.escaneo_7}`);
-        $(`#${this._alias}va_escaneo_8`).attr('href', `files/entrega/${data.escaneo_8}`);
-        $(`#${this._alias}va_escaneo_9`).attr('href', `files/entrega/${data.escaneo_9}`);
-        $(`#${this._alias}va_escaneo_10`).attr('href', `files/entrega/${data.escaneo_10}`);
         $(`#${this._alias}va_escaneo_11`).attr('href', `files/entrega/${data.escaneo_11}`);
-        $(`#${this._alias}va_escaneo_12`).attr('href', `files/entrega/${data.escaneo_12}`);
         $(`#${this._alias}va_escaneo_13`).attr('href', `files/entrega/${data.escaneo_13}`);
-        $(`#${this._alias}va_escaneo_14`).attr('href', `files/entrega/${data.escaneo_14}`);
     }
     
     setEvents(tk){

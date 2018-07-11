@@ -42,13 +42,13 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
 
         $.each(data, (i, e) => {
             h += `
-            <div class="bigBox" style="background-color:#e2e2e2;height:auto;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;width: 250px;color:#000">
+            <div class="bigBox col-sm-12 col-md-4 alert alert-success" style="background:#f2f2f2; border-color:#206480;height:auto;float: left;margin-left:10px;margin-bottom: 10px;position: relative;z-index: 0;color:#000">
                 <span>
                     <i class="fa fa-address-book"></i> ${e.nombre_completo}
                 </span>
                 <div class="smart-form">
                     <div class="row">
-                        <section class="col col-12">
+                        <section class="col col-12" style="width:100%">
                             <div>${APP_ETIQUET.nro_exp}: ${e.nro_expediente}</div>
                         </section>
                         <section class="col col-6">
@@ -69,7 +69,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.ConversionAx.postAprobar'}]},
             {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.ConversionAx.postRechazar'}]}`;
             //si estado de busqueda es 1, no mostrar botones de atender
-            if($(`#${this._alias}lst_estado`).val() == 1){
+            if ($(`#${this._alias}lst_estado`).val() == 1) {
                 btns = '';
             }
             //botones
@@ -78,7 +78,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                     aliasBtn: '${i}',
                     container: '#${this._alias}${i}_tools',
                     keymnu: '${this._alias}',
-                    notext: true,
+                    //notext: true,
                     //forceBtnXs: true,
                     btns: [
                         {keybtn: APP_BTN.VWCONV, evts: [{click: 'Obj.Proceso.ConversionAx.formViewConversion'}]},
@@ -87,6 +87,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
                 $('#${this._alias}${i}_tools').data('tieneconversion',${e.tiene_conversion});
+                $('#${this._alias}${i}_tools').data('conformidadtodo',${e.conformidad_todo});
             `;
         });
 
@@ -106,8 +107,8 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             elements: [
                 {item: '_nombres', value: `${data.primer_nombre} ${data.segundo_nombre}`, type: 'html'},
                 {item: '_apellidos', value: `${data.apellido_paterno} ${data.apellido_materno}`, type: 'html'},
-                {item: '_celular', value: data.celurar, type: 'html'},
-                {item: '_direccion', value: data.direccion, type: 'html'},
+                {item: '_celular', value: data.celular, type: 'html'},
+                {item: '_direccion', value: data.direccion_domicilio, type: 'html'},
                 {item: '_tipodoc', value: data.tipo_doc, type: 'html'},
                 {item: '_num_doc', value: data.documento_identidad, type: 'html'},
                 {item: '_placa', value: data.placa, type: 'html'},
@@ -629,12 +630,55 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         });
 
         //eventos para uploads
-        $(`#${this._alias}file_video_varios`).change(() => {
-            this.postUploadVideo(tk, 1);
+        $(`#${this._alias}file_video_varios`).change((e) => {
+            this.postUploadVideo(tk, 1, e.currentTarget);
         });
-        $(`#${this._alias}file_video_estado_funcionamiento_gnv`).change(() => {
-            this.postUploadVideo(tk, 2);
+        $(`#${this._alias}file_video_estado_funcionamiento_gnv`).change((e) => {
+            this.postUploadVideo(tk, 2, e.currentTarget);
         });
+
+
+        //ejecutar keyup de todos los input:text
+        setTimeout(() => {
+            $(`#${this._alias}txt_presion_salida_regulador`).keyup();
+            $(`#${this._alias}txt_configuracion_temperatura_conmutacion`).keyup();
+
+            $(`#${this._alias}txt_stft_b1_combustible_gnv`).keyup();
+
+            $(`#${this._alias}txt_ltft_b1_combustible_gnv`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gasolinaco`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gasolinahc`).keyup();
+
+            $(`#${this._alias}txt_hanalisis_gas_ralenti_gasolinaco2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gasolinao2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gasolinaco`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gasolinahc`).keyup();
+
+            $(`#${this._alias}txt_wanalisis_gas_rpm_gasolinaco2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gasolinao2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gnvco`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gnvhc`).keyup();
+
+            $(`#${this._alias}txt_vanalisis_gas_ralenti_gnvco2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_ralenti_gnvo2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gnvco`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gnvhc`).keyup();
+
+            $(`#${this._alias}txt_ianalisis_gas_rpm_gnvco2`).keyup();
+
+            $(`#${this._alias}txt_analisis_gas_rpm_gnvo2`).keyup();
+        }, 500);
     }
 
     addBtnSaveConv() {
@@ -737,37 +781,38 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         if (!this._conformidadGasesRPMGnvO2) {
             return false;
         }
-        if (!$(`#${this._alias}lst_cilindro_gnv_texto`).val()) {
+        
+        if ($(`#${this._alias}lst_cilindro_gnv_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_tuberia_alta_presion_texto`).val()) {
+        if ($(`#${this._alias}lst_tuberia_alta_presion_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_valvula_cilindro_texto`).val()) {
+        if ($(`#${this._alias}lst_valvula_cilindro_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_valvula_carga_texto`).val()) {
+        if ($(`#${this._alias}lst_valvula_carga_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_regulador_presion_texto`).val()) {
+        if ($(`#${this._alias}lst_regulador_presion_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_entrega_gas_texto`).val()) {
+        if ($(`#${this._alias}lst_entrega_gas_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_controlador_gas_texto`).val()) {
+        if ($(`#${this._alias}lst_controlador_gas_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_conmutador_texto`).val()) {
+        if ($(`#${this._alias}lst_conmutador_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_variador_avance_texto`).val()) {
+        if ($(`#${this._alias}lst_variador_avance_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_emulacion_inyectores_texto`).val()) {
+        if ($(`#${this._alias}lst_emulacion_inyectores_texto`).val() == 0) {
             return false;
         }
-        if (!$(`#${this._alias}lst_estado_funcionamiento_gnv_texto`).val()) {
+        if ($(`#${this._alias}lst_estado_funcionamiento_gnv_texto`).val() == 0) {
             return false;
         }
 
@@ -819,10 +864,11 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                 {item: 'txt_analisis_gas_rpm_gnvhc', value: data.gases_rpm_gnv_hc},
                 {item: 'txt_ianalisis_gas_rpm_gnvco2', value: data.gases_rpm_gnv_co2},
                 {item: 'txt_analisis_gas_rpm_gnvo2', value: data.gases_rpm_gnv_o2},
-                {item: 'lst_estado_funcionamiento_gnv_texto', value: data.estado_funcionamiento_texto, type: 'select'}
+                {item: 'lst_estado_funcionamiento_gnv_texto', value: data.estado_funcionamiento_texto, type: 'select'},
+                {item: 'txt_entidad_financiera', value: data.entidad_certificadora}
             ]
         });
-
+        this._conformeAll = data.conformidad_todo;
         if (viewVideos) {
             $(`#${this._alias}va_varios`).attr('href', `files/videos/${data.video_varios}`);
             $(`#${this._alias}va_estado_funcionamiento`).attr('href', `files/videos/${data.video_estado_funcionamiento}`);

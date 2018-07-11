@@ -22,6 +22,7 @@ class EntregaModel extends \Vendor\DataBase {
     private $_hostName;
     private $_idTaller;
     protected $_idRol;
+    protected $_columnDB;
 
     public function __construct() {
         parent::__construct();
@@ -52,9 +53,7 @@ class EntregaModel extends \Vendor\DataBase {
         if ($this->_form->txt_modelo) {
             $sqlAll .= "REPLACE(v.modelo,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_modelo . "',' ',''),'%') OR ";
         }
-        if ($this->_form->txt_serie) {
-            $sqlAll .= "REPLACE(v.serie,' ','') LIKE CONCAT('%',REPLACE('" . $this->_form->txt_serie . "',' ',''),'%') OR ";
-        }
+        
         $sqlAll = substr($sqlAll, 0, strlen($sqlAll) - 4);
 
         if (empty($sqlAll)) {
@@ -100,7 +99,8 @@ class EntregaModel extends \Vendor\DataBase {
             v.imagen_revision_tecnica,
             v.imagen_servicio_publico,
             v.imagen_solicitud_cobranza,
-            v.imagen_tarjeta_propiedad
+            v.imagen_tarjeta_propiedad,
+            (SELECT COUNT(*) FROM conv_entrega WHERE id_propietario =  p.id_propietario) tiene_entrega
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
@@ -166,7 +166,8 @@ class EntregaModel extends \Vendor\DataBase {
             v.marca,
             v.modelo,
             v.serie,
-            v.cilindrada
+            v.cilindrada,
+            (SELECT entidad_certificadora FROM conv_entrega d WHERE d.id_propietario = p.id_propietario) entidad_certificadora
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_persona e ON e.id_persona = p.id_persona
@@ -185,20 +186,12 @@ class EntregaModel extends \Vendor\DataBase {
         SELECT 
             escaneo_1,
             escaneo_2,
-            escaneo_3,
             escaneo_4,
             escaneo_5,
-            escaneo_6,
-            escaneo_7,
-            escaneo_8,
-            escaneo_9,
-            escaneo_10,
             escaneo_11,
-            escaneo_12,
-            escaneo_13,
-            escaneo_14
+            escaneo_13
         FROM conv_entrega 
-        WHERE id_pripietario = :id;  
+        WHERE id_propietario = :id;  
         ";
         $parms = [
             ':id' => $this->_form->_keyPropietario
@@ -214,18 +207,11 @@ class EntregaModel extends \Vendor\DataBase {
                 . ":keyPropietario,"
                 . ":escano_1,"
                 . ":escano_2,"
-                . ":escano_3,"
                 . ":escano_4,"
                 . ":escano_5,"
-                . ":escano_6,"
-                . ":escano_7,"
-                . ":escano_8,"
-                . ":escano_9,"
-                . ":escano_10,"
                 . ":escano_11,"
-                . ":escano_12,"
                 . ":escano_13,"
-                . ":escano_14,"
+                . ":grabaAprueba,"
                 . ":usuario,"
                 . ":ipPublica,"
                 . ":ipLocal,"
@@ -238,18 +224,11 @@ class EntregaModel extends \Vendor\DataBase {
             ':keyPropietario' => @$this->_form->_keyPropietario,
             ':escano_1' => @$this->_form->_documentoEscaneado_1,
             ':escano_2' => @$this->_form->_documentoEscaneado_2,
-            ':escano_3' => @$this->_form->_documentoEscaneado_3,
             ':escano_4' => @$this->_form->_documentoEscaneado_4,
             ':escano_5' => @$this->_form->_documentoEscaneado_5,
-            ':escano_6' => @$this->_form->_documentoEscaneado_6,
-            ':escano_7' => @$this->_form->_documentoEscaneado_7,
-            ':escano_8' => @$this->_form->_documentoEscaneado_8,
-            ':escano_9' => @$this->_form->_documentoEscaneado_9,
-            ':escano_10' => @$this->_form->_documentoEscaneado_10,
             ':escano_11' => @$this->_form->_documentoEscaneado_11,
-            ':escano_12' => @$this->_form->_documentoEscaneado_12,
             ':escano_13' => @$this->_form->_documentoEscaneado_13,
-            ':escano_14' => @$this->_form->_documentoEscaneado_14,
+            ':grabaAprueba' => @$this->_form->_grabaAprueba,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
@@ -281,6 +260,20 @@ class EntregaModel extends \Vendor\DataBase {
         ];
             
         return $this->getRow($query, $parms);
+    }
+    
+    protected function qUpdateFile($file) {
+        $query = "
+        UPDATE conv_entrega SET
+            " . $this->_columnDB . " = :file
+        WHERE id_propietario = :id ; 
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario,
+            ':file' => $file
+        ];
+
+        $this->execute($query, $parms);
     }
     
 }

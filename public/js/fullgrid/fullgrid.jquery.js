@@ -42,7 +42,7 @@
             let options = $.extend(defaults, opt);
 
             options.pFilterCols = '';
-            
+
             //detectar tamaño de pantalla y agregar este css para scroll de grid
             //$(`#${options.oContainer}`).addClass('table-responsive');
 
@@ -2284,63 +2284,63 @@
 
             _private.activeScrollY = function (oSettings, boolExeWidthOnlyBody = false) {
                 //queda pendiente porque al minimzar la ventana se desconfigura
-                
+
                 /*let table = $(`#${oSettings.oTable}`), w = [];
-
-                table.find('thead').find('tr').eq(0).find('th').each(function () {
-                    w.push($(this).width());
-                });
-
-
-                table.css({
-                    width: '100%'
-                });
-
-//                table.find('thead').css({
-//                    display: 'block'
-//                });
-
-                table.find('tbody').css({
-                    display: 'block',
-                    height: oSettings.tHeight,
-                    'overflow-Y': 'scroll'
-                });
-
-                table.find('tbody').find('tr').css({
-//                    display: 'block',
-                    overflow: 'hidden'
-                });
-
-                table.find('th,td').css({
-                    display: 'inline-block'
-                });
-
-                table.find('tbody').find('td').css({
-                    height: '34px'
-//                    overflow:'hidden',          //para recortar y colocar ...
-//                    'white-space': 'nowrap',    //para recortar y colocar ...
-//                    'text-overflow': 'ellipsis' //para recortar y colocar ...
-                });
-
-                if (!boolExeWidthOnlyBody) {
-                    for (var i in w) {
-                        table.find('tr').each(function () {
-                            if (i == 1) {
-                                w[i] = 75;//el width de ACCIONES
-                            }
-                            $(this).find('th,td').eq(i).css({width: `${21 + w[i]}px`});
-                        });
-                    }
-                } else {
-                    for (var i in w) {
-                        table.find('tbody,tfoot').find('tr').each(function () {
-                            if (i == 1) {
-                                w[i] = 71;//el width de ACCIONES
-                            }
-                            $(this).find('td').eq(i).css({width: `${22 + w[i]}px`});
-                        });
-                    }
-                }*/
+                 
+                 table.find('thead').find('tr').eq(0).find('th').each(function () {
+                 w.push($(this).width());
+                 });
+                 
+                 
+                 table.css({
+                 width: '100%'
+                 });
+                 
+                 //                table.find('thead').css({
+                 //                    display: 'block'
+                 //                });
+                 
+                 table.find('tbody').css({
+                 display: 'block',
+                 height: oSettings.tHeight,
+                 'overflow-Y': 'scroll'
+                 });
+                 
+                 table.find('tbody').find('tr').css({
+                 //                    display: 'block',
+                 overflow: 'hidden'
+                 });
+                 
+                 table.find('th,td').css({
+                 display: 'inline-block'
+                 });
+                 
+                 table.find('tbody').find('td').css({
+                 height: '34px'
+                 //                    overflow:'hidden',          //para recortar y colocar ...
+                 //                    'white-space': 'nowrap',    //para recortar y colocar ...
+                 //                    'text-overflow': 'ellipsis' //para recortar y colocar ...
+                 });
+                 
+                 if (!boolExeWidthOnlyBody) {
+                 for (var i in w) {
+                 table.find('tr').each(function () {
+                 if (i == 1) {
+                 w[i] = 75;//el width de ACCIONES
+                 }
+                 $(this).find('th,td').eq(i).css({width: `${21 + w[i]}px`});
+                 });
+                 }
+                 } else {
+                 for (var i in w) {
+                 table.find('tbody,tfoot').find('tr').each(function () {
+                 if (i == 1) {
+                 w[i] = 71;//el width de ACCIONES
+                 }
+                 $(this).find('td').eq(i).css({width: `${22 + w[i]}px`});
+                 });
+                 }
+                 }*/
 
             };
 
@@ -2393,7 +2393,7 @@
 
                 /*generando id de tabla*/
                 oSettings.oTable = oSettings.oContainer + '_fg';
-                
+
                 $('#' + oSettings.oContainer).addClass('table-responsive');
 
                 let method = {

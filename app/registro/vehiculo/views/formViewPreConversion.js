@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -453,35 +453,7 @@
                                     <div class="form-group">
                                         <label class="col-md-7 control-label"><a id="va_ltftb1" class="tr-language" data-tr="video_noconformidad" target="_blank"></a></label>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_cmp"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_cmp" name="txt_sensor_cmp" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_map"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_map" name="txt_sensor_map" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-5 control-label tr-language" data-tr="sensor_tps"></label>
-                                        <div class="col-md-4">
-                                            <input class="form-control tr-language-ph" type="text" id="txt_sensor_tps" name="txt_sensor_tps" data-trph="voltios" maxlength="6">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="label"></label>
-                                        </div>
-                                    </div>
-
-
+                                   
                                 </div>
 
                                 <div class="col-md-6">

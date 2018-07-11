@@ -40,7 +40,7 @@ class ' . $file . 'Model extends \\Vendor\\DataBase {
     private $_hostName;
     private $_idTaller;
     
-    protected function __construct() {
+    public function __construct() {
         parent::__construct();
         $this->_form = Obj()->Vendor->Request->allForm()->post();
         $this->_usuario = Obj()->Vendor->Session->get(\'app_idUsuario\');

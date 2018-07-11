@@ -36,17 +36,6 @@
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label class="col-md-4 control-label tr-language" data-tr="estado"></label>
-                    <div class="col-md-7">
-                        <select class="form-control chosen" id="lst_estado" name="lst_estado">
-                            <option value="0" class="tr-language" data-tr="por_atender"></option>
-                            <option value="1" class="tr-language" data-tr="atendidos"></option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label class="col-md-4 control-label"></label>
                     <div class="col-md-7" id="btn_search">
                     </div>
                 </div>

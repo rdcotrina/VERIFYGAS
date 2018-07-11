@@ -68,6 +68,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         this._conformidadGasesRPMGnvO2 = 0;
         this._videoEstadoFUncionamientoGNV = null;
         this._videoVarios = null;
+        this._conformeAll = 0;
 
         this._formIndex = (tk) => {
             this.send({
@@ -150,6 +151,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     this._findPropietario(tk, this._idFormConversion).done(() => {
                         this.setEvents(tk);
                     });
+                    Tools.runDataLocalStorage(this._idFormConversion);
                 }
             });
         };
@@ -229,12 +231,14 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     sData.push({name: '_videoVarios', value: this._videoVarios});
                     sData.push({name: '_keyPropietario', value: this._keyPropietario});
                     sData.push({name: '_grabaAprueba', value: this._grabaAprueba});
+                    sData.push({name: '_conformeAll', value: this._conformeAll});
                 },
                 response: (data) => {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewConversion(null, null);
                         this._getVehiculos(tk);
+                        Tools.stopDataLocalStorage();
                     }
                 }
             });
@@ -243,6 +247,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
     }
 
     main(tk) {
+        this._conformeAll = 0;
         Tools.addTab({
             context: this,
             id: this._alias,
@@ -287,6 +292,13 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
     }
 
     postAprobar(btn, tk) {
+        if ($(btn).parent().data('conformidadtodo') == 0 || $.isEmptyObject($(btn).parent().data('conformidadtodo'))) {
+            Tools.notify().smallMsn({
+                content: APP_MSN.no_conforme2,
+                color: '#C79121'
+            });
+            return false;
+        }
         Tools.notify().confirm({
             content: APP_MSN.aprobar,
             yes: () => {
@@ -310,6 +322,11 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
     }
 
     postNewConversion(tk) {
+        this._conformeAll = 1;
+        if (!this.isConforme()) {
+            this._conformeAll = 0;
+        }
+
         //verificar si Guarda y Aprueba
         if (this._grabaAprueba) {
             //verificar si existe algun NO CONFORME y mostrar msn
@@ -331,7 +348,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
 
     }
 
-    postUploadVideo(tk, load) {
+    postUploadVideo(tk, load, elf) {
         this.send({
             token: tk,
             gifProcess: true,
@@ -348,6 +365,11 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     eval(`this.${data.element} = '${data.archivo}';`);
                     Tools.notify().ok({
                         content: APP_MSN.upload_ok
+                    });
+                } else if (data.result == 2) {
+                    $(elf).val('');
+                    Tools.notify().smallMsn({
+                        content: APP_MSN.video_grande
                     });
                 } else {
                     Tools.notify().error({

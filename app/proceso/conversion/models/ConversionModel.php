@@ -63,25 +63,13 @@ class ConversionModel extends \Vendor\DataBase {
 
         switch ($this->_idRol) {
             case 3: //taller
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_conversion_taller != 'P' ";
-                } else {
-                    $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_conversion_taller = 'P' ";
-                }
+                $w = "AND p.id_taller = '" . $this->_idTaller . "' AND p.estado_conversion_taller = 'P' ";
                 break;
             case 5: //verifygas
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.estado_conversion_verifygas != 'P' AND p.estado_conversion_taller = 'A'";
-                }else{
-                    $w = "AND p.estado_conversion_verifygas = 'P' AND p.estado_conversion_taller = 'A'";
-                }
+                $w = "AND p.estado_conversion_verifygas = 'P' AND p.estado_conversion_taller = 'A'";
                 break;
             case 7: //calidda
-                if ($this->_form->lst_estado) {
-                    $w = "AND p.estado_conversion_calidda != 'P' AND p.estado_conversion_verifygas = 'A' AND p.estado_conversion_taller = 'A'";
-                }else{
-                    $w = "AND p.estado_conversion_calidda = 'P' AND p.estado_conversion_verifygas = 'A' AND p.estado_conversion_taller = 'A'";
-                }
+                $w = "AND p.estado_conversion_calidda = 'P' AND p.estado_conversion_verifygas = 'A' AND p.estado_conversion_taller = 'A'";
                 break;
             default:
                 $w = '';
@@ -112,7 +100,8 @@ class ConversionModel extends \Vendor\DataBase {
             v.imagen_servicio_publico,
             v.imagen_solicitud_cobranza,
             v.imagen_tarjeta_propiedad,
-            (SELECT COUNT(*) FROM conv_conversion a WHERE a.id_propietario = v.id_propietario) tiene_conversion
+            (SELECT COUNT(*) FROM conv_conversion a WHERE a.id_propietario = v.id_propietario) tiene_conversion,
+            (SELECT conformidad_todo FROM conv_conversion a WHERE a.id_propietario = v.id_propietario) conformidad_todo
         FROM conv_propietario p
         INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = p.id_tipo_documento_identidad
@@ -260,6 +249,8 @@ class ConversionModel extends \Vendor\DataBase {
                 . ":videoEstadoFUncionamientoGNV,"
                 . ":videoVarios,"
                 . ":grabaAprueba,"
+                . ":entidadCertificadora,"
+                . ":conformeAll,"
                 . ":usuario,"
                 . ":ipPublica,"
                 . ":ipLocal,"
@@ -314,6 +305,8 @@ class ConversionModel extends \Vendor\DataBase {
             ':videoEstadoFUncionamientoGNV' => @$this->_form->_videoEstadoFUncionamientoGNV,
             ':videoVarios' => @$this->_form->_videoVarios,
             ':grabaAprueba' => @$this->_form->_grabaAprueba,
+            ':entidadCertificadora' => @$this->_form->txt_entidad_financiera,
+            ':conformeAll' => @$this->_form->_conformeAll,
             ':usuario' => $this->_usuario,
             ':ipPublica' => $this->_ipPublica,
             ':ipLocal' => $this->_ipLocal,
@@ -383,7 +376,9 @@ class ConversionModel extends \Vendor\DataBase {
             gases_rpm_gnv_co2,
             gases_rpm_gnv_o2,
             video_estado_funcionamiento,
-            estado_funcionamiento_texto
+            estado_funcionamiento_texto,
+            entidad_certificadora,
+            conformidad_todo
         FROM conv_conversion 
         WHERE id_propietario = :id;";
 

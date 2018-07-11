@@ -35,7 +35,7 @@
                             <fieldset>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4 has-feedback">
+                                        <div class="col-sm-12 col-md-8 has-feedback">
                                             <label class="control-label tr-language" data-tr="direccion"></label>
                                             <div id="_direccion" class="well padding-5"></div>
                                         </div>
@@ -880,6 +880,18 @@
                                 </div>
                             </fieldset>
                             
+                            <fieldset class="col-md-12 form-horizontal">
+                                <legend></legend>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label tr-language" data-tr="entidad_financiera"></label>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" id="txt_entidad_financiera" name="txt_entidad_financiera">
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
                         </div>
                     </div>
                 </div>
@@ -950,19 +962,10 @@
                     lst_entrega_gas_texto:{
                         required: true
                     },
-                    txt_qerie_variador_avance:{
-                        required: true
-                    },
                     lst_conmutador_texto:{
                         required: true
                     },
-                    lst_variador_avance_texto:{
-                        required: true
-                    },
                     lst_emulacion_inyectores_texto: {
-                        required: true
-                    },
-                    file_video_varios: {
                         required: true
                     },
                     txt_presion_salida_regulador: {
@@ -1044,9 +1047,6 @@
                     txt_analisis_gas_rpm_gnvo2:{
                         required: true,
                         number: true
-                    },
-                    file_video_estado_funcionamiento_gnv:{
-                        required: true
                     },
                     lst_estado_funcionamiento_gnv_texto:{
                         required: true,
