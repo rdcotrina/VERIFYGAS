@@ -201,7 +201,7 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
 
                 Obj()->Libs->Upload->upload($inputFile);
 
-                Obj()->Libs->Upload->allowed = ['video/mpeg', 'video/x-flv', 'video/msvideo', 'video/mp4'];
+                Obj()->Libs->Upload->allowed = ['video/*'];
 
                 if (Obj()->Libs->Upload->uploaded) {
                     Obj()->Libs->Upload->file_new_name_body = explode('.', $nvoNom)[0]; //se quita la extension

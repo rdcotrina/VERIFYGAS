@@ -538,11 +538,14 @@ var lang_ES = {
         kpi: 'KPI',
         total: 'Total',
         consolidado_mes: 'Consolidado Mes',
-        preconversiones_rechazadas_tecnicamente: 'Pre conversiones Rechazadas Técnicamente',
+        preconversiones_rechazadas_tecnicamente: 'Pre conversiones Rechazadas Tecnicamente',
         conversiones_recibidas: 'Conversiones Recibidas',
         conversiones_rechazadas: 'Conversiones Rechazadas',
         conversiones_aprobadas: 'Conversiones Aprobadas',
-        conversiones_financiadas: 'Conversiones Financiadas'
+        conversiones_financiadas: 'Conversiones Financiadas',
+        consolidado_anio: 'Consolidado Anual',
+        resumen_mensual: 'Resumen Mensual',
+        resumen_anual: 'Resumen Anual'
     },
     msn: {
         login_ok: 'Ingreso correctamente.',

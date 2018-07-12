@@ -15,7 +15,7 @@ define('DB_MOTOR', 'mysql');
 define('DB_HOST', 'localhost');
 define('DB_PASS', '');
 define('DB_USER', 'root');
-define('DB_NAME', 'verify_gas5');
+define('DB_NAME', 'verify_gas');
 
 define('DB_PORT', '3306');
 define('DB_CHARSET', 'UTF8');

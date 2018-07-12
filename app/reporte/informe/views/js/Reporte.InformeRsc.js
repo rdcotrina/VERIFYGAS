@@ -84,7 +84,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                 h = this._renderDias(data.talleres_mes[0].dias);
                 t = `
                 <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
-                    <caption class="text-center">Año ${data.talleres_mes[0].anio}</caption>
+                    <caption class="text-center"><h3>${data.talleres_mes[0].anio}</h3></caption>
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 150px">${APP_ETIQUET.talleres}</th>
@@ -167,9 +167,71 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             cont.html(t);
         };
 
+        this._renderMeses = () => {
+            let i = 1, totalMes = [];
+            for (i; i <= 12; i++) {
+                totalMes[`1mes_${i}`] = 0;
+                totalMes[`2mes_${i}`] = 0;
+                totalMes[`3mes_${i}`] = 0;
+                totalMes[`4mes_${i}`] = 0;
+                totalMes[`5mes_${i}`] = 0;
+            }
+            return totalMes;
+        };
+
+        this._getResultadosMes = (data, tipo, taller, total, totalMes) => {
+            let ds = '', i = 1, result = [];
+
+            for (i; i <= 12; i++) {
+                result = $.grep(data, function (e) {
+                    return e.id_taller == taller && e.mes == i;
+                });
+                switch (tipo) {
+                    case 1:
+                        total += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
+                        totalMes[`1mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
+                        ds += `<td>${(result.length == 0) ? 0 : result[0].preconversion_rechazada}</td>`;
+                        break;
+                    case 2:
+                        total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
+                        totalMes[`2mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
+                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_recibidas}</td>`;
+                        break;
+                    case 3:
+                        total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
+                        totalMes[`3mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
+                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_rechazadas}</td>`;
+                        break;
+                    case 4:
+                        total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
+                        totalMes[`4mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
+                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_aprobadas}</td>`;
+                        break;
+                    case 5:
+                        total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
+                        totalMes[`5mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
+                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_financiadas}</td>`;
+                        break;
+                }
+
+            }
+            return {ds: ds, total: total, tmes: totalMes};
+        };
+
+        this._getTotalMes = (data, tipo) => {
+            let ds = '', i = 1, total = 0, rs;
+            for (i; i <= 12; i++) {
+                rs = data[`${tipo}mes_${i}`];
+                ds += `<th>${rs}</th>`;
+                total += parseInt(rs);
+            }
+            return {ds: ds, t: total};
+        };
+
         this._renderInformeAnio = (data) => {
             let cont = $(`#${this._alias}d_informeA`);
-            let t;
+            let t, tm, total1 = 0, total2 = 0, total3 = 0, total4 = 0, total5 = 0, reg1, reg2, reg3, reg4, reg5,
+                    h, ttottal1 = 0, ttottal2 = 0, ttottal3 = 0, ttottal4 = 0, ttottal5 = 0;
 
             if (data.talleres_anio.length == 0) {
                 t = `<div class="alert alert-info fade in">
@@ -179,7 +241,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             } else {
                 t = `
                 <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
-                    <caption class="text-center">Año ${data.talleres_mes[0].anio}</caption>
+                    <caption class="text-center"><h3>${data.talleres_mes[0].anio}</h3></caption>
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 150px">${APP_ETIQUET.talleres}</th>
@@ -201,37 +263,74 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                     </thead>
                     <tbody>
                 `;
+                tm = this._renderMeses();
                 $.each(data.talleres_anio, (i, v) => {
+                    reg1 = this._getResultadosMes(data.resultados_anio, 1, v.id_taller, total1, tm);
+                    reg2 = this._getResultadosMes(data.resultados_anio, 2, v.id_taller, total2, tm);
+                    reg3 = this._getResultadosMes(data.resultados_anio, 3, v.id_taller, total3, tm);
+                    reg4 = this._getResultadosMes(data.resultados_anio, 4, v.id_taller, total4, tm);
+                    reg5 = this._getResultadosMes(data.resultados_anio, 5, v.id_taller, total5, tm);
                     t += `
                     <tr>
                         <th rowspan="5" style="vertical-align:middle">${v.taller}</th>
                         <td>${APP_ETIQUET.preconversiones_rechazadas_tecnicamente}</td>
-                        
-                        <th class="text-center">0</th>
+                        ${reg1.ds}
+                        <th class="text-center">${reg1.total}</th>
                     </tr>
                     <tr>
                         <td>${APP_ETIQUET.conversiones_recibidas}</td>
-                        
-                        <th class="text-center">0</th>
+                        ${reg2.ds}
+                        <th class="text-center">${reg2.total}</th>
                     </tr>
                     <tr>
                         <td>${APP_ETIQUET.conversiones_rechazadas}</td>
-                        
-                        <th class="text-center">0</th>
+                        ${reg3.ds}
+                        <th class="text-center">${reg3.total}</th>
                     </tr>
                     <tr>
                         <td>${APP_ETIQUET.conversiones_aprobadas}</td>
-                        
-                        <th class="text-center">0</th>
+                        ${reg4.ds}
+                        <th class="text-center">${reg4.total}</th>
                     </tr>
                     <tr>
                         <td>${APP_ETIQUET.conversiones_financiadas}</td>
-                        
-                        <th class="text-center">0</th>
+                        ${reg5.ds}
+                        <th class="text-center">${reg5.total}</th>
                     </tr>`;
                 });
+
+                ttottal1 = this._getTotalMes(reg1.tmes, 1);
+                ttottal2 = this._getTotalMes(reg2.tmes, 2);
+                ttottal3 = this._getTotalMes(reg3.tmes, 3);
+                ttottal4 = this._getTotalMes(reg4.tmes, 4);
+                ttottal5 = this._getTotalMes(reg5.tmes, 5);
                 t += `
-                      
+                        <tr style="background:#333;color:#fff">
+                            <th rowspan="5" style="vertical-align:middle;">${APP_ETIQUET.consolidado_anio}</th>
+                            <td>${APP_ETIQUET.preconversiones_rechazadas_tecnicamente}</td>
+                            ${ttottal1.ds}
+                            <th class="text-center">${ttottal1.t}</th>
+                        </tr>
+                        <tr style="background:#333;color:#fff">
+                            <td>${APP_ETIQUET.conversiones_recibidas}</td>
+                            ${ttottal2.ds}
+                            <th class="text-center">${ttottal2.t}</th>
+                        </tr>
+                        <tr style="background:#333;color:#fff">
+                            <td>${APP_ETIQUET.conversiones_rechazadas}</td>
+                            ${ttottal3.ds}
+                            <th class="text-center">${ttottal3.t}</th>
+                        </tr>
+                        <tr style="background:#333;color:#fff">
+                            <td>${APP_ETIQUET.conversiones_aprobadas}</td>
+                            ${ttottal4.ds}
+                            <th class="text-center">${ttottal4.t}</th>
+                        </tr>
+                        <tr style="background:#333;color:#fff">
+                            <td>${APP_ETIQUET.conversiones_financiadas}</td>
+                            ${ttottal5.ds}
+                            <th class="text-center">${ttottal5.t}</th>
+                        </tr>
                     </tbody>
                 </table>`;
             }
@@ -245,7 +344,8 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             container: `#${this._alias}btn_search`,
             keymnu: this._alias,
             btns: [
-                {keybtn: APP_BTN.BUS, type: 'submit'}
+                {keybtn: APP_BTN.BUS, type: 'submit'},
+                {keybtn: APP_BTN.EXE, evts: [{click: 'Obj.Reporte.InformeAx.getExcel'}]}
             ]
         });
     }

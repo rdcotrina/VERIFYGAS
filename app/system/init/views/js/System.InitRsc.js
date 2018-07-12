@@ -406,7 +406,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             chart.write(`${this._alias}graficaConversion`);
         };
-        
+
         this._graficaTallerEntrega = (data) => {
             var chart, chartData = [];
 
@@ -466,7 +466,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             chart.write(`${this._alias}graficaEntrega`);
         };
-        
+
         this._evntsBtnsPreConversion = (data) => {
             //resultado y eventos a botones data.diarioAprobadas
             $(`#${this._alias}btn_aprobados_preconv span`).html(data.diarioAprobadasPreConversion.total);
@@ -709,14 +709,14 @@ $$.System.InitRsc = class InitRsc extends Resource {
         Tools.setDataForm(form, {
             alias: this._alias,
             elements: [
-                {item: 'sp_aprobados', value: data.aprobados, type: 'html'},
-                {item: 'sp_rechazados', value: data.rechazados, type: 'html'},
-                {item: 'sp_pendientes', value: data.pendientes, type: 'html'},
-                {item: 'sp_aprobados_c', value: data.aprobados_c, type: 'html'},
-                {item: 'sp_rechazados_c', value: data.rechazados_c, type: 'html'},
-                {item: 'sp_pendientes_c', value: data.pendientes_c, type: 'html'},
-                {item: 'sp_pendientes_e', value: data.pendientes_e, type: 'html'},
-                {item: 'sp_aprobados_e', value: data.aprobados_e, type: 'html'}
+                {item: 'sp_aprobados', value: (data) ? data.aprobados : 0, type: 'html'},
+                {item: 'sp_rechazados', value: (data) ? data.rechazados : 0, type: 'html'},
+                {item: 'sp_pendientes', value: (data) ? data.pendientes : 0, type: 'html'},
+                {item: 'sp_aprobados_c', value: (data) ? data.aprobados_c : 0, type: 'html'},
+                {item: 'sp_rechazados_c', value: (data) ? data.rechazados_c : 0, type: 'html'},
+                {item: 'sp_pendientes_c', value: (data) ? data.pendientes_c : 0, type: 'html'},
+                {item: 'sp_pendientes_e', value: (data) ? data.pendientes_e : 0, type: 'html'},
+                {item: 'sp_aprobados_e', value: (data) ? data.aprobados_e : 0, type: 'html'}
             ]
         });
 

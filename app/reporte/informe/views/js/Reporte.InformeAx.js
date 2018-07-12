@@ -62,5 +62,17 @@ $$.Reporte.InformeAx = class InformeAx extends $$.Reporte.InformeRsc {
     postSearch(tk) {
         this._getInforme(tk);
     }
+    
+    getExcel(btn,tk){
+        let h = $(`#${this._alias}d_informeM`).html()+$(`#${this._alias}d_informeA`).html();
+        
+        if(h.length == 0){
+            Tools.notify().smallMsn({
+                content: APP_MSN.no_informacion
+            });
+            return false;
+        }
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent(h));
+    }
 
 };

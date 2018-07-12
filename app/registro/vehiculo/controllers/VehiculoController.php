@@ -88,7 +88,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
 
                 Obj()->Libs->Upload->upload($inputFile);
 
-                Obj()->Libs->Upload->allowed = ['video/mpeg', 'video/x-flv', 'video/msvideo', 'video/mp4', 'image/jpg', 'image/jpeg', 'image/png',];
+                Obj()->Libs->Upload->allowed = ['video/*', 'image/jpg', 'image/jpeg', 'image/png',];
 
                 if (Obj()->Libs->Upload->uploaded) {
                     Obj()->Libs->Upload->file_new_name_body = explode('.', $nvoNom)[0]; //se quita la extension
@@ -571,11 +571,11 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                         <tr>
                             <td style="140px;">
                                 Nombres<br />          
-                                <input type="text" style="width:130px;" value="' . $row['apellido_paterno'] . ' ' . $row['apellido_materno'] . '"/>
+                                <input type="text" style="width:130px;" value="' . strtoupper($row['apellido_paterno']) . ' ' . strtoupper($row['apellido_materno']) . '"/>
                             </td>
                             <td style="140px;">
                                 Apellidos<br />          
-                                <input type="text" style="width:130px;" value="' . $row['primer_nombre'] . ' ' . $row['segundo_nombre'] . '"/>
+                                <input type="text" style="width:130px;" value="' . strtoupper($row['primer_nombre']) . ' ' . strtoupper($row['segundo_nombre']) . '"/>
                             </td>
                             <td>
                                 <table width="100%" border="0" cellspacing="0" cellpadding="2">
@@ -990,10 +990,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>' . $row['nombre_completo'] . '</td>
+                                    <td>' . strtoupper($row['nombre_completo']) . '</td>
                                     <td>' . $row['documento_identidad'] . '</td>
-                                    <td></td>
-                                    <td>' . $row['placa'] . '</td>
+                                    <td>' . strtoupper($row['marca']) . '</td>
+                                    <td>' . strtoupper($row['placa']) . '</td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -1019,16 +1019,16 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                             <tr>
                               <td></td>
                               <td width="14%">NOMBRE:</td>
-                              <td width="42%">' . $row['nombre_completo'] . '</td>
+                              <td width="42%">' . strtoupper($row['nombre_completo']) . '</td>
                             </tr>
                             <tr>
                               <td rowspan="7">&nbsp;</td>
-                              <td>' . $row['tipo_doc'] . ':</td>
+                              <td>' . strtoupper($row['tipo_doc']) . ':</td>
                               <td>' . $row['documento_identidad'] . '</td>
                             </tr>
                             <tr>
                               <td>DOMICILIO:</td>
-                              <td>' . $row['direccion_domicilio'] . '</td>
+                              <td>' . strtoupper($row['direccion_domicilio']) . '</td>
                             </tr>
                             <tr>
                               <td colspan="2">&nbsp;</td>
@@ -1527,7 +1527,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                                     <td style="text-align:center"><b>Firma de CÁLIDDA</b></td>
                                 </tr>
                                 <tr>
-                                    <td style="text-align:center"><b>' . $row['nombre_completo'] . '</b></td>
+                                    <td style="text-align:center"><b>' . strtoupper($row['nombre_completo']) . '</b></td>
                                     <td style="text-align:center"></td>
                                 </tr>
                             </table>

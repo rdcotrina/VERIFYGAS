@@ -1,7 +1,8 @@
 <div>
-    <fieldset class="well">
-        <legend class="tr-language" data-tr="filtros_busqueda"></legend>
-        <form class="form-inline">
+    <form class="form-inline">
+        <fieldset class="well">
+            <legend class="tr-language" data-tr="filtros_busqueda"></legend>
+
             <div class="row" >
                 <div class="form-group col-md-3">
                     <label class="col-md-4 control-label tr-language" data-tr="mes"></label>
@@ -23,9 +24,42 @@
                 </div>
             </div>
 
-            <js>
+           
+        </fieldset>
+
+
+        <div class="widget-body">
+
+            <hr class="simple">
+
+            <ul class="nav nav-tabs bordered">
+                <li class="active">
+                    <a href="#s1" data-toggle="tab"><span class="tr-language" data-tr="resumen_mensual"></span></a>
+                </li>
+                <li>
+                    <a href="#s2" data-toggle="tab"><span class="tr-language" data-tr="resumen_anual"></span></a>
+                </li>
+            </ul>
+
+            <div class="tab-content padding-10">
+                <div class="tab-pane fade in active" id="s1">
+                    <div id="d_informeM" class="table-responsive"></div>
+                </div>
+                <div class="tab-pane fade" id="s2">
+                    <div id="d_informeA" class="table-responsive"></div>
+                </div>
+            </div>
+
+        </div>
+
+        
+        
+
+        <div class="clearfix"></div>
+        
+         <js>
                 $.validate({
-                rules: {},
+        rules: {},
                 errorPlacement: function (error, element) {
                 error.insertAfter(element.parent());
                 },
@@ -34,13 +68,5 @@
                 }
                 });
             </js>
-
-        </form>
-    </fieldset>
-
-
-    <div id="d_informeM" class="table-responsive"></div>
-    <div id="d_informeA" class="table-responsive"></div>
-
-    <div class="clearfix"></div>
+    </form>
 </div>
