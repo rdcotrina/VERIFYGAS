@@ -1904,6 +1904,7 @@ final class Upload {
             'mpeg' => 'video/mpeg',
             'mpg' => 'video/mpeg',
             'mpe' => 'video/mpeg',
+            '3gp' => 'video/3gp',
             'mp3' => 'audio/mpeg3',
             'wav' => 'audio/wav',
             'aiff' => 'audio/aiff',

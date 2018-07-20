@@ -23,6 +23,7 @@ class EntregaModel extends \Vendor\DataBase {
     private $_idTaller;
     protected $_idRol;
     protected $_columnDB;
+    private $_pFilterCols;
 
     public function __construct() {
         parent::__construct();
@@ -35,8 +36,26 @@ class EntregaModel extends \Vendor\DataBase {
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
         $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
         $this->_idRol = Obj()->Vendor->Session->get('app_defaultIdRol');
+        
+        $this->_pFilterCols    =   @htmlspecialchars(trim(Obj()->Libs->AesCtr->de($this->_form->pFilterCols)),ENT_QUOTES);
     }
 
+    public function spGrid(){
+        $query = "CALL sp_proceso_entrega_grid (:idRol,:idTaller,:iDisplayStart,:iDisplayLength,:pOrder,:pFilterCols,:sExport);";
+        $parms = [
+            ":idRol" => @$this->_idRol,
+            ":idTaller" => @$this->_idTaller,
+            ":iDisplayStart" => @$this->_form->pDisplayStart,
+            ":iDisplayLength" => @$this->_form->pDisplayLength,
+            ":pOrder" => $this->_form->pOrder,
+            ":pFilterCols" => $this->_pFilterCols,
+            ":sExport" => @$this->_form->_sExport
+        ];       
+        $data = $this->getRows($query,$parms);
+       
+        return $data;
+    }
+    
     //vehiculoas en estado A=APROBADO 
     protected function qGetVehiculos() {
         $sqlAll = '';
@@ -274,6 +293,26 @@ class EntregaModel extends \Vendor\DataBase {
         ];
 
         $this->execute($query, $parms);
+    }
+    
+    protected function qGetValidaAdjuntos() {
+        $query = "
+        SELECT 
+            pr.escaneo_1,
+            pr.escaneo_2,
+            pr.escaneo_4,
+            pr.escaneo_5,
+            pr.escaneo_11,
+            pr.escaneo_13
+        FROM conv_propietario p
+        LEFT JOIN conv_entrega pr ON pr.id_propietario = p.id_propietario
+        WHERE p.id_propietario = :id;   
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
     }
     
 }

@@ -7,7 +7,7 @@ define('MAIL_VERIFYGAS','danilod_7@hotmail.com');
 define('MAIL_TECNICO_VERIFYGAS','roger.cotrina.c@gmail.com');
 define('MAIL_CALIDDA','victor.luperdi@calidda.com.pe');
 define('MAIL_DESARROLLADOR','roger.cotrina.c@gmail.com');
-
+define('MAIL_REMITENTE_APP','admin@verifygaspacifico.com');
 
 //configurar llamada de SPs
 switch (DB_MOTOR) {

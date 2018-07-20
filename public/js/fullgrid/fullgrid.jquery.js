@@ -32,7 +32,7 @@
                 pItemPaginas: 5, /*determina cuantos numeros se mostraran en los items de paginacion*/
                 tViewInfo: true,
                 pOrderField: '',
-                tChangeLength: true,
+                tChangeLength: false,
                 tScrollY: true,
                 tHeight: '200px',
                 tButtons: [],
@@ -499,8 +499,9 @@
                 _private.thTMP = thId;
 
                 pag = parseInt($('#paginate_' + oSettings.oTable).find('ul.pagination').find('li.activefg').find('a').html());
+
                 oSettings.pOrderField += orienta;
-                oSettings.pDisplayLength = $('#' + oSettings.oTable + '_cbLength').val();  /*tomo el valor del combo para los registros a mostrar*/
+                oSettings.pDisplayLength = (oSettings.tChangeLength) ? $('#' + oSettings.oTable + '_cbLength').val() : oSettings.pDisplayLength;  /*tomo el valor del combo para los registros a mostrar*/
                 oSettings.pDisplayStart = (_private.sgbd == 'sql') ? pag : pag - 1;
                 oSettings.pFilterCols = _private.prepareFilters(oSettings);
 
@@ -2221,6 +2222,7 @@
 
                 let filters = (oSettings.pFilterCols !== undefined) ? Tools.en(oSettings.pFilterCols) : '';
 
+
                 /*Enviamos datos de paginacion*/
                 _private.aData.push({name: 'pDisplayStart', value: limit0});
                 _private.aData.push({name: 'pDisplayLength', value: oSettings.pDisplayLength});
@@ -2394,7 +2396,7 @@
                 /*generando id de tabla*/
                 oSettings.oTable = oSettings.oContainer + '_fg';
 
-                $('#' + oSettings.oContainer).addClass('table-responsive');
+//                $('#' + oSettings.oContainer).addClass('table-responsive');
 
                 let method = {
 

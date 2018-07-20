@@ -22,6 +22,7 @@ class ConversionModel extends \Vendor\DataBase {
     private $_hostName;
     private $_idTaller;
     protected $_idRol;
+    private $_pFilterCols;
 
     public function __construct() {
         parent::__construct();
@@ -34,6 +35,24 @@ class ConversionModel extends \Vendor\DataBase {
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
         $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
         $this->_idRol = Obj()->Vendor->Session->get('app_defaultIdRol');
+        
+        $this->_pFilterCols    =   @htmlspecialchars(trim(Obj()->Libs->AesCtr->de($this->_form->pFilterCols)),ENT_QUOTES);
+    }
+    
+    public function spGrid(){
+        $query = "CALL sp_proceso_conversion_grid (:idRol,:idTaller,:iDisplayStart,:iDisplayLength,:pOrder,:pFilterCols,:sExport);";
+        $parms = [
+            ":idRol" => @$this->_idRol,
+            ":idTaller" => @$this->_idTaller,
+            ":iDisplayStart" => @$this->_form->pDisplayStart,
+            ":iDisplayLength" => @$this->_form->pDisplayLength,
+            ":pOrder" => $this->_form->pOrder,
+            ":pFilterCols" => $this->_pFilterCols,
+            ":sExport" => @$this->_form->_sExport
+        ];       
+        $data = $this->getRows($query,$parms);
+       
+        return $data;
     }
 
     //vehiculoas en estado A=APROBADO 
@@ -382,6 +401,21 @@ class ConversionModel extends \Vendor\DataBase {
         FROM conv_conversion 
         WHERE id_propietario = :id;";
 
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+    
+    protected function qGetValidaAdjuntos() {
+        $query = "
+        SELECT 
+            pr.video_varios
+        FROM conv_propietario p
+        LEFT JOIN conv_conversion pr ON pr.id_propietario = p.id_propietario
+        WHERE p.id_propietario = :id;   
+        ";
         $parms = [
             ':id' => $this->_form->_keyPropietario
         ];

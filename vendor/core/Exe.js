@@ -32,9 +32,9 @@ class Exe_ {
                 if ($.isFunction(callback)) {
                     setTimeout(() => {
                         callback();
-                        var tv = scriptId.replace('app','on->');
-                        tv = tv.replace('views','');
-                        tv = tv.replace(/js/g,'');
+                        var tv = scriptId.replace('app', 'on->');
+                        tv = tv.replace('views', '');
+                        tv = tv.replace(/js/g, '');
                         console.log(tv);
                     }, 500);   /*se retarda 200 ms, porque se estaba ejecutando antes que cargue el js*/
 
@@ -64,11 +64,13 @@ class Exe_ {
                 /*agrego clase como prototipo a Obj*/
                 let sc = ``;
                 sc += `Obj.${obj} = new $$.${obj}();`;
-                sc += `Obj.${obj}.main('${_tk_}');`;
+                if (runMain != 'create') {
+                    sc += `Obj.${obj}.main('${_tk_}');`;
+                }
                 eval(sc);
             }
             //los TOUR si se crean los objetos
-            if(/Tour/.test(obj)){
+            if (/Tour/.test(obj)) {
                 eval(`Obj.${obj} = new $$.${obj}();`);
             }
 
@@ -136,15 +138,15 @@ class Exe_ {
         };
 
     }
-    
+
     getAlias() {
         return this._alias;
     }
-    
+
     getRoot() {
         return this._breadcrumb;
     }
-    
+
     getTitle() {
         return this._title;
     }
@@ -155,6 +157,10 @@ class Exe_ {
     require(obj) {
         this._callback = ($.isFunction(obj.callback)) ? obj.callback : null;
         this._runMain = (obj.run !== undefined) ? obj.run : true;
+        //cuando un objeto es requerido dentro de otro objeto, se envia el alias para poder cargarlo. Ejemplo: $$.System.InitAx linea 3
+        if(obj.alias !== undefined){
+            this._alias = obj.alias;
+        }
 
         switch (typeof obj.require) {
             case 'string':
@@ -204,13 +210,13 @@ class Exe_ {
     /*
      * Solo se ejecuta en el atajo de menu
      */
-    loadMenu(nm, op, alias,root,title){
+    loadMenu(nm, op, alias, root, title) {
         let obj = {
             alias: alias,
             root: root,
             title: title
         };
-        this.load(nm,op,obj);
+        this.load(nm, op, obj);
     }
 
 }

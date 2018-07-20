@@ -41,7 +41,7 @@ class InitController extends \System\Init\Models\InitModel {
             //1 YO
             //6 danilo
             //18 calidda
-            $usersPermitidos = [ 1,2,3];
+            $usersPermitidos = [1, 2, 3];
             $dias = [1, 2, 3, 4, 5, 6];
             if ((!in_array($data['id_usuario'], $usersPermitidos) && in_array(date('w'), $dias) && date('Hi') >= 0700 && date('Hi') <= 1900) ||
                     (in_array($data['id_usuario'], $usersPermitidos))) {
@@ -121,8 +121,8 @@ class InitController extends \System\Init\Models\InitModel {
 
     public function resultadosCalidda() {
         $data = [
-            'preconversion' => $this->qResultadosCaliddaPreConversion(),
-            'conversion' => $this->qResultadosCaliddaConversion(),
+//            'preconversion' => $this->qResultadosCaliddaPreConversion(),
+//            'conversion' => $this->qResultadosCaliddaConversion(),
             'diarioAprobadasPreConversion' => $this->qResultadosDiarioPreConversionAprobadasC('A'),
             'diarioRechazadosPreConversion' => $this->qResultadosDiarioPreConversionAprobadasC('R'),
             'diarioPendientesPreConversion' => $this->qResultadosDiarioPreConversionPendientesC('P'),
@@ -130,15 +130,21 @@ class InitController extends \System\Init\Models\InitModel {
             'diarioRechazadosConversion' => $this->qResultadosDiarioConversionAprobadasC('R'),
             'diarioPendientesConversion' => $this->qResultadosDiarioConversionAprobadasC('P'),
             'diarioFinalizadoEntrega' => $this->qResultadosDiarioEntregaAprobadas('F'),
-            'diarioPendientesEntrega' => $this->qResultadosDiarioEntregaAprobadas('P')
+            'diarioPendientesEntrega' => $this->qResultadosDiarioEntregaAprobadas('P'),
+            'diarioExpedientes' => $this->qResultadosDiarioExpedientes(),
+            'resumen' => [
+                'pecs' => $this->qPecs(),
+                'talleres' => $this->qTalleres()
+            ]
         ];
+
         echo json_encode($data);
     }
 
     public function resultadosVerifygas() {
         $data = [
-            'preconversion' => $this->qResultadosCaliddaPreConversion(),
-            'conversion' => $this->qResultadosCaliddaConversion(),
+//            'preconversion' => $this->qResultadosCaliddaPreConversion(),
+//            'conversion' => $this->qResultadosCaliddaConversion(),
             'diarioAprobadasPreConversion' => $this->qResultadosDiarioPreConversionAprobadas('A'),
             'diarioRechazadosPreConversion' => $this->qResultadosDiarioPreConversionAprobadas('R'),
             'diarioPendientesPreConversion' => $this->qResultadosDiarioPreConversionPendientes('P'),
@@ -146,19 +152,27 @@ class InitController extends \System\Init\Models\InitModel {
             'diarioRechazadosConversion' => $this->qResultadosDiarioConversionAprobadas('R'),
             'diarioPendientesConversion' => $this->qResultadosDiarioConversionPendientes('P'),
             'diarioFinalizadoEntrega' => $this->qResultadosDiarioEntregaAprobadas('F'),
-            'diarioPendientesEntrega' => $this->qResultadosDiarioEntregaPendientes('P')
+            'diarioPendientesEntrega' => $this->qResultadosDiarioEntregaPendientes('P'),
+            'diarioExpedientes' => $this->qResultadosDiarioExpedientes(),
+            'resumen' => [
+                'pecs' => $this->qPecs(),
+                'talleres' => $this->qTalleres()
+            ]
         ];
         echo json_encode($data);
     }
-    
+
     public function getListExpedientes() {
         echo json_encode($this->spGrid());
     }
 
     public function resultadosPecs() {
         $data = [
-            'preconversion' => $this->qResultadosPecsPreConversion(),
-            'conversion' => $this->qResultadosPecsConversion()
+//            'preconversion' => $this->qResultadosPecsPreConversion(),
+//            'conversion' => $this->qResultadosPecsConversion(),
+            'resumen' => [
+                'talleres' => $this->qTalleres(true)
+            ]
         ];
         echo json_encode($data);
     }
@@ -202,5 +216,7 @@ class InitController extends \System\Init\Models\InitModel {
     public function mailNewVehicullo() {
         Obj()->Vendor->View->render();
     }
+
+    
 
 }

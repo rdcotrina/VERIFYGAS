@@ -26,8 +26,8 @@ class InitModel extends \Vendor\DataBase {
         $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
         $this->_persona = Obj()->Vendor->Session->get('app_idPersona');
         $this->_idRol = Obj()->Vendor->Session->get('app_defaultIdRol');
-        
-        $this->_pFilterCols    =   @htmlspecialchars(trim(Obj()->Libs->AesCtr->de($this->_form->pFilterCols)),ENT_QUOTES);
+
+        $this->_pFilterCols = @htmlspecialchars(trim(Obj()->Libs->AesCtr->de($this->_form->pFilterCols)), ENT_QUOTES);
     }
 
     //form para listado de clientes segun: ESTADO - TIPO DE PROCESO(PRECONV, CONV, ENTREGA) - ROL(en el modelo se captura el rol)
@@ -94,17 +94,92 @@ class InitModel extends \Vendor\DataBase {
         SELECT
             COUNT(estado_taller) total,
             SUM(IF(estado_taller = 'A',1,0)) aprobados,
-            SUM(IF(estado_taller = 'R',1,0)) rechazados,
-            SUM(IF(estado_taller = 'P',1,0)) pendientes,
-            SUM(IF(estado_conversion_taller = 'A',1,0)) aprobados_c,
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_taller = 'A'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_aprobados,
+            SUM(IF(estado_taller = 'R',1,0)) rechazados,       
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_taller = 'R'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_rechazados,            
+            SUM(IF(estado_taller = 'P',1,0)) pendientes,            
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND (estado_taller = 'P' OR estado_verifygas = 'P')
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_pendientes,            
+            SUM(IF(estado_conversion_taller = 'A',1,0)) aprobados_c,            
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_conversion_taller = 'A'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_aprobados_c,                  
             SUM(IF(estado_conversion_taller = 'R',1,0)) rechazados_c,
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_conversion_taller = 'R'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_rechazados_c,            
             SUM(IF(estado_conversion_taller = 'P' AND estado_calidda = 'A',1,0)) pendientes_c,
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_conversion_taller = 'P'
+		AND estado_calidda = 'A'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_pendientes_c,            
             SUM(IF(estado_conversion_verifygas = 'A' AND estado_entrega_taller = 'P',1,0)) pendientes_e,
-            SUM(IF(estado_entrega_taller = 'A',1,0)) aprobados_e
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_conversion_verifygas = 'A' 
+		AND estado_entrega_taller = 'P'
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_pendientes_e,            
+            SUM(IF(estado_entrega_taller = 'A',1,0)) aprobados_e,
+            (
+		SELECT 
+			IFNULL(GROUP_CONCAT(a.id_propietario),0)
+		FROM conv_propietario a
+		WHERE a.eliminado = 0
+		AND a.id_taller = a.id_taller
+		AND estado_entrega_taller = 'A' 
+		AND MONTH(fecha_crea) = MONTH(CURDATE())
+            ) ids_aprobados_e
         FROM conv_propietario
         WHERE eliminado = :eliminado
         AND activo = :activo
         AND id_taller = :taller
+        AND MONTH(fecha_crea) = MONTH(CURDATE())
         GROUP BY id_taller;";
 
         $parms = [
@@ -510,6 +585,21 @@ class InitModel extends \Vendor\DataBase {
         return $this->getRows($query, $parms);
     }
 
+    protected function qResultadosDiarioExpedientes() {
+        $query = "
+        -- expedientes del dia
+        SELECT 
+                COUNT(*) total,
+                GROUP_CONCAT(p.id_propietario) ids
+        FROM conv_propietario p
+        WHERE MONTH(p.fecha_crea) = MONTH(CURDATE())
+        AND p.eliminado = 0;";
+
+        $parms = [];
+
+        return $this->getRow($query, $parms);
+    }
+
     protected function qResultadosDiarioPreConversionAprobadas($e) {
         $query = "
         -- las preconversiones aprobadas por verifigas del dia
@@ -517,9 +607,10 @@ class InitModel extends \Vendor\DataBase {
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
-        WHERE LEFT(p.fecha_atiende_verifygas_preconversion,10) = CURDATE()
+        WHERE MONTH(p.fecha_atiende_verifygas_preconversion) = MONTH(CURDATE())
         AND p.estado_verifygas = '${e}'
-        AND p.estado_taller = 'A';";
+        AND p.estado_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
@@ -528,19 +619,19 @@ class InitModel extends \Vendor\DataBase {
 
     protected function qResultadosDiarioPreConversionPendientes($e) {
         $query = "
-        -- las preconversiones aprobadas por verifigas del dia
         SELECT 
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
         WHERE p.estado_verifygas = 'P'
-        AND p.estado_taller = 'A';";
+        AND p.estado_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qResultadosDiarioPreConversionAprobadasC($e) {
         $query = "
         -- las preconversiones aprobadas por calidda del dia
@@ -548,15 +639,16 @@ class InitModel extends \Vendor\DataBase {
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
-        WHERE LEFT(p.fecha_atiende_calida_preconversion,10) = CURDATE()
+        WHERE MONTH(p.fecha_atiende_calida_preconversion) = MONTH(CURDATE())
         AND p.estado_calidda = '${e}'
-        AND p.estado_verifygas = 'A';";
+        AND p.estado_verifygas = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qResultadosDiarioPreConversionPendientesC($e) {
         $query = "
         -- las preconversiones aprobadas por calidda del dia
@@ -565,13 +657,14 @@ class InitModel extends \Vendor\DataBase {
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
         WHERE p.estado_calidda = 'P'
-        AND p.estado_verifygas = 'A';";
+        AND p.estado_verifygas = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qResultadosDiarioConversionAprobadas($e) {
         $query = "
         -- las conversiones aprobadas por verifigas del dia
@@ -579,15 +672,16 @@ class InitModel extends \Vendor\DataBase {
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
-        WHERE LEFT(p.fecha_atiende_verifygas_conversion,10) = CURDATE()
+        WHERE MONTH(p.fecha_atiende_verifygas_conversion) = MONTH(CURDATE())
         AND p.estado_conversion_verifygas = '${e}'
-        AND p.estado_conversion_taller = 'A';";
+        AND p.estado_conversion_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qResultadosDiarioConversionPendientes($e) {
         $query = "
         -- las conversiones aprobadas por verifigas del dia
@@ -596,7 +690,8 @@ class InitModel extends \Vendor\DataBase {
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
         WHERE p.estado_conversion_verifygas = 'P'
-        AND p.estado_conversion_taller = 'A';";
+        AND p.estado_conversion_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
@@ -610,11 +705,16 @@ class InitModel extends \Vendor\DataBase {
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
-        WHERE LEFT(p.fecha_crea,10) = CURDATE()
+        WHERE (
+		MONTH(p.fecha_atiende_taller_conversion) = MONTH(CURDATE())
+		OR MONTH(p.fecha_atiende_verifygas_conversion) = MONTH(CURDATE())
+	)
+        AND p.eliminado = 0
         AND (
         p.estado_conversion_taller = '${e}'
         OR p.estado_conversion_verifygas = '${e}'
-        );
+        )
+        AND p.eliminado = 0;
         ";
 
         $parms = [];
@@ -628,15 +728,16 @@ class InitModel extends \Vendor\DataBase {
                 COUNT(*) total,
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
-        WHERE LEFT(p.fecha_entrega_verifygas,10) = CURDATE()
+        WHERE MONTH(p.fecha_entrega_verifygas) = MONTH(CURDATE())
         AND p.estado_entrega_verifygas = '${e}'
-        AND p.estado_entrega_taller = 'A';";
+        AND p.estado_entrega_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
 
         return $this->getRow($query, $parms);
     }
-    
+
     protected function qResultadosDiarioEntregaPendientes($e) {
         $query = "
         SELECT 
@@ -644,9 +745,99 @@ class InitModel extends \Vendor\DataBase {
                 GROUP_CONCAT(p.id_propietario) ids
         FROM conv_propietario p
         WHERE p.estado_entrega_verifygas = 'P'
-        AND p.estado_entrega_taller = 'A';";
+        AND p.estado_entrega_taller = 'A'
+        AND p.eliminado = 0;";
 
         $parms = [];
+
+        return $this->getRow($query, $parms);
+    }
+
+    protected function qPecs() {
+        $query = "
+        SELECT 
+            pec.id_pecs,
+            pec.pecs
+        FROM conv_pecs pec
+        WHERE pec.eliminado = :e
+        AND pec.id_pecs = 1 -- danilo solo quiere q salga la info ce un pec, luego se debe quitar esta linea
+        ORDER BY pec.pecs;";
+
+        $parms = [
+            ':e' => 0
+        ];
+
+        return $this->getRows($query, $parms);
+    }
+    
+    protected function qTalleres($isPec = false) {
+        $w = ($isPec)?'AND t.id_pecs = '.$this->_getPec()['id_pecs']:'';
+        $query = "
+        SELECT 
+            t.id_pecs,
+            t.id_taller,
+            t.taller,
+            (SELECT COUNT(*) FROM conv_propietario a WHERE a.id_taller = t.id_taller AND YEAR(a.fecha_crea) = YEAR(CURDATE())) total_expedientes,
+            (SELECT GROUP_CONCAT(a.id_propietario) 
+                FROM conv_propietario a WHERE a.id_taller = t.id_taller AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) ids_expedientes,
+            (
+                    SELECT COUNT(*) FROM conv_propietario a 
+                    INNER JOIN conv_pre_conversion b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) total_preconversion,
+            (
+                    SELECT GROUP_CONCAT(a.id_propietario) FROM conv_propietario a 
+                    INNER JOIN conv_pre_conversion b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) ids_preconversion,
+            (
+                    SELECT COUNT(*) FROM conv_propietario a 
+                    INNER JOIN conv_conversion b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) total_conversion,
+            (
+                    SELECT GROUP_CONCAT(a.id_propietario) FROM conv_propietario a 
+                    INNER JOIN conv_conversion b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) ids_conversion,
+            (
+                    SELECT COUNT(*) FROM conv_propietario a 
+                    INNER JOIN conv_entrega b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) total_entrega,
+            (
+                    SELECT GROUP_CONCAT(a.id_propietario) FROM conv_propietario a 
+                    INNER JOIN conv_entrega b ON b.id_propietario = a.id_propietario
+                    WHERE a.id_taller = t.id_taller
+                    AND YEAR(a.fecha_crea) = YEAR(CURDATE())
+            ) ids_entrega
+        FROM conv_taller t 
+        WHERE t.eliminado = :e
+        ${w};";
+
+        $parms = [
+            ':e' => 0
+        ];
+
+        return $this->getRows($query, $parms);
+    }
+    
+    private function _getPec() {
+        $query = "
+        SELECT 
+            id_pecs
+        FROM conv_persona_pecs 
+        WHERE id_persona = :key";
+
+        $parms = [
+            ':key' => $this->_persona
+        ];
 
         return $this->getRow($query, $parms);
     }

@@ -24,6 +24,7 @@ class VehiculoModel extends \Vendor\DataBase {
     private $_hostName;
     private $_idTaller;
     protected $_idRol;
+    private $_pFilterCols;
 
     public function __construct() {
         parent::__construct();
@@ -36,6 +37,24 @@ class VehiculoModel extends \Vendor\DataBase {
         $this->_hostName = Obj()->Vendor->Session->get('app_hostName');
         $this->_idTaller = Obj()->Vendor->Session->get('app_idTaller');
         $this->_idRol = Obj()->Vendor->Session->get('app_defaultIdRol');
+        
+        $this->_pFilterCols    =   @htmlspecialchars(trim(Obj()->Libs->AesCtr->de($this->_form->pFilterCols)),ENT_QUOTES);
+    }
+    
+    public function spGrid(){
+        $query = "CALL sp_registro_vehiculo_grid (:idRol,:idTaller,:iDisplayStart,:iDisplayLength,:pOrder,:pFilterCols,:sExport);";
+        $parms = [
+            ":idRol" => @$this->_idRol,
+            ":idTaller" => @$this->_idTaller,
+            ":iDisplayStart" => @$this->_form->pDisplayStart,
+            ":iDisplayLength" => @$this->_form->pDisplayLength,
+            ":pOrder" => $this->_form->pOrder,
+            ":pFilterCols" => $this->_pFilterCols,
+            ":sExport" => @$this->_form->_sExport
+        ];       
+        $data = $this->getRows($query,$parms);
+       
+        return $data;
     }
 
     protected function spMantenimiento() {
@@ -361,6 +380,37 @@ class VehiculoModel extends \Vendor\DataBase {
         return $this->getRows($query, $parms);
     }
 
+    protected function qGetValidaAdjuntos() {
+        $query = "
+        SELECT 
+            p.nro_expediente,
+            p.imagen_documento_identidad,	
+            p.imagen_licencia_conducir,
+            v.imagen_servicio_publico,
+            v.imagen_poliza,
+            v.imagen_revision_tecnica,
+            v.imagen_movil,
+            v.imagen_tarjeta_propiedad,
+            v.imagen_solicitud_cobranza,	
+            v.imagen_formulario_calidda,
+            v.img_contrato_financiamiento_calidda,
+            p.imagen_consentimiento,
+            pr.video_vacio_motor_ralenti,
+            pr.video_analisis_gas_ralenti,
+            pr.video_ltft_b1,
+            pr.video_cilindro
+        FROM conv_propietario p
+        INNER JOIN conv_vehiculo v ON v.id_propietario = p.id_propietario
+        LEFT JOIN conv_pre_conversion pr ON pr.id_propietario = p.id_propietario
+        WHERE p.id_propietario = :id;   
+        ";
+        $parms = [
+            ':id' => $this->_form->_keyPropietario
+        ];
+
+        return $this->getRow($query, $parms);
+    }
+    
     protected function qFind() {
         $query = "
         SELECT

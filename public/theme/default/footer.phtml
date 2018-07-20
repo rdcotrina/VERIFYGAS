@@ -13,6 +13,7 @@
 <script src="<?php echo BASE_URL; ?>vendor/core/Exe.js"></script>
 <script src="<?php echo BASE_URL; ?>vendor/core/Resource.js"></script>
 
+<?php $v = 1; ?>
 
 <script type="text/javascript">
     var topmenu = !1;
@@ -20,9 +21,10 @@
 
 <script src="<?php echo BASE_URL; ?>public/js/validate/jquery.validate.min.js"></script>
 <script src="<?php echo BASE_URL; ?>public/js/appButton.js"></script>
-<script src="<?php echo $rutaLayout['js']; ?>appMenu.js"></script>
-<script src="<?php echo BASE_URL; ?>public/js/appList.js"></script>
-<script src="<?php echo BASE_URL; ?>config/prefix/appBtn.js"></script>
+<script src="<?php echo $rutaLayout['js']; ?>appMenu.js?v=<?php $v?>"></script>
+<script src="<?php echo BASE_URL; ?>public/js/appList.js?v=<?php $v?>"></script>
+<script src="<?php echo BASE_URL; ?>config/prefix/appBtn.js?v=<?php $v?>"></script>
+<script src="<?php echo BASE_URL; ?>config/!18n/lang_ES.js?v=<?php $v?>"></script>
 
 <script src="<?php echo BASE_URL; ?>vendor/core/Tools.js"></script>
 <script type="text/javascript">
@@ -41,29 +43,14 @@
     var APP_ROOT = '<?php echo BASE_URL; ?>';
     var APP_MAIN_MODALS = '#cont-modal-sys';
 
-    setTimeout(function () {
+    $(document).ready(function () {
+   // setTimeout(function () {
         Tools.traslation('<?php echo Obj()->Vendor->Session->get('app_language') ?>');
         Tools.getUserIP((ip) => localStorage.setItem('app_idLocal', ip));
-    }, 1000);
-
-
-    /*
-     * agregando lista de roles
-     * @type undefined
-     */
-    var rols = <?php echo json_encode(Obj()->Vendor->Session->get('app_roles')) ?>;
-
-    var defaultNameRol = '<?php echo Obj()->Vendor->Session->get('app_defaultNameRol') ?>';
-    var liR = '', cssrol;
-    $.each(rols, function (i, v) {
-        cssrol = (v.nrol != defaultNameRol) ? 'arol' : '';
-        if (v.nrol != defaultNameRol) {
-            liR += `<li><a href="javascript:;" class="${cssrol}" data-k="${v.id_rol}"><i class="fa fa-bars"></i> ${Tools.traslate(v.nrol)}</a></li>`;
-        }
+   // }, 1000);
     });
-    $('#ul-rols').html(liR);
-    //agregar rol por defecto
-    $('#sp-defaut-rol').html(Tools.traslate(defaultNameRol));
+
+    
 
 
     /*
@@ -97,6 +84,7 @@
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/amcharts/amcharts.js" ></script> 
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/amcharts/serial.js" ></script> 
     <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/sparkline/jquery.sparkline.min.js" ></script>
+    <script type="text/javascript" src="<?php echo BASE_URL; ?>public/js/easy-pie-chart/jquery.easy-pie-chart.min.js" ></script>
     <script src="<?php echo $rutaLayout['js']; ?>app.config.js"></script>
     <script src="<?php echo $rutaLayout['js']; ?>demo.min.js"></script>
     <script src="<?php echo $rutaLayout['js']; ?>app.min.js"></script>
@@ -109,6 +97,27 @@
 
     <script type="text/javascript">
     var APP_IDROL = '<?php echo Obj()->Vendor->Session->get('app_defaultIdRol') ?>';
+    
+    
+    /*
+     * agregando lista de roles
+     * @type undefined
+     */
+    var rols = <?php echo json_encode(Obj()->Vendor->Session->get('app_roles')) ?>;
+
+    var defaultNameRol = '<?php echo Obj()->Vendor->Session->get('app_defaultNameRol') ?>';
+    var liR = '', cssrol;
+    $.each(rols, function (i, v) {
+        cssrol = (v.nrol != defaultNameRol) ? 'arol' : '';
+        if (v.nrol != defaultNameRol) {
+            liR += `<li><a href="javascript:;" class="${cssrol}" data-k="${v.id_rol}"><i class="fa fa-bars"></i> ${Tools.traslate(v.nrol)}</a></li>`;
+        }
+    });
+    $('#ul-rols').html(liR);
+    //agregar rol por defecto
+    $('#sp-defaut-rol').html(Tools.traslate(defaultNameRol));
+    
+    
     setTimeout(function () {
         Obj.System.InitAx = new $$.System.InitAx();
 

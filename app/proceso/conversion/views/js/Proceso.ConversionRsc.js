@@ -36,6 +36,16 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
             $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss', 'modal');
         });
     }
+    
+    addBtnClose() {
+        $.fn.appButton.get({
+            container: `#${this._alias}foot_btnsadj`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.CLS}
+            ]
+        });
+    }
 
     setVehiculos(data) {
         let h = '', txtEval = '';
@@ -64,14 +74,7 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                     <div id="${this._alias}${i}_tools" class="_tools"></div>
                 </div>
             </div>`;
-            let btns = `
-            {keybtn: APP_BTN.KONV, evts: [{click: 'Obj.Proceso.ConversionAx.formConversion'}]},
-            {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.ConversionAx.postAprobar'}]},
-            {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.ConversionAx.postRechazar'}]}`;
-            //si estado de busqueda es 1, no mostrar botones de atender
-            if ($(`#${this._alias}lst_estado`).val() == 1) {
-                btns = '';
-            }
+          
             //botones
             txtEval += `
                 $.fn.appButton.get({
@@ -82,7 +85,9 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
                     //forceBtnXs: true,
                     btns: [
                         {keybtn: APP_BTN.VWCONV, evts: [{click: 'Obj.Proceso.ConversionAx.formViewConversion'}]},
-                        ${btns}
+                        {keybtn: APP_BTN.KONV, evts: [{click: 'Obj.Proceso.ConversionAx.formConversion'}]},
+                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Proceso.ConversionAx.postAprobar'}]},
+                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Proceso.ConversionAx.postRechazar'}]}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
@@ -633,9 +638,9 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         $(`#${this._alias}file_video_varios`).change((e) => {
             this.postUploadVideo(tk, 1, e.currentTarget);
         });
-        $(`#${this._alias}file_video_estado_funcionamiento_gnv`).change((e) => {
-            this.postUploadVideo(tk, 2, e.currentTarget);
-        });
+//        $(`#${this._alias}file_video_estado_funcionamiento_gnv`).change((e) => {
+//            this.postUploadVideo(tk, 2, e.currentTarget);
+//        });
 
 
         //ejecutar keyup de todos los input:text
@@ -871,8 +876,20 @@ $$.Proceso.ConversionRsc = class ConversionRsc extends Resource {
         this._conformeAll = data.conformidad_todo;
         if (viewVideos) {
             $(`#${this._alias}va_varios`).attr('href', `files/videos/${data.video_varios}`);
-            $(`#${this._alias}va_estado_funcionamiento`).attr('href', `files/videos/${data.video_estado_funcionamiento}`);
+//            $(`#${this._alias}va_estado_funcionamiento`).attr('href', `files/videos/${data.video_estado_funcionamiento}`);
         }
     }
 
+    setAdjuntosPendientes(data){
+        $(`#${this._alias}d_nexp`).html(data.nro_expediente);
+        
+        let h = '<ol>';
+        if(/null/.test(data.video_varios)){
+            h += `<li>${APP_ETIQUET.video}</li>`;
+        }
+        h += '</ol>';
+        
+        $(`#${this._alias}d_pendientes`).html(h);
+    }
+    
 };

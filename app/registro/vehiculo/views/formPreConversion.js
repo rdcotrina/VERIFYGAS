@@ -2,7 +2,7 @@
     <form>
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-user-circle-o txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="duenio_vehiculo"> </h2>
@@ -55,7 +55,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-car txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="datos_vehiculo"> </h2>
@@ -108,7 +108,7 @@
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-bars txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="varios"> </h2>
@@ -230,13 +230,6 @@
                                             <label class="label"></label>
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label tr-language" data-tr="video_noconformidad"></label>
-                                        <div class="col-md-8">
-                                            <input class="form-control" type="file" id="file_videovrpmanalisisgases" name="file_videovrpmanalisisgases">
-                                        </div>
-                                    </div>
                                 </div>
                             </fieldset>
 
@@ -248,7 +241,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-list-alt txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="sistema_refrigeracion"> </h2>
@@ -290,7 +283,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-eyedropper txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="sistema_lubricacion"> </h2>
@@ -329,7 +322,7 @@
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-battery-half txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="estado_carga_control"> </h2>
@@ -419,7 +412,7 @@
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-plug txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="sistema_electronico_combustible"> </h2>
@@ -496,7 +489,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-power-off txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="sistema_encendido"> </h2>
@@ -549,7 +542,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-soundcloud txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="estado_admision_aire"> </h2>
@@ -589,7 +582,7 @@
         <div class="clearfix"></div>
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-thermometer-empty txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="prueba_compresion_motor"> </h2>
@@ -657,7 +650,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-binoculars txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="inspecciones_visuales"> </h2>
@@ -752,9 +745,6 @@
                         required: true
                     },
                     file_videovralentianalisisgases: {
-                        required: true
-                    },
-                    file_videovrpmanalisisgases: {
                         required: true
                     },
                     lst_sistema_refrigeracion_texto: {

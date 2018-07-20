@@ -35,15 +35,23 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         
     }
 
+    public function grid() {
+        echo json_encode($this->spGrid());
+    }
+
     public function getVehiculos() {
         echo json_encode($this->qGetVehiculos());
+    }
+
+    public function validaAdjuntos() {
+        echo json_encode($this->qGetValidaAdjuntos());
     }
 
     public function postUploadVideo() {
         $data = [];
 
         if ($this->_file) {
-
+            $alowed = ['video/*', 'image/jpg', 'image/jpeg', 'image/png',];
             switch ($this->_form->_load) {
                 case 1: //Prueba de Vacio de Motor ralenti
                     $inputFile = $this->_file->file_videovaciomotorralenti;
@@ -69,11 +77,12 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                     $inputFile = $this->_file->file_videoltftb1;
                     $nameElement = '_videoLTFTB1';
                     $this->_columnDB = 'video_ltft_b1';
+                    $alowed = ['image/jpg', 'image/jpeg', 'image/png',];
                     break;
                 case 6: //video de cilindros
                     $inputFile = $this->_file->file_videocilindro;
                     $nameElement = '_videoCilindros';
-                    $this->_columnDB = 'video_cilindros';
+                    $this->_columnDB = 'video_cilindro';
                     break;
             }
 
@@ -88,7 +97,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
 
                 Obj()->Libs->Upload->upload($inputFile);
 
-                Obj()->Libs->Upload->allowed = ['video/*', 'image/jpg', 'image/jpeg', 'image/png',];
+                Obj()->Libs->Upload->allowed = $alowed;
 
                 if (Obj()->Libs->Upload->uploaded) {
                     Obj()->Libs->Upload->file_new_name_body = explode('.', $nvoNom)[0]; //se quita la extension
@@ -257,8 +266,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -283,8 +293,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -311,7 +322,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{TALLER}", $data['taller'], $body);
         $body = str_replace("{EXPEDIENTE}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -323,6 +334,10 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         Obj()->Libs->PHPMailer->addAddress($data['mail_taller'], 'PRE CONVERSION'); #correo de taller
         Obj()->Libs->PHPMailer->addAddress(MAIL_VERIFYGAS, 'PRE CONVERSION'); #correo de verifygas
         Obj()->Libs->PHPMailer->addAddress(MAIL_DESARROLLADOR, 'PRE CONVERSION');
+
+        if (!empty($data['mail_pec'])) {
+            //Obj()->Libs->PHPMailer->addAddress($data['mail_pec'], 'PRE CONVERSION');
+        }
         //enviando
         Obj()->Libs->PHPMailer->send();
     }
@@ -337,8 +352,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Apertura de Expediente';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -348,7 +364,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         /* realizando el envio a los correos del postulante */
         //correos y nombres de destinatario
         Obj()->Libs->PHPMailer->addAddress(MAIL_VERIFYGAS, 'EXPEDIENTE'); #correo de verifygas
-        Obj()->Libs->PHPMailer->addAddress(MAIL_TECNICO_VERIFYGAS, 'EXPEDIENTE'); #correo de tecnico de verifygas
+        //Obj()->Libs->PHPMailer->addAddress(MAIL_TECNICO_VERIFYGAS, 'EXPEDIENTE'); #correo de tecnico de verifygas
         Obj()->Libs->PHPMailer->addAddress(MAIL_DESARROLLADOR, 'EXPEDIENTE');
         //enviando
         Obj()->Libs->PHPMailer->send();
@@ -390,7 +406,7 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
                 case 5://el usuario que aprueba es de rol VERIFYGAS, enviar mail a calidda
                     $this->_sendMailPreconversionAprobadaVerifyGas($data);
                     break;
-                case 7://el usuario que aprueba es de rol CALIDDA, enviar mail a taller y verifygas
+                case 7://el usuario que aprueba es de rol CALIDDA, enviar mail a taller, verifygas y al pec
                     $this->_sendMailPreconversionAprobadaCalidda($data);
                     break;
             }
@@ -418,8 +434,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Rechazada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -444,8 +461,9 @@ class VehiculoController extends \Registro\Vehiculo\Models\VehiculoModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Pre Conversion Rechazada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo

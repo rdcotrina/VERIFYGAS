@@ -32,6 +32,10 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
     public function index() {
         
     }
+    
+    public function grid() {
+        echo json_encode($this->spGrid());
+    }
 
     public function getVehiculos() {
         echo json_encode($this->qGetVehiculos());
@@ -47,8 +51,9 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -73,8 +78,9 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Conversion Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -124,8 +130,9 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Conversion Rechazada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -150,8 +157,9 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
 
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Conversion Rechazada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -233,16 +241,15 @@ class ConversionController extends \Proceso\Conversion\Models\ConversionModel {
     }
 
     public function postNewConversion() {
-//        if ($this->isValidate()) {
-//            $data = $this->spMantenimiento();
-//        } else {
-//            $data = $this->valida()->messages();
-//        }
         echo json_encode($this->spMantenimientoConversion());
     }
 
     public function getConversion() {
         echo json_encode($this->qGetConversion());
+    }
+    
+    public function validaAdjuntos() {
+        echo json_encode($this->qGetValidaAdjuntos());
     }
 
 }

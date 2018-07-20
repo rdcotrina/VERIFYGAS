@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-           
+
         </fieldset>
 
 
@@ -49,24 +49,50 @@
                     <div id="d_informeA" class="table-responsive"></div>
                 </div>
             </div>
-
+            <hr class="simple">
+            <div id="d_legenda">
+                <center>
+                    <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox" style="width:30%" border="1">
+                        <tr>
+                            <td>PCRT</td>
+                            <td>Pre conversiones Rechazadas Tecnicamente</td>
+                        </tr>
+                        <tr>
+                            <td>CRECI</td>
+                            <td>Conversiones Recibidas</td>
+                        </tr>
+                        <tr>
+                            <td>CRECH</td>
+                            <td>Conversiones Rechazadas</td>
+                        </tr>
+                        <tr>
+                            <td>CAP</td>
+                            <td>Conversiones Aprobadas</td>
+                        </tr>
+                        <tr>
+                            <td>CFI</td>
+                            <td>Conversiones Financiadas</td>
+                        </tr>
+                    </table>
+                </center>
+            </div>
         </div>
 
-        
-        
+
+
 
         <div class="clearfix"></div>
-        
-         <js>
-                $.validate({
+
+        <js>
+            $.validate({
         rules: {},
-                errorPlacement: function (error, element) {
+            errorPlacement: function (error, element) {
                 error.insertAfter(element.parent());
-                },
-                submitHandler: function () {
+            },
+            submitHandler: function () {
                 Obj.Reporte.InformeAx.postSearch(__PK__);
-                }
-                });
-            </js>
+            }
+            });
+        </js>
     </form>
 </div>

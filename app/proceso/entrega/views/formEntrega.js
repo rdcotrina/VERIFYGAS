@@ -2,7 +2,7 @@
     <form>
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-user-circle-o txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="duenio_vehiculo"> </h2>
@@ -55,7 +55,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-car txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="datos_vehiculo"> </h2>
@@ -108,7 +108,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-file-o txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="escanear_documentos"> </h2>
@@ -201,9 +201,6 @@
                         required: true 
                     },
                     file_escaneo_4:{
-                        required: true 
-                    },
-                    file_escaneo_5:{
                         required: true 
                     },
                     txt_escaneo_11:{

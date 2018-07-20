@@ -69,6 +69,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         this._videoEstadoFUncionamientoGNV = null;
         this._videoVarios = null;
         this._conformeAll = 0;
+        this._idGrid = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -80,9 +81,66 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     $(this._dmain).append(data);
                 },
                 finally: (data) => {
-                    this.addBtnSearch();
-                    $(`#${this._alias}d_vehiculos_aprobados`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
-                    this._getVehiculos(tk);
+//                    this.addBtnSearch();
+//                    $(`#${this._alias}d_vehiculos_aprobados`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
+//                    this._getVehiculos(tk);
+                    this._grid(tk);
+                }
+            });
+        };
+
+        this._grid = (tk) => {
+            $(`#${this._alias}gridVehiculos`).fullgrid({
+                oContext: this,
+                tAlias: this._alias,
+                pOrderField: 'nro_expediente desc',
+                pDisplayLength: 10,
+                tColumns: [
+                    {title: APP_ETIQUET.nro_exp, field: 'nro_expediente', width: 100, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.pec, field: 'pecs', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.taller, field: 'taller', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.nombres, field: 'nombre_completo', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.placa, field: 'placa', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.marca, field: 'marca', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.modelo, field: 'modelo', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}}
+                ],
+                fnServerParams: (sData) => {
+                    sData.push({name: '_qn', value: Tools.en(tk)});
+                },
+                sAxions: {
+                    /*se genera group buttons*/
+                    group: [{
+                            buttons: [
+                                {
+                                    button: APP_BTN.VWCONV,
+                                    ajax: {
+                                        fn: "Obj.Proceso.ConversionAx.formViewConversion",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.KONV,
+                                    ajax: {
+                                        fn: "Obj.Proceso.ConversionAx.formConversion",
+                                        serverParams: ["id_propietario", "tiene_conversion"]
+                                    }
+                                }, {
+                                    button: APP_BTN.APR,
+                                    ajax: {
+                                        fn: "Obj.Proceso.ConversionAx.postAprobar",
+                                        serverParams: ["id_propietario", "conformidad_todo"]
+                                    }
+                                }, {
+                                    button: APP_BTN.RECH,
+                                    ajax: {
+                                        fn: "Obj.Proceso.ConversionAx.postRechazar",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }
+                            ]
+                        }]
+                },
+                fnCallback: (o) => {
+                    this._idGrid = o.oTable;
                 }
             });
         };
@@ -100,7 +158,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         };
 
         this._postAtender = (btn, tk, f, obs = '') => {
-            this._keyPropietario = (f == 1) ? $(btn).parent('div').data('propietario') : this._keyPropietario;
+//            this._keyPropietario = (f == 1) ? $(btn).parent('div').data('propietario') : this._keyPropietario;
             this.send({
                 flag: f,
                 token: tk,
@@ -116,7 +174,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                             Tools.closeModal(this._ifFormObservacionRechazar);
                         }
                         Tools.execMessage(data);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
@@ -237,9 +295,37 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewConversion(null, null);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                         Tools.stopDataLocalStorage();
                     }
+                }
+            });
+        };
+        
+        this._validaAdjuntos = (btn, tk) => {
+            return this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                }
+            });
+        };
+        
+        this._formValidaAdjuntos = (tk, data) => {
+            this.send({
+                token: tk,
+                context: this,
+                modal: true,
+                dataType: 'text',
+                response: (data) => {
+                    $(APP_MAIN_MODALS).append(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                    this.addBtnClose();
+                    this.setAdjuntosPendientes(data);
                 }
             });
         };
@@ -259,10 +345,10 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         });
     }
 
-    formConversion(btn, tk) {
+    formConversion(btn, id, tiene, tk) {
         this._grabaAprueba = 0;
-        this._keyPropietario = $(btn).parent('div').data('propietario');
-        this._tieneConversion = $(btn).parent('div').data('tieneconversion');
+        this._keyPropietario = id;
+        this._tieneConversion = tiene;
 
         Tools.addTab({
             context: this,
@@ -278,8 +364,8 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         });
     }
 
-    formViewConversion(btn, tk) {
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+    formViewConversion(btn, id, tk) {
+        this._keyPropietario = id;
 
         Tools.addTab({
             context: this,
@@ -291,24 +377,32 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
         });
     }
 
-    postAprobar(btn, tk) {
-        if ($(btn).parent().data('conformidadtodo') == 0 || $.isEmptyObject($(btn).parent().data('conformidadtodo'))) {
-            Tools.notify().smallMsn({
-                content: APP_MSN.no_conforme2,
-                color: '#C79121'
-            });
-            return false;
-        }
-        Tools.notify().confirm({
-            content: APP_MSN.aprobar,
-            yes: () => {
-                this._postAtender(btn, tk, 1);
+    postAprobar(btn, id, conformidad, tk) {
+        this._keyPropietario = id;
+        this._validaAdjuntos(btn, tk).done((data) => {
+            if (/null/g.test(JSON.stringify(data))) {
+                this._formValidaAdjuntos(tk, data);
+                return false;
             }
+            
+            if (conformidad == 0 || $.isEmptyObject(conformidad) || !$.isNumeric(conformidad)) {
+                Tools.notify().smallMsn({
+                    content: APP_MSN.no_conforme2,
+                    color: '#C79121'
+                });
+                return false;
+            }
+            Tools.notify().confirm({
+                content: APP_MSN.aprobar,
+                yes: () => {
+                    this._postAtender(btn, tk, 1);
+                }
+            });
         });
     }
 
-    postRechazar(btn, tk) {
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+    postRechazar(btn, id, tk) {
+        this._keyPropietario = id;
         Tools.notify().confirm({
             content: APP_MSN.rechazar,
             yes: () => {
@@ -381,7 +475,7 @@ $$.Proceso.ConversionAx = class ConversionAx extends $$.Proceso.ConversionRsc {
     }
 
     postSearch(btn, tk) {
-        this._getVehiculos(tk);
+        Tools.refreshGrid(this._idGrid);
     }
 
     closeNewConversion(btn, tk) {

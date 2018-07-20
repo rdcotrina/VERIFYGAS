@@ -51,11 +51,13 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._maxVacioMotorRalenti = null;
         this._maxGasRalentiCO = 0;
         this._maxGasRalentiHC = 0;
+        this._maxGasRalentiCO2 = 0;
         this._minGasRalentiCO2 = 0;
         this._maxGasRalentiO2 = 0;
         this._maxGasRPMCO = 0;
         this._maxGasRPMHC = 0;
         this._minGasRPMCO2 = 0;
+        this._maxGasRPMCO2 = 0;
         this._maxGasRPMO2 = 0;
         this._minSTFTB1 = 0;
         this._maxSTFTB1 = 0;
@@ -103,6 +105,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._consentimiento_2 = 0;
         this._consentimiento_3 = 0;
         this._conformeAll = 0;
+        this._idGrid = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -114,12 +117,89 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     $(this._dmain).append(data);
                 },
                 final: (obj) => {
-                    //escriba aqui, se ejecutara una vez haya cargado el HTML
-                    //Tools.addTourMain.call(this);
-                    this.addBtnNew();
-                    this.addBtnSearch();
-                    $(`#${this._alias}d_vehiculo`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
-                    this._getVehiculos(tk);
+                    this._grid(tk);
+//                    this.addBtnNew();
+//                    this.addBtnSearch();
+//                    $(`#${this._alias}d_vehiculo`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
+//                    this._getVehiculos(tk);
+                }
+            });
+        };
+
+        this._grid = (tk) => {
+            $(`#${this._alias}gridVehiculos`).fullgrid({
+                oContext: this,
+                tAlias: this._alias,
+                tButtons: [{
+                        button: APP_BTN.NEW,
+                        event: 'Obj.Registro.VehiculoAx.formNewVehiculo'
+                    }],
+                pOrderField: 'nro_expediente desc',
+                pDisplayLength: 10,
+                tColumns: [
+                    {title: APP_ETIQUET.nro_exp, field: 'nro_expediente', width: 100, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.pec, field: 'pecs', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.taller, field: 'taller', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.nombres, field: 'nombre_completo', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.placa, field: 'placa', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.marca, field: 'marca', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.modelo, field: 'modelo', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}}
+                ],
+                fnServerParams: (sData) => {
+                    sData.push({name: '_qn', value: Tools.en(tk)});
+                },
+                sAxions: {
+                    /*se genera group buttons*/
+                    group: [{
+                            buttons: [
+                                {
+                                    button: APP_BTN.EXP,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.formViewExpediente",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.VPRKO,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.formViewPreConversion",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.EDT,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.formEditVehiculo",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.DEL,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.postDelete",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.PRE,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.formPreConversion",
+                                        serverParams: ["id_propietario", "tiene_preconversion"]
+                                    }
+                                }, {
+                                    button: APP_BTN.APR,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.postAprobar",
+                                        serverParams: ["id_propietario", "conformidad_todo"]
+                                    }
+                                }, {
+                                    button: APP_BTN.RECH,
+                                    ajax: {
+                                        fn: "Obj.Registro.VehiculoAx.postRechazar",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }
+                            ]
+                        }]
+                },
+                fnCallback: (o) => {
+                    this._idGrid = o.oTable;
                 }
             });
         };
@@ -305,26 +385,26 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
-        this._postDelete = (btn, tk) => {
+        this._postDelete = (btn, id, tk) => {
             this.send({
                 flag: 3,
                 token: tk,
                 context: this,
                 element: btn,
                 serverParams: (sData, obj) => {
-                    sData.push({name: '_keyPropietario', value: $(btn).parent('div').data('propietario')});
+                    sData.push({name: '_keyPropietario', value: id});
                 },
                 response: (data) => {
                     if (data.ok_error != 'error') {
                         Tools.execMessage(data);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
         };
 
         this._postAtender = (btn, tk, f, obs = '') => {
-            this._keyPropietario = (f == 1) ? $(btn).parent('div').data('propietario') : this._keyPropietario;
+//            this._keyPropietario = (f == 1) ? $(btn).parent('div').data('propietario') : this._keyPropietario;
             this.send({
                 flag: f,
                 token: tk,
@@ -340,7 +420,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                             Tools.closeModal(this._idFormObservacionRechazar);
                         }
                         Tools.execMessage(data);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
@@ -389,7 +469,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                         if (closeObs) {
                             Tools.closeModal(this._idFormObservacion);
                         }
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                         //se desactiva la carga de localstorage, debido a q ya se guardaron los datos, para el siguiente nuevo, no 
                         //deberia cargar los datos de un formulario que ya fure grabado
                         Tools.stopDataLocalStorage();
@@ -494,6 +574,34 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
             });
         };
 
+        this._validaAdjuntos = (btn, tk) => {
+            return this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                }
+            });
+        };
+
+        this._formValidaAdjuntos = (tk, data) => {
+            this.send({
+                token: tk,
+                context: this,
+                modal: true,
+                dataType: 'text',
+                response: (data) => {
+                    $(APP_MAIN_MODALS).append(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                    this.addBtnClose();
+                    this.setAdjuntosPendientes(data);
+                }
+            });
+        };
+
     }
 
     main(tk) {
@@ -559,10 +667,10 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    formPreConversion(btn, tk) {
+    formPreConversion(btn, id, tiene, tk) {
         this._grabaAprueba = 0;
-        this._keyPropietario = $(btn).parent('div').data('propietario');
-        this._tienePreconversion = $(btn).parent('div').data('tienepreconversion');
+        this._keyPropietario = id;
+        this._tienePreconversion = tiene;
 
         Tools.addTab({
             context: this,
@@ -578,8 +686,8 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    formViewPreConversion(btn, tk) {
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+    formViewPreConversion(btn, id, tk) {
+        this._keyPropietario = id;
 
         Tools.addTab({
             context: this,
@@ -591,9 +699,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    formEditVehiculo(btn, tk) {
+    formEditVehiculo(btn, id, tk) {
         this.closeNewVehiculo(null, null);
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+        this._keyPropietario = id;
 
         Tools.addTab({
             context: this,
@@ -605,9 +713,9 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         });
     }
 
-    formViewExpediente(btn, tk) {
+    formViewExpediente(btn, id, tk) {
         this.closeExpediente(null, null);
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+        this._keyPropietario = id;
 
         Tools.addTab({
             context: this,
@@ -652,7 +760,7 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeNewVehiculo(null, null);
-                        this._getVehiculos(tk);
+                        this._grid(tk);
                         Tools.stopDataLocalStorage();
                     }
                 }
@@ -721,31 +829,41 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
                     if (data.ok_error != 'error') {
                         this._keyPropietario = null;
                         this.closeNewVehiculo(null, null);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
         }
     }
 
-    postAprobar(btn, tk) {
+    postAprobar(btn, id, confirmado, tk) {
+        this._keyPropietario = id;
 
-        if ($(btn).parent().data('conformidadtodo') == 0 || $.isEmptyObject($(btn).parent().data('conformidadtodo'))) {
-            Tools.notify().smallMsn({
-                content: APP_MSN.no_conforme, color: '#C79121'
-            });
-            return false;
-        }
-        Tools.notify().confirm({
-            content: APP_MSN.aprobar,
-            yes: () => {
-                this._postAtender(btn, tk, 1);
+        this._validaAdjuntos(btn, tk).done((data) => {
+            if (/null/g.test(JSON.stringify(data))) {
+                this._formValidaAdjuntos(tk, data);
+                return false;
             }
+            if (confirmado == 0 || $.isEmptyObject(confirmado) || !$.isNumeric(confirmado)) {
+                Tools.notify().smallMsn({
+                    content: APP_MSN.no_conforme, color: '#C79121'
+                });
+                return false;
+            }
+            Tools.notify().confirm({
+                content: APP_MSN.aprobar,
+                yes: () => {
+                    this._postAtender(btn, tk, 1);
+                }
+            });
         });
+
+
+
     }
 
-    postRechazar(btn, tk) {
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+    postRechazar(btn, id, tk) {
+        this._keyPropietario = id;
         Tools.notify().confirm({
             content: APP_MSN.rechazar,
             yes: () => {
@@ -758,11 +876,11 @@ $$.Registro.VehiculoAx = class VehiculoAx extends $$.Registro.VehiculoRsc {
         this._postAtender(`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`, tk, 2, $(`#${this._alias}txt_observacion`).val());
     }
 
-    postDelete(btn, tk) {
+    postDelete(btn, id, tk) {
         Tools.notify().confirm({
             content: APP_MSN.you_sure_delete,
             yes: () => {
-                this._postDelete(btn, tk);
+                this._postDelete(btn, id, tk);
             }
         });
     }

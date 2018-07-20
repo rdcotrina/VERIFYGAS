@@ -30,6 +30,10 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
     
     public function index() {}
     
+    public function grid() {
+        echo json_encode($this->spGrid());
+    }
+    
     public function getVehiculos() {
         echo json_encode($this->qGetVehiculos());
     }
@@ -43,7 +47,7 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         
         if($this->_form->_flag == 1 && $data['ok_error'] == 'ok'){//se esta entregando, enviar correos segun rol
             switch ($this->_idRol) {
-                case 5://el usuario que finaliza es de rol VERIFYGAS, enviar mail a calidda y taller
+                case 5://el usuario que finaliza es de rol VERIFYGAS, enviar mail a calidda, taller y pec
                     $this->_sendMailEntregaAprobadaVerifyGas($data);
                     break;
             }
@@ -179,8 +183,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
         
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Entrega Aprobada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -205,8 +210,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         $body = str_replace("{MODELO}", $data['modelo'], $body);
         $body = str_replace("{SERIE}", $data['serie'], $body);
         $body = str_replace("{TALLER}", $data['taller'], $body);
+        $body = str_replace("{EXP}", $data['nro_expediente'], $body);
         
-        Obj()->Libs->PHPMailer->setFrom('admin@admin.com', APP_COMPANY);
+        Obj()->Libs->PHPMailer->setFrom(MAIL_REMITENTE_APP, APP_COMPANY);
         Obj()->Libs->PHPMailer->Subject = 'Entrega Finalizada';
         Obj()->Libs->PHPMailer->CharSet = 'UTF-8';
         //contenido del correo
@@ -218,6 +224,9 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
         Obj()->Libs->PHPMailer->addAddress(MAIL_CALIDDA, 'ENTREGA FINALIZADA');#correo de calidda
         Obj()->Libs->PHPMailer->addAddress($data['mail_taller'], 'ENTREGA FINALIZADA');#correo de taller
         Obj()->Libs->PHPMailer->addAddress(MAIL_DESARROLLADOR, 'ENTREGA FINALIZADA');
+//        if(!empty($data['mail_pec'])){
+//            Obj()->Libs->PHPMailer->addAddress($data['mail_pec'], 'ENTREGA FINALIZADA'); 
+//        }
         //enviando
         Obj()->Libs->PHPMailer->send();
     }
@@ -237,6 +246,10 @@ class EntregaController extends \Proceso\Entrega\Models\EntregaModel {
     
     public function getEntrega() {
         echo json_encode($this->qEntrega());
+    }
+    
+    public function validaAdjuntos() {
+        echo json_encode($this->qGetValidaAdjuntos());
     }
     
 }

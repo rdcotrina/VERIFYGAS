@@ -33,27 +33,27 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                     case 1:
                         total += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
                         totalDias[`1dia_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].preconversion_rechazada}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].preconversion_rechazada}</td>`;
                         break;
                     case 2:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
                         totalDias[`2dia_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_recibidas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_recibidas}</td>`;
                         break;
                     case 3:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
                         totalDias[`3dia_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_rechazadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_rechazadas}</td>`;
                         break;
                     case 4:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
                         totalDias[`4dia_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_aprobadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_aprobadas}</td>`;
                         break;
                     case 5:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
                         totalDias[`5dia_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_financiadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_financiadas}</td>`;
                         break;
                 }
 
@@ -65,7 +65,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             let ds = '', i = 1, total = 0, rs;
             for (i; i <= dias; i++) {
                 rs = data[`${tipo}dia_${i}`];
-                ds += `<th>${rs}</th>`;
+                ds += `<th style="text-align:center">${rs}</th>`;
                 total += parseInt(rs);
             }
             return {ds: ds, t: total};
@@ -83,7 +83,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             } else {
                 h = this._renderDias(data.talleres_mes[0].dias);
                 t = `
-                <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox" border="1">
                     <caption class="text-center"><h3>${data.talleres_mes[0].anio}</h3></caption>
                     <thead>
                         <tr>
@@ -135,28 +135,28 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                 ttottal4 = this._getTotalDia(reg4.tdias, 4, data.resultados_mes[0].dias);
                 ttottal5 = this._getTotalDia(reg5.tdias, 5, data.resultados_mes[0].dias);
                 t += `
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <th rowspan="5" style="vertical-align:middle;">${APP_ETIQUET.consolidado_mes}</th>
                             <td>${APP_ETIQUET.preconversiones_rechazadas_tecnicamente}</td>
                             ${ttottal1.ds}
                             <th class="text-center">${ttottal1.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_recibidas}</td>
                             ${ttottal2.ds}
                             <th class="text-center">${ttottal2.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_rechazadas}</td>
                             ${ttottal3.ds}
                             <th class="text-center">${ttottal3.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_aprobadas}</td>
                             ${ttottal4.ds}
                             <th class="text-center">${ttottal4.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_financiadas}</td>
                             ${ttottal5.ds}
                             <th class="text-center">${ttottal5.t}</th>
@@ -190,27 +190,27 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                     case 1:
                         total += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
                         totalMes[`1mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].preconversion_rechazada);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].preconversion_rechazada}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].preconversion_rechazada}</td>`;
                         break;
                     case 2:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
                         totalMes[`2mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_recibidas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_recibidas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_recibidas}</td>`;
                         break;
                     case 3:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
                         totalMes[`3mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_rechazadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_rechazadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_rechazadas}</td>`;
                         break;
                     case 4:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
                         totalMes[`4mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_aprobadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_aprobadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_aprobadas}</td>`;
                         break;
                     case 5:
                         total += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
                         totalMes[`5mes_${i}`] += (result.length == 0) ? 0 : parseInt(result[0].conversiones_financiadas);
-                        ds += `<td>${(result.length == 0) ? 0 : result[0].conversiones_financiadas}</td>`;
+                        ds += `<td style="text-align:center">${(result.length == 0) ? 0 : result[0].conversiones_financiadas}</td>`;
                         break;
                 }
 
@@ -222,7 +222,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
             let ds = '', i = 1, total = 0, rs;
             for (i; i <= 12; i++) {
                 rs = data[`${tipo}mes_${i}`];
-                ds += `<th>${rs}</th>`;
+                ds += `<th style="text-align:center">${rs}</th>`;
                 total += parseInt(rs);
             }
             return {ds: ds, t: total};
@@ -240,7 +240,7 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                 </div>`;
             } else {
                 t = `
-                <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox">
+                <table class="table table-bordered table-striped table-condensed table-hover smart-form has-tickbox" border="1">
                     <caption class="text-center"><h3>${data.talleres_mes[0].anio}</h3></caption>
                     <thead>
                         <tr>
@@ -305,28 +305,28 @@ $$.Reporte.InformeRsc = class InformeRsc extends Resource {
                 ttottal4 = this._getTotalMes(reg4.tmes, 4);
                 ttottal5 = this._getTotalMes(reg5.tmes, 5);
                 t += `
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <th rowspan="5" style="vertical-align:middle;">${APP_ETIQUET.consolidado_anio}</th>
                             <td>${APP_ETIQUET.preconversiones_rechazadas_tecnicamente}</td>
                             ${ttottal1.ds}
                             <th class="text-center">${ttottal1.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_recibidas}</td>
                             ${ttottal2.ds}
                             <th class="text-center">${ttottal2.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_rechazadas}</td>
                             ${ttottal3.ds}
                             <th class="text-center">${ttottal3.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_aprobadas}</td>
                             ${ttottal4.ds}
                             <th class="text-center">${ttottal4.t}</th>
                         </tr>
-                        <tr style="background:#333;color:#fff">
+                        <tr style="background:#BE81F7;color:#fff">
                             <td>${APP_ETIQUET.conversiones_financiadas}</td>
                             ${ttottal5.ds}
                             <th class="text-center">${ttottal5.t}</th>

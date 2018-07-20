@@ -9,6 +9,7 @@ class Tools_ {
                                 </span>
                                 <a href='#{href}'>&nbsp;&nbsp;&nbsp; #{label}</a>
                             </li>`;
+        this._idsTMP = [];
     }
 
     addTab(obj) {
@@ -238,7 +239,7 @@ class Tools_ {
             var lang = ln.split('-')[0].toUpperCase();
         }
 
-        Exe.require({require: `${APP_ROOT}config/!18n/lang_${lang}`, callback: () => {
+      //  Exe.require({require: `${APP_ROOT}config/!18n/lang_${lang}`, callback: () => {
                 var elems = document.querySelectorAll(".tr-language"), ev = '';
                 for (var x = 0; x < elems.length; x++) {
                     ev = `lang_${lang}.etiquet[ '${elems[x].dataset.tr}' ]`;
@@ -284,8 +285,8 @@ class Tools_ {
                 APP_ETIQUET = eval(`lang_${lang}.etiquet`); /*para etiquetas y placeholders*/
                 APP_TOUR = eval(`lang_${lang}.tour`); /*para las etiquetas del tour*/
                 localStorage.setItem('app_lang', lang);
-            }
-        });
+       //     }
+       // });
 
         Exe.require({require: `${APP_ROOT}config/!18n/tour_${lang}`, callback: () => {
                 APP_TOUR = eval(`tour_${lang}`); /*para las etiquetas del tour*/
@@ -727,7 +728,7 @@ class Tools_ {
         $('#btnRefresh_' + grid).click();
     }
     /*
-     * activa diseño de input tipo TAGS
+     * activa dise単o de input tipo TAGS
      * @param {type} obj
      * @returns {undefined}
      */
@@ -796,6 +797,7 @@ class Tools_ {
             el = $(e.currentTarget);
             localStorage.setItem(el.attr('id'), el.val());
             localStorage.setItem('storage', true);
+            this._idsTMP[el.attr('id')] = true;
         });
         $(form).find('select,input:text,textarea').change((e) => {
             el = $(e.currentTarget);
@@ -816,6 +818,11 @@ class Tools_ {
 
     stopDataLocalStorage() {
         localStorage.setItem('storage', 0);
+        //se limpia los indices en storage
+        $.each(this._idsTMP,function(i,v){
+            localStorage.setItem(i,'');
+        });
+        this._idsTMP = [];
     }
 
     nunMiniCharts() {

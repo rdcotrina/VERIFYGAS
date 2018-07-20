@@ -5,7 +5,7 @@
 
 
                 <!-- Widget ID (each widget will need unique ID)-->
-                <div class="jarviswidget jarviswidget-color-blueDark">
+                <div class="jarviswidget ">
                     <header role="heading">
                         <span class="widget-icon"> <i class="fa fa-gear txt-color-blueLight"></i> </span>		
                         <h2 class="tr-language" data-tr="gestion_conversiones"> </h2>
@@ -17,7 +17,7 @@
 
 
                                 <!-- Widget ID (each widget will need unique ID)-->
-                                <div class="jarviswidget jarviswidget-color-blueDark">
+                                <div class="jarviswidget ">
                                     <header role="heading">
                                         <span class="widget-icon"> <i class="fa fa-history txt-color-blueLight"></i> </span>		
                                         <h2 class="tr-language" data-tr="pre_conversion"> </h2>
@@ -43,7 +43,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th style="background-image: -webkit-linear-gradient(top,#f2f2f2 0,#fafafa 100%)" class="tr-language" data-tr="pendientes"></th>
-                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_54 a').click();"><a id="sp_pendientes" href="javascript:;" ></a></span></td>
+                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_64 a').click();" style="background: #D2CB00"><a id="sp_pendientes" href="javascript:;" ></a></span></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -64,7 +64,7 @@
 
 
                                 <!-- Widget ID (each widget will need unique ID)-->
-                                <div class="jarviswidget jarviswidget-color-blueDark">
+                                <div class="jarviswidget ">
                                     <header role="heading">
                                         <span class="widget-icon"> <i class="fa fa-refresh txt-color-blueLight"></i> </span>		
                                         <h2 class="tr-language" data-tr="conversion"> </h2>
@@ -89,7 +89,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <th style="background-image: -webkit-linear-gradient(top,#f2f2f2 0,#fafafa 100%)" class="tr-language" data-tr="pendientes"></th>
-                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_56 a').click();"><a id="sp_pendientes_c" href="javascript:;"></a></span></td>
+                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_56 a').click();" style="background: #D2CB00"><a id="sp_pendientes_c" href="javascript:;"></a></span></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -110,7 +110,7 @@
 
 
                                 <!-- Widget ID (each widget will need unique ID)-->
-                                <div class="jarviswidget jarviswidget-color-blueDark">
+                                <div class="jarviswidget ">
                                     <header role="heading">
                                         <span class="widget-icon"> <i class="fa fa-truck txt-color-blueLight"></i> </span>		
                                         <h2 class="tr-language" data-tr="entrega2"> </h2>
@@ -132,7 +132,7 @@
                                                             
                                                             <tr>
                                                                 <th style="background-image: -webkit-linear-gradient(top,#f2f2f2 0,#fafafa 100%)" class="tr-language" data-tr="pendientes"></th>
-                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_57 a').click();"><a id="sp_pendientes_e" href="javascript:;">0</a></span></td>
+                                                                <td class="text-center"><span class="btn btn-default" onclick="$('#li_57 a').click();" style="background: #D2CB00"><a id="sp_pendientes_e" href="javascript:;">0</a></span></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

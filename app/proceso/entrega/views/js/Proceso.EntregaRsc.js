@@ -1,19 +1,19 @@
 /* 
-* ---------------------------------------
-* --------- CREATED BY LV ----------
-* Autor:        Super 
-* Fecha:        08-06-2018 07:06:19 
-* Descripcion : EntregaRsc.js
-* ---------------------------------------
-*/ 
+ * ---------------------------------------
+ * --------- CREATED BY LV ----------
+ * Autor:        Super 
+ * Fecha:        08-06-2018 07:06:19 
+ * Descripcion : EntregaRsc.js
+ * ---------------------------------------
+ */
 "use strict";
 
 $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
-    
+
     constructor() {
         super();
     }
-    
+
     addBtnSearch() {
         $.fn.appButton.get({
             container: `#${this._alias}btn_search`,
@@ -23,7 +23,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             ]
         });
     }
-    
+
     addBtnSave() {
         $.fn.appButton.get({
             container: `#${this._alias}actions`,
@@ -45,8 +45,8 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
 
         });
     }
-    
-    addBtnClose(){
+
+    addBtnClose() {
         $.fn.appButton.get({
             container: `#${this._alias}actions`,
             keymnu: this._alias,
@@ -55,7 +55,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             ]
         });
     }
-    
+
     addBtnSaveObs() {
         $.fn.appButton.get({
             container: `#${this._alias}foot_btns`,
@@ -65,10 +65,10 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
                 {keybtn: APP_BTN.CLS}
             ]
         }, (oSettings) => {
-            $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss','modal');
+            $(`#${PREBTNCTXT}${this._alias}${APP_BTN.CLS}`).attr('data-dismiss', 'modal');
         });
     }
-    
+
     setVehiculos(data) {
         let h = '', txtEval = '';
 
@@ -125,7 +125,7 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             padding: '5px'
         });
     }
-    
+
     setPropietario(data, form) {
         Tools.setDataForm(form, {
             alias: this._alias,
@@ -144,8 +144,8 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             ]
         });
     }
-    
-    setEntrega(data){
+
+    setEntrega(data) {
         $(`#${this._alias}va_escaneo_1`).attr('href', `files/entrega/${data.escaneo_1}`);
         $(`#${this._alias}va_escaneo_2`).attr('href', `files/entrega/${data.escaneo_2}`);
         $(`#${this._alias}va_escaneo_4`).attr('href', `files/entrega/${data.escaneo_4}`);
@@ -153,8 +153,8 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
         $(`#${this._alias}va_escaneo_11`).attr('href', `files/entrega/${data.escaneo_11}`);
         $(`#${this._alias}va_escaneo_13`).attr('href', `files/entrega/${data.escaneo_13}`);
     }
-    
-    setEvents(tk){
+
+    setEvents(tk) {
         //eventos para uploads
         $(`#${this._alias}file_escaneo_1`).change(() => {
             this.postUpload(tk, 1);
@@ -196,8 +196,56 @@ $$.Proceso.EntregaRsc = class EntregaRsc extends Resource {
             this.postUpload(tk, 13);
         });
         $(`#${this._alias}txt_escaneo_14`).change(() => {
-            this.postUpload(tk,14);
+            this.postUpload(tk, 14);
         });
     }
-    
+
+    addBtnClose() {
+        $.fn.appButton.get({
+            container: `#${this._alias}foot_btnsadj`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.CLS}
+            ]
+        });
+    }
+
+    setAdjuntosPendientes(data) {
+        let h = '<ol>';
+
+        if (data.length == 0) {
+            $(`#${this._alias}d_nexp`).html(this._nroExpediente);
+            if (/null/.test(this._documentoEscaneado_5)) {
+                h += `<li>${APP_ETIQUET.escaneo_5}</li>`;
+            }
+            if (/null/.test(this._documentoEscaneado_13)) {
+                h += `<li>${APP_ETIQUET.escaneo_13}</li>`;
+            }
+        } else {
+            $(`#${this._alias}d_nexp`).html(data.nro_expediente);
+            if (/null/.test(data.escaneo_1)) {
+                h += `<li>${APP_ETIQUET.escaneo_1}</li>`;
+            }
+            if (/null/.test(data.escaneo_2)) {
+                h += `<li>${APP_ETIQUET.escaneo_2}</li>`;
+            }
+            if (/null/.test(data.escaneo_4)) {
+                h += `<li>${APP_ETIQUET.escaneo_4}</li>`;
+            }
+            if (/null/.test(data.escaneo_5)) {
+                h += `<li>${APP_ETIQUET.escaneo_5}</li>`;
+            }
+            if (/null/.test(data.escaneo_11)) {
+                h += `<li>${APP_ETIQUET.escaneo_11}</li>`;
+            }
+            if (/null/.test(data.escaneo_13)) {
+                h += `<li>${APP_ETIQUET.escaneo_13}</li>`;
+            }
+        }
+
+        h += '</ol>';
+
+        $(`#${this._alias}d_pendientes`).html(h);
+    }
+
 };

@@ -239,3 +239,12 @@ table.lv-grid tr:hover {
 .lv-pointer{
     cursor: pointer;
 }
+.info_panel_circle{
+    margin-top: 3px;
+    border-radius: 50px;
+    width: 70px;
+    height: 70px;
+}
+.info_panel_circle span{
+    font-size: 35px
+}

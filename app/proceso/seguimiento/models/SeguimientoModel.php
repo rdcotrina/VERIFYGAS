@@ -211,13 +211,19 @@ class SeguimientoModel extends \Vendor\DataBase {
             v.img_contrato_financiamiento_calidda,
             pr.imagen_documento_identidad,
             pr.imagen_licencia_conducir,
-            pr.imagen_consentimiento
+            pr.imagen_consentimiento,
+            ta.taller,
+            pc.pecs,
+            (SELECT g.nombre_completo FROM app_persona g WHERE g.id_persona = u.id_persona) asesor
         FROM conv_propietario pr
         INNER JOIN app_tipo_documento_identidad t ON t.id_tipo_documento_identidad = pr.id_tipo_documento_identidad
         INNER JOIN app_estado_civil e ON e.id_estado_civil = pr.id_estado_civil
         INNER JOIN app_pais pa ON pa.id_pais = pr.id_pais
         INNER JOIN conv_vehiculo v ON v.id_propietario = pr.id_propietario
         INNER JOIN app_persona pe ON pe.id_persona = pr.id_persona
+        INNER JOIN conv_taller ta ON ta.id_taller = pr.id_taller
+        INNER JOIN conv_pecs pc ON pc.id_pecs = ta.id_pecs
+        INNER JOIN app_usuario u ON u.id_usuario = pr.usuario_crea
         WHERE pr.id_propietario = :key";
 
         $parms = [

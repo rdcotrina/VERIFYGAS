@@ -64,7 +64,7 @@ $$.Reporte.InformeAx = class InformeAx extends $$.Reporte.InformeRsc {
     }
     
     getExcel(btn,tk){
-        let h = $(`#${this._alias}d_informeM`).html()+$(`#${this._alias}d_informeA`).html();
+        let h = $(`#${this._alias}d_informeM`).html()+'<br>'+$(`#${this._alias}d_informeA`).html()+'<br><br>'+$(`#${this._alias}d_legenda`).html();
         
         if(h.length == 0){
             Tools.notify().smallMsn({

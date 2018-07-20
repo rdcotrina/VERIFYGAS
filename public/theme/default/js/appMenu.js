@@ -56,6 +56,7 @@ var APP_MENU = [];
                                     $(`#li_${v.id_menu}`).find('a').data('a', v.alias);
 
                                     $(`#li_${v.id_menu}`).find('a').click(function () {
+                                        $('body').removeClass('hidden-menu');
                                         $('#process-general').fadeIn();
                                         eval(Tools.htmlEntities(v.evt_ajax).replace("')","',this)"));
                                     });
@@ -108,6 +109,7 @@ var APP_MENU = [];
 
                                 $(`#li_${v.id_menu}`).find('a').data('a', v.alias);
                                 $(`#li_${v.id_menu}`).find('a').click(function () {
+                                    $('body').removeClass('hidden-menu');
                                     $('#process-general').fadeIn();
                                     eval(Tools.htmlEntities(v.evt_ajax).replace("')","',this)"));
                                 });

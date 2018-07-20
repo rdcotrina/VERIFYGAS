@@ -1,4 +1,8 @@
 "use strict";
+Exe.require({require: {registro: 'vehiculo::Registro.VehiculoRsc'}, run: false, callback: function () {
+        Exe.require({require: {registro: 'vehiculo::Registro.VehiculoAx'}, run: 'create', alias: 'VEH__'});
+    }});
+
 $$.System.InitAx = class InitAx extends $$.System.InitRsc {
 
     constructor() {
@@ -75,9 +79,9 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 },
                 final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
                     //recargar panel de taller cada 5 minutos = 300000
-                    setInterval(()=>{
+                    setInterval(() => {
                         this._resultadosTaller(tk, this._idFormDashBoardTaller);
-                    },300000);
+                    }, 300000);
                     this._resultadosTaller(tk, this._idFormDashBoardTaller);
                 }
             });
@@ -93,10 +97,22 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 },
                 final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
                     //recargar panel de asesor cada 5 minutos = 300000
-                    setInterval(()=>{
+                    setInterval(() => {
                         this._resultadosTaller(tk, this._idFormDashBoardAsesorComercial);
-                    },300000);
+                    }, 300000);
                     this._resultadosTaller(tk, this._idFormDashBoardAsesorComercial);
+
+                    $(`#${this._alias}__NEW`).click(() => {
+                        Obj.Registro.VehiculoAx.formNewVehiculo(this, _tk_);
+                    });
+
+                    $(`#${this._alias}btn_seguimiento`).click(() => {
+                        this.disableBtn(`#${this._alias}btn_seguimiento`);
+                        $('#li_58 a').click();
+                        setTimeout(() => {
+                            this.activeBtn(`#${this._alias}btn_seguimiento`);
+                        }, 1000);
+                    });
                 }
             });
         };
@@ -111,10 +127,11 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 },
                 final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
                     //recargar panel de Verifygas cada 2 minutos = 120000
-                    setInterval(()=>{
+                    setInterval(() => {
                         this._resultadosVerifygas(tk);
-                    },120000);
+                    }, 120000);
                     this._resultadosVerifygas(tk);
+                    this.setEvtBtnInform();
                 }
             });
         };
@@ -129,10 +146,12 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 },
                 final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
                     //recargar panel de Calidda cada 5 minutos = 300000
-                    setInterval(()=>{
+                    setInterval(() => {
                         this._resultadosCalidda(tk);
-                    },300000);
+                    }, 300000);
                     this._resultadosCalidda(tk);
+
+                    this.setEvtBtnInform();
                 }
             });
         };
@@ -147,10 +166,11 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 },
                 final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
                     //recargar panel de Pecs cada 5 minutos = 300000
-                    setInterval(()=>{
+                    setInterval(() => {
                         this._resultadosPecs(tk);
-                    },300000);
+                    }, 300000);
                     this._resultadosPecs(tk);
+                    this.setEvtBtnInform();
                 }
             });
         };
@@ -176,6 +196,7 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 token: _tk_,
                 context: this,
                 dataType: 'text',
+                gifProcess: true,
                 modal: true,
                 response: (data) => {
                     $(APP_MAIN_MODALS).append(data);
@@ -195,7 +216,7 @@ $$.System.InitAx = class InitAx extends $$.System.InitRsc {
                 pDisplayLength: 10,
                 tColumns: [
                     {title: APP_ETIQUET.expediente, field: 'nro_expediente', width: 100, sortable: true, class: "text-center"},
-                    {title: APP_ETIQUET.apellidos_nombres, field: 'css', width: 400,sortable: true,
+                    {title: APP_ETIQUET.apellidos_nombres, field: 'css', width: 400, sortable: true,
                         fnReplace: (fila, row) => {
                             return row.nombre_completo;
                             //return `<button type="button" class="${row.css}"><i class="${row.icono}"></i></button>`;

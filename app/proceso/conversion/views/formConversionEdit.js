@@ -2,7 +2,7 @@
     <form>
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-user-circle-o txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="duenio_vehiculo"> </h2>
@@ -55,7 +55,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-car txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="datos_vehiculo"> </h2>
@@ -108,7 +108,7 @@
 
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-soundcloud txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="cilindro_gnv"> </h2>
@@ -178,7 +178,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-deafness txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="valvula_cilindro"> </h2>
@@ -227,7 +227,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-thermometer-1 txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="tuberia_alta_presion"> </h2>
@@ -269,7 +269,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-thermometer-2 txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="valvula_carga"> </h2>
@@ -309,7 +309,7 @@
 
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-thermometer-3 txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="regulador_presion"> </h2>
@@ -359,7 +359,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-share txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="entrega_gas"> </h2>
@@ -409,7 +409,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-id-badge txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="controlador_gas"> </h2>
@@ -461,7 +461,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-sliders txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="variador_avance"> </h2>
@@ -511,7 +511,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-microchip txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="conmutador"> </h2>
@@ -551,7 +551,7 @@
         
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-tint txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="emulacion_inyectores"> </h2>
@@ -591,7 +591,7 @@
         <div class="clearfix"></div>
         <div class="col-sm-6">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-video-camera txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="video"> </h2>
@@ -630,7 +630,7 @@
         
         <div class="col-sm-12">
             <!-- Widget ID (each widget will need unique ID)-->
-            <div class="jarviswidget jarviswidget-color-blueDark">
+            <div class="jarviswidget ">
                 <header role="heading">
                     <span class="widget-icon"> <i class="fa fa-cog txt-color-blueLight"></i> </span>		
                     <h2 class="tr-language" data-tr="estado_funcionamiento_gnv"> </h2>
@@ -847,17 +847,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            <fieldset class="col-md-12 form-horizontal">
-                                <legend></legend>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="col-md-6 control-label tr-language" data-tr="video_estado_funcionamiento_gnv"></label>
-                                        <div class="col-md-6">
-                                            <input class="form-control" type="file" id="file_video_estado_funcionamiento_gnv" name="file_video_estado_funcionamiento_gnv">
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
+ 
                             <div class="clearfix"></div>
                             <fieldset>
                                 <legend></legend>

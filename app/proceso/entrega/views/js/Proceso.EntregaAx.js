@@ -37,6 +37,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         this._documentoEscaneado_13 = null;
         this._tieneEntrega = 0;
         this._grabaAprueba = 0;
+        this._idGrid = null;
 
         this._formIndex = (tk) => {
             this.send({
@@ -48,9 +49,60 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                     $(this._dmain).append(data);
                 },
                 finally: (data) => {
-                    this.addBtnSearch();
-                    $(`#${this._alias}d_vehiculos_aprobados`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
-                    this._getVehiculos(tk);
+//                    this.addBtnSearch();
+//                    $(`#${this._alias}d_vehiculos_aprobados`).html(`<div class="text-center">${Tools.spinner().main}</div>`);
+//                    this._getVehiculos(tk);
+                    this._grid(tk);
+                }
+            });
+        };
+
+        this._grid = (tk) => {
+            $(`#${this._alias}gridVehiculos`).fullgrid({
+                oContext: this,
+                tAlias: this._alias,
+                pOrderField: 'nro_expediente desc',
+                pDisplayLength: 10,
+                tColumns: [
+                    {title: APP_ETIQUET.nro_exp, field: 'nro_expediente', width: 100, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.pec, field: 'pecs', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.taller, field: 'taller', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.nombres, field: 'nombre_completo', width: 150, sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.placa, field: 'placa', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.marca, field: 'marca', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}},
+                    {title: APP_ETIQUET.modelo, field: 'modelo', width: 80, class: "text-center", sortable: true, filter: {type: 'text'}}
+                ],
+                fnServerParams: (sData) => {
+                    sData.push({name: '_qn', value: Tools.en(tk)});
+                },
+                sAxions: {
+                    /*se genera group buttons*/
+                    group: [{
+                            buttons: [
+                                {
+                                    button: APP_BTN.ENT,
+                                    ajax: {
+                                        fn: "Obj.Proceso.EntregaAx.formEntrega",
+                                        serverParams: ["id_propietario", "tiene_entrega"]
+                                    }
+                                }, {
+                                    button: APP_BTN.VENT,
+                                    ajax: {
+                                        fn: "Obj.Proceso.EntregaAx.formViewEntrega",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }, {
+                                    button: APP_BTN.FIN,
+                                    ajax: {
+                                        fn: "Obj.Proceso.EntregaAx.postFinalizar",
+                                        serverParams: ["id_propietario"]
+                                    }
+                                }
+                            ]
+                        }]
+                },
+                fnCallback: (o) => {
+                    this._idGrid = o.oTable;
                 }
             });
         };
@@ -100,14 +152,14 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                             Tools.closeModal(this._ifFormObservacionRechazar);
                         }
                         Tools.execMessage(data);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
         };
 
         this._postFinalizar = (btn, tk) => {
-            this._keyPropietario = $(btn).parent('div').data('propietario');
+//            this._keyPropietario = $(btn).parent('div').data('propietario');
             this.send({
                 flag: 1,
                 token: tk,
@@ -119,7 +171,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                 response: (data) => {
                     if (data.ok_error != 'error') {
                         Tools.execMessage(data);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
@@ -173,7 +225,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
             });
         };
 
-        this._findPropietario = (tk, form) => { 
+        this._findPropietario = (tk, form) => {
             return this.send({
                 token: tk,
                 gifProcess: true,
@@ -201,7 +253,7 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
             });
         };
 
-        this._postEntrega = (tk) => { 
+        this._postEntrega = (tk) => {
             this.send({
                 flag: 1,
                 token: tk,
@@ -223,12 +275,39 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
                     Tools.execMessage(data);
                     if (data.ok_error != 'error') {
                         this.closeEntrega(null, null);
-                        this._getVehiculos(tk);
+                        Tools.refreshGrid(this._idGrid);
                     }
                 }
             });
         };
 
+        this._validaAdjuntos = (btn, tk) => {
+            return this.send({
+                token: tk,
+                element: btn,
+                context: this,
+                gifProcess: true,
+                serverParams: (sData) => {
+                    sData.push({name: '_keyPropietario', value: this._keyPropietario});
+                }
+            });
+        };
+
+        this._formValidaAdjuntos = (tk, data) => {
+            this.send({
+                token: tk,
+                context: this,
+                modal: true,
+                dataType: 'text',
+                response: (data) => {
+                    $(APP_MAIN_MODALS).append(data);
+                },
+                final: (obj) => {/*se ejecuta una vez que se cargo el HTML en success*/
+                    this.addBtnClose();
+                    this.setAdjuntosPendientes(data);
+                }
+            });
+        };
     }
 
     main(tk) {
@@ -252,7 +331,8 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         });
     }
 
-    postFinalizar(btn, tk) {
+    postFinalizar(btn, id, tk) {
+        this._keyPropietario = id;
         Tools.notify().confirm({
             content: APP_MSN.finalizar,
             yes: () => {
@@ -275,10 +355,17 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         this._postAtender(`#${PREBTNCTXT}${this._alias}${APP_BTN.GRB}`, tk, 2, $(`#${this._alias}txt_observacion`).val());
     }
 
-    formEntrega(btn, tk) {
+    formEntrega(btn, id, tiene, tk) {
         this._grabaAprueba = 0;
-        this._keyPropietario = $(btn).parent('div').data('propietario');
-        this._tieneEntrega = $(btn).parent('div').data('tiene_entrega');
+        this._keyPropietario = id;
+        this._tieneEntrega = tiene;
+        this._nroExpediente = $.trim($(btn).parent().parent().parent().parent().parent('tr').find('td:eq(2)').html());
+        this._documentoEscaneado_1 = null;
+        this._documentoEscaneado_2 = null;
+        this._documentoEscaneado_4 = null;
+        this._documentoEscaneado_5 = null;
+        this._documentoEscaneado_11 = null;
+        this._documentoEscaneado_13 = null;
 
         Tools.addTab({
             context: this,
@@ -294,8 +381,8 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
         });
     }
 
-    formViewEntrega(btn, tk) {
-        this._keyPropietario = $(btn).parent('div').data('propietario');
+    formViewEntrega(btn, id, tk) {
+        this._keyPropietario = id;
 
         Tools.addTab({
             context: this,
@@ -308,12 +395,28 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
     }
 
     postEntrega(tk) {
-        if (this._grabaAprueba == 1) {
-            Tools.notify().confirm({
-                content: APP_MSN.entrega,
-                yes: () => {
-                    this._postEntrega(tk);
+        if (this._grabaAprueba == 1) {//si graba y aprueba se valida los datos adjuntpos
+            let btn = `#${PREBTNCTXT}${this._alias}${APP_BTN.GRBAPR}`;
+            this._validaAdjuntos(btn, tk).done((data) => {
+
+                //validacion cuando se esta editando la entrega
+                if (/null/g.test(JSON.stringify(data)) && this._tieneEntrega == 1) {
+                    this._formValidaAdjuntos(tk, data);
+                    return false;
                 }
+                //validacion cuando no se esta llenando por primera vea la antrega y se quiere aprobar
+                if (this._tieneEntrega == 0 && (/null/.test(this._documentoEscaneado_5) || /null/.test(this._documentoEscaneado_13))) {
+                    this._formValidaAdjuntos(tk, []);
+                    return false;
+                }
+
+
+                Tools.notify().confirm({
+                    content: APP_MSN.entrega,
+                    yes: () => {
+                        this._postEntrega(tk);
+                    }
+                });
             });
         } else {
             this._postEntrega(tk);
@@ -350,9 +453,9 @@ $$.Proceso.EntregaAx = class EntregaAx extends $$.Proceso.EntregaRsc {
     closeEntrega(btn, tk) {
         Tools.closeTab(`${this._alias}-TENT`);
     }
-    
+
     postSearch(btn, tk) {
-        this._getVehiculos(tk);
+        Tools.refreshGrid(this._idGrid);
     }
 
 };

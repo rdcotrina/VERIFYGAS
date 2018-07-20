@@ -77,7 +77,8 @@ $$.System.InitRsc = class InitRsc extends Resource {
             $(`#${this._alias}panelPreconversion`).html(h);
             if (c != 'X') {
                 $(`.a_bp${c}`).click(function () {
-                    $(`#li_54 a`).click();
+                    alert(888)
+                    $(`#li_64 a`).click();
                 });
             }
         };
@@ -471,7 +472,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
             //resultado y eventos a botones data.diarioAprobadas
             $(`#${this._alias}btn_aprobados_preconv span`).html(data.diarioAprobadasPreConversion.total);
             //si tiene total se le agrega evento para ver listado de aprobados
-            $(`#${this._alias}btn_aprobados_preconv`).click(() => {
+            $(`#${this._alias}btn_aprobados_preconv`).off('click').click(() => {
                 if (data.diarioAprobadasPreConversion.total > 0) {
                     this._formListExpedientes(data.diarioAprobadasPreConversion.ids, 'A-PRECONV');
                 } else {
@@ -484,7 +485,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
             $(`#${this._alias}btn_rechazados_preconv span`).html(data.diarioRechazadosPreConversion.total);
             //si tiene total se le agrega evento para ver listado de rechazados
 
-            $(`#${this._alias}btn_rechazados_preconv`).click(() => {
+            $(`#${this._alias}btn_rechazados_preconv`).off('click').click(() => {
                 if (data.diarioRechazadosPreConversion.total > 0) {
                     this._formListExpedientes(data.diarioRechazadosPreConversion.ids, 'R-PRECONV');
                 } else {
@@ -496,9 +497,9 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             $(`#${this._alias}btn_pendientes_preconv span`).html(data.diarioPendientesPreConversion.total);
             //si tiene total se le agrega evento para ir a bandeja de pendientes
-            $(`#${this._alias}btn_pendientes_preconv`).click(() => {
+            $(`#${this._alias}btn_pendientes_preconv`).off('click').click(() => {
                 if (data.diarioPendientesPreConversion.total > 0) {
-                    $(`#li_54 a`).click();
+                    $(`#li_64 a`).click();
                 } else {
                     Tools.notify().smallMsn({
                         content: APP_MSN.no_tiene_registros
@@ -511,7 +512,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
             //resultado y eventos a botones data.diarioAprobadas
             $(`#${this._alias}btn_aprobados_conv span`).html(data.diarioAprobadasConversion.total);
             //si tiene total se le agrega evento para ver listado de aprobados
-            $(`#${this._alias}btn_aprobados_conv`).click(() => {
+            $(`#${this._alias}btn_aprobados_conv`).off('click').click(() => {
                 if (data.diarioAprobadasConversion.total > 0) {
                     this._formListExpedientes(data.diarioAprobadasConversion.ids, 'A-CONV');
                 } else {
@@ -523,7 +524,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             $(`#${this._alias}btn_rechazados_conv span`).html(data.diarioRechazadosConversion.total);
             //si tiene total se le agrega evento para ver listado de rechazados
-            $(`#${this._alias}btn_rechazados_conv`).click(() => {
+            $(`#${this._alias}btn_rechazados_conv`).off('click').click(() => {
                 if (data.diarioRechazadosConversion.total > 0) {
                     this._formListExpedientes(data.diarioRechazadosConversion.ids, 'R-CONV');
                 } else {
@@ -535,7 +536,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             $(`#${this._alias}btn_pendientes_conv span`).html(data.diarioPendientesConversion.total);
             //si tiene total se le agrega evento para ver listado de pendientes
-            $(`#${this._alias}btn_pendientes_conv`).click(() => {
+            $(`#${this._alias}btn_pendientes_conv`).off('click').click(() => {
                 if (data.diarioPendientesConversion.total > 0) {
                     $(`#li_56 a`).click();
                 } else {
@@ -550,7 +551,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
             //resultado y eventos a botones data.diarioAprobadas 
             $(`#${this._alias}btn_entrega_finalizado span`).html(data.diarioFinalizadoEntrega.total);
             //si tiene total se le agrega evento para ver listado de finalizados
-            $(`#${this._alias}btn_entrega_finalizado`).click(() => {
+            $(`#${this._alias}btn_entrega_finalizado`).off('click').click(() => {
                 if (data.diarioFinalizadoEntrega.total > 0) {
                     this._formListExpedientes(data.diarioFinalizadoEntrega.ids, 'F-ENT');
                 } else {
@@ -562,7 +563,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             $(`#${this._alias}btn_entrega_pendiente span`).html(data.diarioPendientesEntrega.total);
             //si tiene total se le agrega evento para ir a bandeja de pendientes
-            $(`#${this._alias}btn_entrega_pendiente`).click(() => {
+            $(`#${this._alias}btn_entrega_pendiente`).off('click').click(() => {
                 if (data.diarioPendientesEntrega.total > 0) {
                     $(`#li_57 a`).click();
                 } else {
@@ -577,7 +578,7 @@ $$.System.InitRsc = class InitRsc extends Resource {
             //resultado y eventos a botones data.diarioAprobadas 
             $(`#${this._alias}btn_entrega_finalizado span`).html(data.diarioFinalizadoEntrega.total);
             //si tiene total se le agrega evento para ver listado de finalizados
-            $(`#${this._alias}btn_entrega_finalizado`).click(() => {
+            $(`#${this._alias}btn_entrega_finalizado`).off('click').click(() => {
                 if (data.diarioFinalizadoEntrega.total > 0) {
                     this._formListExpedientes(data.diarioFinalizadoEntrega.ids, 'F-ENT');
                 } else {
@@ -589,13 +590,180 @@ $$.System.InitRsc = class InitRsc extends Resource {
 
             $(`#${this._alias}btn_entrega_pendiente span`).html(data.diarioPendientesEntrega.total);
             //si tiene total se le agrega evento para ir a bandeja de pendientes
-            $(`#${this._alias}btn_entrega_pendiente`).click(() => {
+            $(`#${this._alias}btn_entrega_pendiente`).off('click').click(() => {
                 if (data.diarioPendientesEntrega.total > 0) {
                     this._formListExpedientes(data.diarioPendientesEntrega.ids, 'P-ENT');
                 } else {
                     Tools.notify().smallMsn({
                         content: APP_MSN.no_tiene_registros
                     });
+                }
+            });
+        };
+
+        this._evntsBtnsExpediente = (data) => {
+            //resultado y eventos a botones data.diarioAprobadas 
+            $(`#${this._alias}btn_exp_generados span`).html(data.diarioExpedientes.total);
+            //si tiene total se le agrega evento para ver listado de finalizados
+            $(`#${this._alias}btn_exp_generados`).off('click').click(() => {
+                if (data.diarioExpedientes.total > 0) {
+                    this._formListExpedientes(data.diarioExpedientes.ids, 'EXP');
+                } else {
+                    Tools.notify().smallMsn({
+                        content: APP_MSN.no_tiene_registros
+                    });
+                }
+            });
+        };
+
+        this._renderResumen = (data) => {
+            let h = '', talleres = [];
+            h = `
+            <div class="well">
+                <div class="panel-group smart-accordion-default" >`;
+            $.each(data.pecs, (ii, ee) => {
+                h += `
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseOnePecr-${ii}" class="collapsed"> 
+                                <i class="fa fa-fw fa-plus-circle txt-color-green"></i> 
+                                <i class="fa fa-fw fa-minus-circle txt-color-red"></i> PEC - ${ee.pecs}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOnePecr-${ii}" class="panel-collapse collapse table-responsive">
+                        <div class="panel-body">
+                            <div class="panel-group smart-accordion-default" >`;
+                //los talleres
+                talleres = $.grep(data.talleres, function (el) {
+                    return el.id_pecs == ee.id_pecs;
+                });
+
+                $.each(talleres, (i, e) => {
+                    h += `
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapseTaller-${i}${ii}" class="collapsed"> 
+                                    <i class="fa fa-fw fa-plus-circle txt-color-green"></i> 
+                                    <i class="fa fa-fw fa-minus-circle txt-color-red"></i> ${e.taller}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTaller-${i}${ii}" class="panel-collapse collapse table-responsive">
+                            <div class="panel-body">
+                                <div class="panel-group smart-accordion-default" >
+                                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_expedientes}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.expedientes}: <span class="semi-bold">${e.total_expedientes}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_preconversion}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.pre_conversion}: <span class="semi-bold">${e.total_preconversion}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_conversion}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.conversion}: <span class="semi-bold">${e.total_conversion}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_entrega}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.entrega2}: <span class="semi-bold">${e.total_entrega}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+                h += `
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            h += `
+                </div>
+            </div><br>`;
+            $(`#${this._alias}d_resumen`).html(h);
+            $(`#${this._alias}d_resumen`).find('.detailcounters').off('click').click((e) => {
+                let i = $(e.currentTarget).data('ks');
+                if (!/null/.test(i)) {
+                    this._formListExpedientes(i);
+                }
+            });
+        };
+
+        this._renderResumenPecs = (data) => {
+            let h = '';
+            h = `
+            <div class="well">
+                <div class="panel-group smart-accordion-default" >`;
+
+            $.each(data.talleres, (i, e) => {
+                h += `
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapseTaller-${i}" class="collapsed"> 
+                                    <i class="fa fa-fw fa-plus-circle txt-color-green"></i> 
+                                    <i class="fa fa-fw fa-minus-circle txt-color-red"></i> ${e.taller}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTaller-${i}" class="panel-collapse collapse table-responsive">
+                            <div class="panel-body">
+                                <div class="panel-group smart-accordion-default" >
+                                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_expedientes}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.expedientes}: <span class="semi-bold">${e.total_expedientes}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_preconversion}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.pre_conversion}: <span class="semi-bold">${e.total_preconversion}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_conversion}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.conversion}: <span class="semi-bold">${e.total_conversion}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+					<div class="detailcounters well well-sm well-light btn" data-ks="${e.ids_entrega}">
+                                            <h7 class="txt-color-blueDark">${APP_ETIQUET.entrega2}: <span class="semi-bold">${e.total_entrega}</span> </h7>
+					</div>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+            });
+
+
+            h += `
+                </div>
+            </div><br>`;
+            $(`#${this._alias}d_resumen`).html(h);
+            $(`#${this._alias}d_resumen`).find('.detailcounters').off('click').click((e) => {
+                let i = $(e.currentTarget).data('ks');
+                if (!/null/.test(i)) {
+                    this._formListExpedientes(i);
                 }
             });
         };
@@ -720,39 +888,84 @@ $$.System.InitRsc = class InitRsc extends Resource {
             ]
         });
 
+        if (data) {
+            $(`#${this._alias}sp_aprobados`).off('click');
+            $(`#${this._alias}sp_aprobados`).click(() => {
+                if (data.ids_aprobados != 'null') {
+                    this._formListExpedientes(data.ids_aprobados);
+                }
+            });
+            $(`#${this._alias}sp_rechazados`).off('click');
+            $(`#${this._alias}sp_rechazados`).click(() => {
+                if (data.ids_rechazados != 'null') {
+                    this._formListExpedientes(data.ids_rechazados);
+                }
+            });
+            $(`#${this._alias}sp_aprobados_c`).off('click');
+            $(`#${this._alias}sp_aprobados_c`).click(() => {
+                if (data.ids_aprobados_c != 'null') {
+                    this._formListExpedientes(data.ids_aprobados_c);
+                }
+            });
+            $(`#${this._alias}sp_rechazados_c`).off('click');
+            $(`#${this._alias}sp_rechazados_c`).click(() => {
+                if (data.ids_rechazados_c != 'null') {
+                    this._formListExpedientes(data.ids_rechazados_c);
+                }
+            });
+            $(`#${this._alias}sp_aprobados_e`).off('click');
+            $(`#${this._alias}sp_aprobados_e`).click(() => {
+                if (data.ids_aprobados_e != 'null') {
+                    this._formListExpedientes(data.ids_aprobados_e);
+                }
+            });
+        }
+
         this._graficaTallerPreConversion(data);
-        this._graficaTallerConversion(data);
-        this._graficaTallerEntrega(data);
+//        this._graficaTallerConversion(data);
+//        this._graficaTallerEntrega(data);
     }
 
     setResultadosCalidda(data) {
-        this._renderPreConversion(data.preconversion, 'C');
-        this._renderConversion(data.conversion, false);
-        this._graficaPreConversion(data.preconversion);
-        this._graficaConversion(data.conversion);
-        Tools.nunMiniCharts();
+
+//        this._renderPreConversion(data.preconversion, 'C');
+//        this._renderConversion(data.conversion, false);
+//        this._graficaPreConversion(data.preconversion);
+//        this._graficaConversion(data.conversion);
+//        Tools.nunMiniCharts();
         this._evntsBtnsPreConversion(data);
         this._evntsBtnsConversion(data);
         this._evntsBtnsEntregaCalidda(data);
+        this._evntsBtnsExpediente(data);
+        this._renderResumen(data.resumen);
     }
 
     setResultadosVerifygas(data) {
-        this._renderPreConversion(data.preconversion, 'V');
-        this._renderConversion(data.conversion, true);
-        this._graficaPreConversion(data.preconversion);
-        this._graficaConversion(data.conversion);
-        Tools.nunMiniCharts();
+//        this._renderPreConversion(data.preconversion, 'V');
+//        this._renderConversion(data.conversion, true);
+//        this._graficaPreConversion(data.preconversion);
+//        this._graficaConversion(data.conversion);
+//        Tools.nunMiniCharts();
         this._evntsBtnsPreConversion(data);
         this._evntsBtnsConversion(data);
         this._evntsBtnsEntrega(data);
+        this._evntsBtnsExpediente(data);
+        this._renderResumen(data.resumen);
     }
 
     setResultadosPecs(data) {
-        this._renderPreConversion(data.preconversion, 'X');
-        this._renderConversion(data.conversion, true);
-        this._graficaPreConversion(data.preconversion);
-        this._graficaConversion(data.conversion);
-        Tools.nunMiniCharts();
+//        this._renderPreConversion(data.preconversion, 'X');
+//        this._renderConversion(data.conversion, true);
+//        this._graficaPreConversion(data.preconversion);
+//        this._graficaConversion(data.conversion);
+//        Tools.nunMiniCharts();
+        this._renderResumenPecs(data.resumen);
+    }
+
+    setEvtBtnInform() {
+        $(`#${this._alias}btn_informe`).click(() => {
+            $('#li_62 a').click();
+        });
     }
 
 };  

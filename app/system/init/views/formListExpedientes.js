@@ -6,7 +6,7 @@
                 <h4 class="modal-title tr-language" data-tr="expedientes"></h4>
             </div>
             <div class="modal-body">
-                <div id="gridExpedientes">
+                <div id="gridExpedientes" class="table-responsive">
                 </div>
                 
             </div>

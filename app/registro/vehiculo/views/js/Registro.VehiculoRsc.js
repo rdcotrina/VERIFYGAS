@@ -14,15 +14,15 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         super();
     }
 
-    addBtnNew() {
-        $.fn.appButton.get({
-            container: `#${this._alias}tools_btn`,
-            keymnu: this._alias,
-            btns: [
-                {keybtn: APP_BTN.NEW, evts: [{click: 'Obj.Registro.VehiculoAx.formNewVehiculo'}]}
-            ]
-        });
-    }
+//    addBtnNew() {
+//        $.fn.appButton.get({
+//            container: `#${this._alias}tools_btn`,
+//            keymnu: this._alias,
+//            btns: [
+//                {keybtn: APP_BTN.NEW, evts: [{click: 'Obj.Registro.VehiculoAx.formNewVehiculo'}]}
+//            ]
+//        });
+//    }
 
     addBtnSave() {
         $.fn.appButton.get({
@@ -137,6 +137,16 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             keymnu: this._alias,
             btns: [
                 {keybtn: APP_BTN.CLS, evts: [{click: 'Obj.Registro.VehiculoAx.closeExpediente'}]}
+            ]
+        });
+    }
+
+    addBtnClose() {
+        $.fn.appButton.get({
+            container: `#${this._alias}foot_btnsadj`,
+            keymnu: this._alias,
+            btns: [
+                {keybtn: APP_BTN.CLS}
             ]
         });
     }
@@ -286,14 +296,6 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                     <div id="${this._alias}${i}_tools" class="_tools"></div>
                 </div>
             </div>`;
-            let btns = `
-            {keybtn: APP_BTN.PRE, evts: [{click: 'Obj.Registro.VehiculoAx.formPreConversion'}]},
-            {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
-            {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}`;
-            //si estado de busqueda es 1, no mostrar botones de atender
-            if ($(`#${this._alias}lst_estado`).val() == 1) {
-                btns = '';
-            }
             //botones
             txtEval += `
                 $.fn.appButton.get({
@@ -307,7 +309,9 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
                         {keybtn: APP_BTN.VPRKO, evts: [{click: 'Obj.Registro.VehiculoAx.formViewPreConversion'}]},    
                         {keybtn: APP_BTN.EDT, evts: [{click: 'Obj.Registro.VehiculoAx.formEditVehiculo'}]},
                         {keybtn: APP_BTN.DEL, evts: [{click: 'Obj.Registro.VehiculoAx.postDelete'}]},
-                        ${btns}
+                        {keybtn: APP_BTN.PRE, evts: [{click: 'Obj.Registro.VehiculoAx.formPreConversion'}]},
+                        {keybtn: APP_BTN.APR, evts: [{click: 'Obj.Registro.VehiculoAx.postAprobar'}]},
+                        {keybtn: APP_BTN.RECH, evts: [{click: 'Obj.Registro.VehiculoAx.postRechazar'}]}
                     ]
                 });
                 $('#${this._alias}${i}_tools').data('propietario',${e.id_propietario});
@@ -388,16 +392,16 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
 
         //eventos a docs para descargar
         $(`#${this._alias}a_formcalidda`).click(() => {//files/formato_calidda.xlsx
-            this._getFormatoHojaUnica(this,_tk_);
+            this._getFormatoHojaUnica(this, _tk_);
         });
         $(`#${this._alias}a_formatosolcob`).click(() => {//files/formato_solicitud_cobranza.docx
-            this._getFormatoSolicitudCobranza(this,_tk_);
+            this._getFormatoSolicitudCobranza(this, _tk_);
         });
         $(`#${this._alias}a_formatocontrato`).click(() => {//files/formato_contrato_financiamiento_calidda.docx
-            this._getFormatoContrato(this,_tk_);
+            this._getFormatoContrato(this, _tk_);
         });
         $(`#${this._alias}a_formconsentimiento`).click(() => {//files/consentimiento.docx
-            this._getFormatoConsentimiento(this,_tk_);
+            this._getFormatoConsentimiento(this, _tk_);
         });
     }
 
@@ -446,8 +450,8 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
 
         $(`#${this._alias}va_ralentimotor`).attr('href', `files/videos/${data.video_vacio_motor_ralenti}`);
         $(`#${this._alias}va_analisisgasesralenti`).attr('href', `files/videos/${data.video_analisis_gas_ralenti}`);
-        $(`#${this._alias}va_analisisgasesrpm`).attr('href', `files/videos/${data.video_analisis_gas_rpm}`);
-        $(`#${this._alias}va_stftb1`).attr('href', `files/videos/${data.video_stft_b1}`);
+//        $(`#${this._alias}va_analisisgasesrpm`).attr('href', `files/videos/${data.video_analisis_gas_rpm}`);
+//        $(`#${this._alias}va_stftb1`).attr('href', `files/videos/${data.video_stft_b1}`);
         $(`#${this._alias}va_ltftb1`).attr('href', `files/videos/${data.video_ltft_b1}`);
         $(`#${this._alias}va_cilindros`).attr('href', `files/videos/${data.video_cilindro}`);
 
@@ -484,6 +488,9 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
          let tps = data.param_sensor_tps.split('-');*/
         let cils = data.param_cilindros.split('-');
 
+        let grco2 = data.param_min_gas_ralenti_co2.split('-');//se cambio por rangos
+        let grpmco2 = data.param_min_gas_rpm_co2.split('-');//se cambio por rangos
+
         this._minVoltiosApagado = apagado[0];
         this._maxVoltiosApagado = apagado[1];
         this._minVoltiosArranque = arranque[0];
@@ -496,11 +503,13 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         this._maxVacioMotorRalenti = vmr[1];
         this._maxGasRalentiCO = data.param_max_gas_ralenti_co;
         this._maxGasRalentiHC = data.param_max_gas_ralenti_hc;
-        this._minGasRalentiCO2 = data.param_min_gas_ralenti_co2;
+        this._minGasRalentiCO2 = grco2[0];//de 12-20
+        this._maxGasRalentiCO2 = grco2[1];//de 12-20
         this._maxGasRalentiO2 = data.param_min_gas_ralenti_o2;
         this._maxGasRPMCO = data.param_max_gas_rpm_co;
         this._maxGasRPMHC = data.param_max_gas_rpm_hc;
-        this._minGasRPMCO2 = data.param_min_gas_rpm_co2;
+        this._minGasRPMCO2 = grpmco2[0];//de 12-20
+        this._maxGasRPMCO2 = grpmco2[1];//de 12-20
         this._maxGasRPMO2 = data.param_max_gas_rpm_o2;
         this._minSTFTB1 = stftb1[0];
         this._maxSTFTB1 = stftb1[1];
@@ -792,7 +801,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             if (!$.isNumeric(number) && str.length > 0) {
                 d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
             } else if ($.isNumeric(number)) {
-                if (number >= this._minGasRalentiCO2) {
+                if (number >= this._minGasRalentiCO2 && number <= this._maxGasRalentiCO2) {
                     d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
                     this._conformidadMinGasRalentiCO2 = 1;
                 } else {
@@ -888,7 +897,7 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             if (!$.isNumeric(number) && str.length > 0) {
                 d_input.find('label.label').addClass('label-danger').html(APP_ETIQUET.numero_invalido);
             } else if ($.isNumeric(number)) {
-                if (number >= this._minGasRPMCO2) {
+                if (number >= this._minGasRPMCO2 && number <= this._maxGasRPMCO2) {
                     d_input.find('label.label').addClass('label-success').html(APP_ETIQUET.conforme);
                     this._conformidadMinGasRPMCO2 = 1;
                 } else {
@@ -1073,10 +1082,10 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
         $(`#${this._alias}file_videovralentianalisisgases`).change((e) => {
             this.postUploadVideo(tk, 2, e.currentTarget);
         });
-        $(`#${this._alias}file_videovrpmanalisisgases`).change((e) => {
-            this.postUploadVideo(tk, 3, e.currentTarget);
-        });
-        
+//        $(`#${this._alias}file_videovrpmanalisisgases`).change((e) => {
+//            this.postUploadVideo(tk, 3, e.currentTarget);
+//        });
+
         $(`#${this._alias}file_videoltftb1`).change((e) => {
             this.postUploadVideo(tk, 5, e.currentTarget);
         });
@@ -1140,6 +1149,60 @@ $$.Registro.VehiculoRsc = class VehiculoRsc extends Resource {
             $(`#${this._alias}txt_aniofabricacion`).focus();
             return false;
         }
+    }
+    
+    setAdjuntosPendientes(data){
+        $(`#${this._alias}d_nexp`).html(data.nro_expediente);
+        
+        let h = '<ol>';
+        if(/null/.test(data.imagen_documento_identidad)){
+            h += `<li>${APP_ETIQUET.img_doc_identidad}</li>`;
+        }
+        if(/null/.test(data.imagen_licencia_conducir)){
+            h += `<li>${APP_ETIQUET.img_licencia_conducir}</li>`;
+        }
+        if(/null/.test(data.imagen_servicio_publico)){
+            h += `<li>${APP_ETIQUET.recibo_agua_luz_gas}</li>`;
+        }
+        if(/null/.test(data.imagen_poliza)){
+            h += `<li>${APP_ETIQUET.img_soat}</li>`;
+        }
+        if(/null/.test(data.imagen_revision_tecnica)){
+            h += `<li>${APP_ETIQUET.img_revision_tecnica}</li>`;
+        }
+        if(/null/.test(data.imagen_movil)){
+            h += `<li>${APP_ETIQUET.inscripcion_app_movil}</li>`;
+        }
+        if(/null/.test(data.imagen_tarjeta_propiedad)){
+            h += `<li>${APP_ETIQUET.img_tarjeta_propiedad}</li>`;
+        }
+        if(/null/.test(data.imagen_solicitud_cobranza)){
+            h += `<li>${APP_ETIQUET.formato_solicitud_cobranza}</li>`;
+        }
+        if(/null/.test(data.imagen_formulario_calidda)){
+            h += `<li>${APP_ETIQUET.hoja_unica_datos}</li>`;
+        }
+        if(/null/.test(data.img_contrato_financiamiento_calidda)){
+            h += `<li>${APP_ETIQUET.contrato_financiamiento_calidda}</li>`;
+        }
+        if(/null/.test(data.imagen_consentimiento)){
+            h += `<li>${APP_ETIQUET.consentimiento}</li>`;
+        }
+        if(/null/.test(data.video_vacio_motor_ralenti)){
+            h += `<li>${APP_ETIQUET.video_prueba_vacio_motor}</li>`;
+        }
+        if(/null/.test(data.video_analisis_gas_ralenti)){
+            h += `<li>${APP_ETIQUET.video_analisis_gases}</li>`;
+        }
+        if(/null/.test(data.video_ltft_b1)){
+            h += `<li>${APP_ETIQUET.video_sistema_electronico_combustible}</li>`;
+        }
+        if(/null/.test(data.video_ltft_b1)){
+            h += `<li>${APP_ETIQUET.video_prueba_compresion_motor}</li>`;
+        }
+        h += '</ol>';
+        
+        $(`#${this._alias}d_pendientes`).html(h);
     }
 
 };

@@ -56,6 +56,11 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
 //$dompdf->set_paper($paper_size);
 //        $DomPDF->set_paper("A4", "portrait");
         $DomPDF->load_html(Obj()->Vendor->Tools->templateFHPdf('
+        <style>
+            table{
+                font-size:12px;
+            }
+        </style>
         <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
             <tr>
               <td>&nbsp;</td>
@@ -132,7 +137,22 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
                 </tr>
               </table></td>
             </tr>
-          </table>'));
+          </table>
+          <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <table width="38%" border="0" cellspacing="2" cellpadding="2" style="border-collapse:collapse">
+                <tr>
+                  <td width="50%" style="border-bottom: 1px solid #000">Asesor Comercial:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row['asesor'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">Taller:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row['taller'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">PEC:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row['pecs'] . '</td>
+                </tr>
+              </table>'));
         $DomPDF->render();
 
 //        $font = $DomPDF->getFontMetrics()->get_font("helvetica", "bold");
@@ -223,7 +243,8 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
     public function printPreConversion() {
         $DomPDF = new DOMPDF();
 
-        $nro_expediente = $this->qExpediente()['nro_expediente'];
+        $row1 = $this->qExpediente();
+        $nro_expediente = $row1['nro_expediente'];
 
         $row = $this->qPreConversion();
 
@@ -232,12 +253,89 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
 
         if (!empty($row)) {
             $DomPDF->load_html(Obj()->Vendor->Tools->templateFHPdf('
+            <style>
+                table{
+                    font-size:12px;
+                }
+            </style>
             <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
+            <tr>
+              <td>&nbsp;</td>
+              <td width="12%">Expediente: </td>
+              <td width="19%">' . $row1['nro_expediente'] . '</td>
+            </tr>
+            <tr>
+              <td colspan="3" style="background:#CCC">Datos Básicos del Propietario</td>
+            </tr>
+            <tr>
+              <td colspan="3">
+              <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
                 <tr>
-                  <td width="68%">&nbsp;</td>
-                  <td width="13%">Expediente: </td>
-                  <td width="19%">' . $nro_expediente . '</td>
+                  <td width="23%">Apellidos y Nombres</td>
+                  <td width="31%">' . $row1['nombre_completo'] . '</td>
+                  <td width="23%">Estado civil</td>
+                  <td width="23%">' . $row1['estado_civil'] . '</td>
                 </tr>
+                <tr>
+                  <td>País</td>
+                  <td>' . $row1['pais'] . '</td>
+                  <td>' . $row1['tipo_documento_identidad'] . '</td>
+                  <td>' . $row1['documento_identidad'] . '</td>
+                </tr>
+                <tr>
+                  <td>Teléfono de Casa</td>
+                  <td>' . $row1['telefono_casa'] . '</td>
+                  <td>Dirección de Domicilio</td>
+                  <td>' . $row1['direccion_domicilio'] . '</td>
+                </tr>
+                <tr>
+                  <td>Teléfono de Trabajo</td>
+                  <td>' . $row1['telefono_trabajo'] . '</td>
+                  <td>Dirección de Trabajo</td>
+                  <td>' . $row1['direccion_trabajo'] . '</td>
+                </tr>
+                <tr>
+                  <td>Celular</td>
+                  <td>' . $row1['celular'] . '</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </table><br></td>
+            </tr>
+            <tr>
+              <td colspan="3" style="background:#CCC">Datos Básicos del Vehículo</td>
+            </tr>
+            <tr>
+              <td colspan="3">              
+              <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
+                <tr>
+                  <td width="25%">Tarjeta de Propiedad</td>
+                  <td width="28%">' . $row1['tarjeta'] . '</td>
+                  <td width="19%">Placa</td>
+                  <td width="28%">' . $row1['placa'] . '</td>
+                </tr>
+                <tr>
+                  <td>Marca</td>
+                  <td>' . $row1['marca'] . '</td>
+                  <td>Número de Serie</td>
+                  <td>' . $row1['serie'] . '</td>
+                </tr>
+                <tr>
+                  <td>Modelo</td>
+                  <td>' . $row1['modelo'] . '</td>
+                  <td>Cilindrada</td>
+                  <td>' . $row1['cilindrada'] . '</td>
+                </tr>
+                <tr>
+                  <td>Número de Motor</td>
+                  <td>' . $row1['numero_motor'] . '</td>
+                  <td>Año de Fabricación</td>
+                  <td>' . $row1['anio_fabricacion'] . '</td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+            <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
                 <tr>
                   <td colspan="3" style="background:#CCC">Pruebas de Vacio de Motor</td>
                 </tr>
@@ -453,6 +551,21 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
                   </td>
                   <td colspan="2">'.$row['inspeccion_visual'].' </td>
                 </tr>
+              </table>
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <table width="38%" border="0" cellspacing="2" cellpadding="2" style="border-collapse:collapse">
+                <tr>
+                  <td width="50%" style="border-bottom: 1px solid #000">Asesor Comercial:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['asesor'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">Taller:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['taller'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">PEC:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['pecs'] . '</td>
+                </tr>
               </table>'));
             $DomPDF->render();
 
@@ -487,17 +600,7 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
                         $zip->addFile($filevideo);
                     }
 
-                    $filevideo = "files/videos/" . $row['video_stft_b1'];
-                    if (is_readable($filevideo)) {
-                        $zip->addFile($filevideo);
-                    }
-
                     $filevideo = "files/videos/" . $row['video_analisis_gas_ralenti'];
-                    if (is_readable($filevideo)) {
-                        $zip->addFile($filevideo);
-                    }
-
-                    $filevideo = "files/videos/" . $row['video_analisis_gas_rpm'];
                     if (is_readable($filevideo)) {
                         $zip->addFile($filevideo);
                     }
@@ -519,8 +622,9 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
     public function printConversion() {
         $DomPDF = new DOMPDF();
 
-        $nro_expediente = $this->qExpediente()['nro_expediente'];
-
+        $row1 = $this->qExpediente();
+        $nro_expediente = $row1['nro_expediente'];
+        
         $row = $this->qConversion();
 
         $file = ROOT . "files" . DS . "temp" . DS . "Conversion" . $nro_expediente . ".pdf";
@@ -528,12 +632,89 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
 
         if (!empty($row)) {
             $DomPDF->load_html(Obj()->Vendor->Tools->templateFHPdf('
-            <table width="80%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
+            <style>
+                table{
+                    font-size:12px;
+                }
+            </style>
+            <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
+            <tr>
+              <td>&nbsp;</td>
+              <td width="12%">Expediente: </td>
+              <td width="19%">' . $row1['nro_expediente'] . '</td>
+            </tr>
+            <tr>
+              <td colspan="3" style="background:#CCC">Datos Básicos del Propietario</td>
+            </tr>
+            <tr>
+              <td colspan="3">
+              <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
                 <tr>
-                  <td width="68%">&nbsp;</td>
-                  <td width="13%">Expediente: </td>
-                  <td width="19%">' . $nro_expediente . '</td>
+                  <td width="23%">Apellidos y Nombres</td>
+                  <td width="31%">' . $row1['nombre_completo'] . '</td>
+                  <td width="23%">Estado civil</td>
+                  <td width="23%">' . $row1['estado_civil'] . '</td>
                 </tr>
+                <tr>
+                  <td>País</td>
+                  <td>' . $row1['pais'] . '</td>
+                  <td>' . $row1['tipo_documento_identidad'] . '</td>
+                  <td>' . $row1['documento_identidad'] . '</td>
+                </tr>
+                <tr>
+                  <td>Teléfono de Casa</td>
+                  <td>' . $row1['telefono_casa'] . '</td>
+                  <td>Dirección de Domicilio</td>
+                  <td>' . $row1['direccion_domicilio'] . '</td>
+                </tr>
+                <tr>
+                  <td>Teléfono de Trabajo</td>
+                  <td>' . $row1['telefono_trabajo'] . '</td>
+                  <td>Dirección de Trabajo</td>
+                  <td>' . $row1['direccion_trabajo'] . '</td>
+                </tr>
+                <tr>
+                  <td>Celular</td>
+                  <td>' . $row1['celular'] . '</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </table><br></td>
+            </tr>
+            <tr>
+              <td colspan="3" style="background:#CCC">Datos Básicos del Vehículo</td>
+            </tr>
+            <tr>
+              <td colspan="3">              
+              <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
+                <tr>
+                  <td width="25%">Tarjeta de Propiedad</td>
+                  <td width="28%">' . $row1['tarjeta'] . '</td>
+                  <td width="19%">Placa</td>
+                  <td width="28%">' . $row1['placa'] . '</td>
+                </tr>
+                <tr>
+                  <td>Marca</td>
+                  <td>' . $row1['marca'] . '</td>
+                  <td>Número de Serie</td>
+                  <td>' . $row1['serie'] . '</td>
+                </tr>
+                <tr>
+                  <td>Modelo</td>
+                  <td>' . $row1['modelo'] . '</td>
+                  <td>Cilindrada</td>
+                  <td>' . $row1['cilindrada'] . '</td>
+                </tr>
+                <tr>
+                  <td>Número de Motor</td>
+                  <td>' . $row1['numero_motor'] . '</td>
+                  <td>Año de Fabricación</td>
+                  <td>' . $row1['anio_fabricacion'] . '</td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+            <table width="100%" border="1" cellspacing="5" cellpadding="5" style="border-collapse:collapse">
                 <tr>
                   <td colspan="3" style="background:#CCC">Cilindro de GNV</td>
                 </tr>
@@ -876,6 +1057,21 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
                   </td>
                   <td>' . $row['estado_funcionamiento_texto'] . '</td>
                 </tr>
+              </table>
+              <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <table width="38%" border="0" cellspacing="2" cellpadding="2" style="border-collapse:collapse">
+                <tr>
+                  <td width="50%" style="border-bottom: 1px solid #000">Asesor Comercial:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['asesor'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">Taller:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['taller'] . '</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #000">PEC:</td>
+                  <td style="border-bottom: 1px solid #000">' . $row1['pecs'] . '</td>
+                </tr>
               </table>'));
             $DomPDF->render();
 
@@ -893,11 +1089,6 @@ class SeguimientoController extends \Proceso\Seguimiento\Models\SeguimientoModel
                     $filepdf = "files/temp/Conversion" . $nro_expediente . ".pdf";
                     if (is_readable($filepdf)) {
                         $zip->addFile($filepdf);
-                    }
-
-                    $filevideo = "files/videos/" . $row['video_estado_funcionamiento'];
-                    if (is_readable($filevideo)) {
-                        $zip->addFile($filevideo);
                     }
 
                     $filevideo = "files/videos/" . $row['video_varios'];
